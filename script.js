@@ -16,7 +16,7 @@ ESTADO DO JOGO
 var game = {
 currentPlayer: "sasah",
 
-```
+
 sasah: {
     name: "Sasah",
     house: "Não definida",
@@ -54,7 +54,7 @@ sasahChapter: 0,
 lucasChapter: 0,
 
 finished: false
-```
+
 
 };
 
@@ -106,7 +106,7 @@ if (!logElement) {
 return;
 }
 
-```
+
 var entry = document.createElement("p");
 entry.textContent = text;
 
@@ -117,7 +117,7 @@ while (logElement.children.length > 12) {
 }
 
 logElement.scrollTop = logElement.scrollHeight;
-```
+
 
 }
 
@@ -126,9 +126,9 @@ if (playerName === "lucas") {
 return game.lucas;
 }
 
-```
+
 return game.sasah;
-```
+
 
 }
 
@@ -141,7 +141,7 @@ if (!effects) {
 return;
 }
 
-```
+
 var player = getPlayer(playerName);
 var keys = [
     "bravery",
@@ -175,7 +175,7 @@ if (!effects) {
 return;
 }
 
-```
+
 if (typeof effects.friendship === "number") {
     game.friendship += effects.friendship;
 }
@@ -191,7 +191,7 @@ if (typeof effects.rivalry === "number") {
 if (typeof effects.affinity === "number") {
     game.affinity += effects.affinity;
 }
-```
+
 
 }
 
@@ -201,7 +201,7 @@ HISTÓRIA DE SASAH
 
 var sasahStory = [
 
-```
+
 {
     chapter: "Prólogo — A Carta",
     location: "Casa de Sasah",
@@ -350,7 +350,7 @@ var sasahStory = [
 
     ]
 }
-```
+
 
 ];
 
@@ -360,7 +360,7 @@ HISTÓRIA DE LUCAS
 
 var lucasStory = [
 
-```
+
 {
     chapter: "Prólogo — O Livro",
     location: "Casa de Lucas",
@@ -503,7 +503,7 @@ var lucasStory = [
 
     ]
 }
-```
+
 
 ];
 
@@ -514,7 +514,7 @@ Cada pergunta possui cinco alternativas.
 
 var houseQuestions = [
 
-```
+
 {
     question:
         "Você encontra um colega em perigo dentro de uma área proibida. O que faz?",
@@ -684,7 +684,7 @@ var houseQuestions = [
 
     ]
 }
-```
+
 
 ];
 
@@ -700,7 +700,7 @@ intelligence: player.intelligence,
 ambition: player.ambition
 };
 
-```
+
 var house = "Gryffindor";
 var highest = scores.bravery;
 
@@ -719,7 +719,6 @@ if (scores.ambition > highest) {
 }
 
 return house;
-```
 
 }
 
@@ -736,7 +735,7 @@ choicesElement.innerHTML = "";
 function createButton(text, callback) {
 var button = document.createElement("button");
 
-```
+
 button.type = "button";
 button.textContent = text;
 button.className = "choice-button";
@@ -756,7 +755,7 @@ function renderStory(playerName) {
 var story;
 var chapterIndex;
 
-```
+
 if (playerName === "lucas") {
     story = lucasStory;
     chapterIndex = game.lucasChapter;
@@ -786,14 +785,14 @@ for (var i = 0; i < chapter.choices.length; i++) {
 }
 
 updateUI();
-```
+
 
 }
 
 function createStoryButton(playerName, choice) {
 var button = createButton(choice.text, function () {
 
-```
+
     applyEffects(playerName, choice.effects);
 
     addLog(
@@ -826,7 +825,7 @@ var button = createButton(choice.text, function () {
 });
 
 choicesElement.appendChild(button);
-```
+
 
 }
 
@@ -840,7 +839,7 @@ chapterElement,
 "O Chapéu Seletor"
 );
 
-```
+
 setText(
     locationElement,
     "Grande Salão"
@@ -853,14 +852,14 @@ setText(
 );
 
 showHouseQuestion(playerName, 0);
-```
+
 
 }
 
 function showHouseQuestion(playerName, questionIndex) {
 var question;
+    
 
-```
 if (questionIndex >= houseQuestions.length) {
     finishHouse(playerName);
     return;
@@ -882,14 +881,14 @@ for (var i = 0; i < question.answers.length; i++) {
         question.answers[i]
     );
 }
-```
+
 
 }
 
 function createHouseButton(playerName, questionIndex, answer) {
 var button = createButton(answer.text, function () {
 
-```
+
     var player = getPlayer(playerName);
 
     player[answer.trait] += 1;
@@ -910,14 +909,14 @@ var button = createButton(answer.text, function () {
 });
 
 choicesElement.appendChild(button);
-```
+
 
 }
 
 function finishHouse(playerName) {
 var player = getPlayer(playerName);
 
-```
+
 player.house = calculateHouse(player);
 
 setText(
@@ -962,7 +961,7 @@ choicesElement.appendChild(continueButton);
 
 updateUI();
 saveGame();
-```
+
 
 }
 
@@ -973,13 +972,13 @@ INÍCIO DE SASAH
 function startSasah() {
 game.currentPlayer = "sasah";
 
-```
+
 addLog("A história de Sasah começou.");
 
 renderStory("sasah");
 updateUI();
 saveGame();
-```
+
 
 }
 
@@ -990,13 +989,13 @@ INÍCIO DE LUCAS
 function startLucas() {
 game.currentPlayer = "lucas";
 
-```
+
 addLog("A história de Lucas começou.");
 
 renderStory("lucas");
 updateUI();
 saveGame();
-```
+
 
 }
 
@@ -1006,7 +1005,7 @@ ENCONTRO DE SASAH E LUCAS
 
 function startMeeting() {
 
-```
+
 game.currentPlayer = "joint";
 
 setText(
@@ -1069,13 +1068,13 @@ for (var i = 0; i < options.length; i++) {
 }
 
 updateUI();
-```
+
 
 }
 
 function createMeetingButton(option) {
 
-```
+
 var button = createButton(
     option.text,
     function () {
@@ -1112,7 +1111,7 @@ var button = createButton(
 );
 
 choicesElement.appendChild(button);
-```
+
 
 }
 
@@ -1122,7 +1121,7 @@ MISSÃO CONJUNTA
 
 function startJointMission() {
 
-```
+
 setText(
     chapterElement,
     "Capítulo Final — O Símbolo dos Quatro Caminhos"
@@ -1216,13 +1215,13 @@ for (var i = 0; i < options.length; i++) {
 }
 
 updateUI();
-```
+
 
 }
 
 function createMissionButton(option) {
 
-```
+
 var button = createButton(
     option.text,
     function () {
@@ -1255,7 +1254,7 @@ var button = createButton(
 );
 
 choicesElement.appendChild(button);
-```
+
 
 }
 
@@ -1265,7 +1264,7 @@ FINAL
 
 function showEnding() {
 
-```
+
 game.finished = true;
 
 var relationshipScore =
@@ -1344,7 +1343,7 @@ addLog("A aventura chegou ao seu final.");
 
 updateUI();
 saveGame();
-```
+
 
 }
 
@@ -1354,7 +1353,7 @@ INTERFACE DOS JOGADORES
 
 function updatePlayerTag() {
 
-```
+
 if (!playerTagElement) {
     return;
 }
@@ -1366,24 +1365,24 @@ if (game.currentPlayer === "lucas") {
 } else {
     playerTagElement.textContent = "Sasah & Lucas";
 }
-```
+
 
 }
 
 function updateAttribute(id, value) {
 var element = document.getElementById(id);
 
-```
+
 if (element) {
     element.textContent = value;
 }
-```
+
 
 }
 
 function updatePlayerInterface(playerName) {
 
-```
+
 var player = getPlayer(playerName);
 
 var prefix = playerName === "sasah"
@@ -1466,13 +1465,13 @@ if (xpBar) {
     xpBar.style.width =
         xpPercentage + "%";
 }
-```
+
 
 }
 
 function updateRelationshipInterface() {
 
-```
+
 updateAttribute(
     "friendship",
     game.friendship
@@ -1492,20 +1491,20 @@ updateAttribute(
     "affinity",
     game.affinity
 );
-```
+
 
 }
 
 function updateUI() {
 
-```
+
 updatePlayerTag();
 
 updatePlayerInterface("sasah");
 updatePlayerInterface("lucas");
 
 updateRelationshipInterface();
-```
+
 
 }
 
@@ -1515,7 +1514,7 @@ SALVAMENTO
 
 function saveGame() {
 
-```
+
 try {
 
     localStorage.setItem(
@@ -1532,13 +1531,13 @@ try {
         error
     );
 }
-```
+
 
 }
 
 function loadGame() {
 
-```
+
 try {
 
     var saved = localStorage.getItem(
@@ -1572,7 +1571,7 @@ try {
 
     return false;
 }
-```
+
 
 }
 
@@ -1582,7 +1581,7 @@ NOVO JOGO
 
 function createNewGame() {
 
-```
+
 game = {
     currentPlayer: "sasah",
 
@@ -1624,7 +1623,7 @@ game = {
 
     finished: false
 };
-```
+
 
 }
 
@@ -1634,7 +1633,7 @@ CONTINUAR JOGO
 
 function continueFromSave() {
 
-```
+
 var loaded = loadGame();
 
 if (!loaded) {
@@ -1667,7 +1666,7 @@ if (game.currentPlayer === "lucas") {
 }
 
 updateUI();
-```
+
 
 }
 
@@ -1677,7 +1676,7 @@ REINICIAR
 
 function restartGame() {
 
-```
+
 var confirmed = window.confirm(
     "Tem certeza de que deseja começar uma nova aventura? " +
     "O progresso atual será apagado."
@@ -1696,7 +1695,7 @@ try {
 createNewGame();
 
 showStartScreen();
-```
+
 
 }
 
@@ -1706,7 +1705,7 @@ TELA INICIAL
 
 function showStartScreen() {
 
-```
+
 game.currentPlayer = "sasah";
 
 setText(
@@ -1749,7 +1748,7 @@ var continueButton = createButton(
 choicesElement.appendChild(continueButton);
 
 updateUI();
-```
+
 
 }
 
@@ -1759,7 +1758,7 @@ BOTÕES FIXOS DA PÁGINA
 
 function setupButtons() {
 
-```
+
 var saveButton = document.getElementById(
     "saveButton"
 );
@@ -1792,7 +1791,7 @@ if (restartButton) {
         restartGame
     );
 }
-```
+
 
 }
 
@@ -1802,7 +1801,7 @@ INICIALIZAÇÃO
 
 function startApplication() {
 
-```
+
 getElements();
 
 if (!pageIsReady()) {
@@ -1823,7 +1822,7 @@ updateUI();
 console.log(
     "As Crônicas de Hogwarts carregadas com sucesso."
 );
-```
+
 
 }
 
