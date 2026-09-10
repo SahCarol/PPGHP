@@ -1,0 +1,890 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Academia Arcana - Duelo de Magos</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Georgia, serif;
+    color: #f5e8c8;
+
+    background:
+        radial-gradient(circle at 50% 10%, #44315e, transparent 40%),
+        linear-gradient(#100c18, #08070c);
+
+    padding: 25px;
+}
+
+h1 {
+    text-align: center;
+    color: #e7c66a;
+    font-size: 42px;
+    text-shadow: 0 0 15px #000;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #c8b7dc;
+    margin-bottom: 30px;
+}
+
+.arena {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.players {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.card {
+    background:
+        linear-gradient(
+            rgba(35,27,48,.96),
+            rgba(15,12,22,.96)
+        );
+
+    border: 2px solid #80659c;
+    border-radius: 18px;
+    padding: 22px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.6),
+        inset 0 0 30px rgba(120,80,150,.08);
+}
+
+.player1 {
+    border-color: #b79a51;
+}
+
+.player2 {
+    border-color: #657ba8;
+}
+
+.avatar {
+    text-align: center;
+    font-size: 90px;
+}
+
+.name {
+    text-align: center;
+    font-size: 26px;
+    color: #e7c66a;
+    margin: 8px;
+}
+
+.player2 .name {
+    color: #8eb5e8;
+}
+
+.house {
+    text-align: center;
+    color: #bca8cf;
+    margin-bottom: 15px;
+}
+
+.bar {
+    height: 25px;
+    background: #16121c;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 8px 0 15px;
+    border: 1px solid #000;
+}
+
+.hp {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        #7b1717,
+        #e74343
+    );
+    transition: width .4s;
+}
+
+.mana {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        #234b8a,
+        #55a7e8
+    );
+    transition: width .4s;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.stat {
+    background: #211b2b;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.actions {
+    margin-top: 25px;
+    text-align: center;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 13px 18px;
+    margin: 5px;
+
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s,
+        filter .2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.25);
+}
+
+button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.spell {
+    background: #6845a0;
+}
+
+.defense {
+    background: #386f91;
+}
+
+.heal {
+    background: #387d57;
+}
+
+.special {
+    background: #9a6c27;
+}
+
+.reset {
+    background: #5b4b62;
+}
+
+.message {
+    text-align: center;
+    font-size: 22px;
+    color: #e7c66a;
+    min-height: 35px;
+    margin-bottom: 10px;
+}
+
+.turn {
+    text-align: center;
+    font-size: 19px;
+    color: #b9d7ff;
+}
+
+.log {
+    max-width: 1100px;
+    height: 220px;
+
+    margin: 25px auto 0;
+
+    padding: 15px;
+
+    overflow-y: auto;
+
+    background: #0c0a10;
+
+    border:
+        2px solid #564663;
+
+    border-radius: 12px;
+}
+
+.log p {
+    margin: 5px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #25202c;
+}
+
+.vs {
+    text-align: center;
+    font-size: 35px;
+    color: #d6b45c;
+    margin: 10px;
+}
+
+@media(max-width: 750px) {
+
+    .players {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="arena">
+
+<h1>🪄 Academia Arcana</h1>
+
+<div class="subtitle">
+    Duelo de Magos — Dois jogadores
+</div>
+
+<div class="players">
+
+<!-- JOGADOR 1 -->
+
+<div class="card player1">
+
+    <div class="avatar">🧙‍♀️</div>
+
+    <div class="name">
+        Morgana
+    </div>
+
+    <div class="house">
+        🦉 Casa do Solstício
+    </div>
+
+    <div>
+        ❤️ Vida
+        <div class="bar">
+            <div class="hp" id="hp1"></div>
+        </div>
+    </div>
+
+    <div>
+        🔮 Energia mágica
+        <div class="bar">
+            <div class="mana" id="mana1"></div>
+        </div>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            ❤️ <span id="hp1Text">100</span>
+        </div>
+
+        <div class="stat">
+            🔮 <span id="mana1Text">100</span>
+        </div>
+
+        <div class="stat">
+            ⚡ Poder: <span id="power1">15</span>
+        </div>
+
+        <div class="stat">
+            🛡️ Defesa: <span id="def1">5</span>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="spell"
+            onclick="castSpell(1, 'Expellius')">
+            ⚡ Feitiço
+        </button>
+
+        <button
+            class="defense"
+            onclick="defend(1)">
+            🛡️ Proteção
+        </button>
+
+        <button
+            class="heal"
+            onclick="heal(1)">
+            💚 Cura
+        </button>
+
+        <button
+            class="special"
+            onclick="specialAttack(1)">
+            ✨ Magia Suprema
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- JOGADOR 2 -->
+
+<div class="card player2">
+
+    <div class="avatar">🧙‍♂️</div>
+
+    <div class="name">
+        Arthur
+    </div>
+
+    <div class="house">
+        🐉 Casa da Lua Negra
+    </div>
+
+    <div>
+        ❤️ Vida
+        <div class="bar">
+            <div class="hp" id="hp2"></div>
+        </div>
+    </div>
+
+    <div>
+        🔮 Energia mágica
+        <div class="bar">
+            <div class="mana" id="mana2"></div>
+        </div>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            ❤️ <span id="hp2Text">100</span>
+        </div>
+
+        <div class="stat">
+            🔮 <span id="mana2Text">100</span>
+        </div>
+
+        <div class="stat">
+            ⚡ Poder: <span id="power2">15</span>
+        </div>
+
+        <div class="stat">
+            🛡️ Defesa: <span id="def2">5</span>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="spell"
+            onclick="castSpell(2, 'Ignis')">
+            🔥 Feitiço
+        </button>
+
+        <button
+            class="defense"
+            onclick="defend(2)">
+            🛡️ Proteção
+        </button>
+
+        <button
+            class="heal"
+            onclick="heal(2)">
+            💚 Cura
+        </button>
+
+        <button
+            class="special"
+            onclick="specialAttack(2)">
+            ✨ Magia Suprema
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<div class="vs">
+    ⚔️ VS ⚔️
+</div>
+
+
+<div class="card">
+
+    <div
+        class="turn"
+        id="turn">
+        Vez de Morgana
+    </div>
+
+    <div
+        class="message"
+        id="message">
+        O duelo começou!
+    </div>
+
+    <div style="text-align:center">
+
+        <button
+            class="reset"
+            onclick="resetGame()">
+            🔄 Novo duelo
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="log" id="log">
+
+    <p>
+        🏰 Os portões da Academia Arcana se abriram.
+    </p>
+
+    <p>
+        🪄 Dois jovens magos entram na arena.
+    </p>
+
+</div>
+
+</div>
+
+
+<script>
+
+const players = {
+
+    1: {
+        name: "Morgana",
+        hp: 100,
+        maxHp: 100,
+        mana: 100,
+        maxMana: 100,
+        power: 15,
+        defense: 5,
+        defending: false
+    },
+
+    2: {
+        name: "Arthur",
+        hp: 100,
+        maxHp: 100,
+        mana: 100,
+        maxMana: 100,
+        power: 15,
+        defense: 5,
+        defending: false
+    }
+
+};
+
+
+let currentPlayer = 1;
+let gameOver = false;
+
+
+function castSpell(player) {
+
+    if(!canPlay(player))
+        return;
+
+    const target =
+        player === 1 ? 2 : 1;
+
+    const p = players[player];
+    const enemy = players[target];
+
+    const cost = 15;
+
+    if(p.mana < cost) {
+
+        message(
+            p.name +
+            " não possui energia mágica suficiente!"
+        );
+
+        return;
+    }
+
+    p.mana -= cost;
+
+    let damage =
+        p.power +
+        Math.floor(Math.random() * 10);
+
+    if(enemy.defending) {
+
+        damage =
+            Math.floor(damage * .45);
+
+        enemy.defending = false;
+
+        log(
+            "🛡️ A proteção de " +
+            enemy.name +
+            " reduziu o dano!"
+        );
+    }
+
+    enemy.hp -= damage;
+
+    log(
+        "🪄 " +
+        p.name +
+        " lançou um feitiço e causou " +
+        damage +
+        " de dano!"
+    );
+
+    finishTurn();
+
+}
+
+
+function defend(player) {
+
+    if(!canPlay(player))
+        return;
+
+    const p = players[player];
+
+    p.defending = true;
+
+    p.mana =
+        Math.min(
+            p.maxMana,
+            p.mana + 10
+        );
+
+    log(
+        "🛡️ " +
+        p.name +
+        " criou uma barreira mágica!"
+    );
+
+    finishTurn();
+
+}
+
+
+function heal(player) {
+
+    if(!canPlay(player))
+        return;
+
+    const p = players[player];
+
+    const cost = 25;
+
+    if(p.mana < cost) {
+
+        message(
+            "Energia insuficiente para usar Cura!"
+        );
+
+        return;
+    }
+
+    p.mana -= cost;
+
+    const amount = 25;
+
+    p.hp =
+        Math.min(
+            p.maxHp,
+            p.hp + amount
+        );
+
+    log(
+        "💚 " +
+        p.name +
+        " recuperou " +
+        amount +
+        " pontos de vida!"
+    );
+
+    finishTurn();
+
+}
+
+
+function specialAttack(player) {
+
+    if(!canPlay(player))
+        return;
+
+    const p = players[player];
+
+    const target =
+        player === 1 ? 2 : 1;
+
+    const enemy =
+        players[target];
+
+    const cost = 50;
+
+    if(p.mana < cost) {
+
+        message(
+            "🔮 Você precisa de 50 de energia mágica!"
+        );
+
+        return;
+    }
+
+    p.mana -= cost;
+
+    let damage =
+        p.power * 3 +
+        Math.floor(Math.random() * 15);
+
+    if(enemy.defending) {
+
+        damage =
+            Math.floor(damage * .5);
+
+        enemy.defending = false;
+
+        log(
+            "🛡️ A barreira absorveu parte da magia!"
+        );
+    }
+
+    enemy.hp -= damage;
+
+    log(
+        "✨ " +
+        p.name +
+        " lançou sua MAGIA SUPREMA causando " +
+        damage +
+        " de dano!"
+    );
+
+    finishTurn();
+
+}
+
+
+function canPlay(player) {
+
+    if(gameOver)
+        return false;
+
+    if(player !== currentPlayer) {
+
+        message(
+            "⏳ Agora é a vez de " +
+            players[currentPlayer].name +
+            "!"
+        );
+
+        return false;
+    }
+
+    return true;
+
+}
+
+
+function finishTurn() {
+
+    checkWinner();
+
+    if(gameOver)
+        return;
+
+    const current =
+        players[currentPlayer];
+
+    current.mana =
+        Math.min(
+            current.maxMana,
+            current.mana + 5
+        );
+
+    currentPlayer =
+        currentPlayer === 1 ? 2 : 1;
+
+    message(
+        "Agora é a vez de " +
+        players[currentPlayer].name
+    );
+
+    update();
+
+}
+
+
+function checkWinner() {
+
+    if(players[1].hp <= 0) {
+
+        players[1].hp = 0;
+
+        gameOver = true;
+
+        message(
+            "🏆 Arthur venceu o duelo!"
+        );
+
+        log(
+            "🏆 " +
+            players[2].name +
+            " é o campeão da Academia!"
+        );
+
+    }
+
+    if(players[2].hp <= 0) {
+
+        players[2].hp = 0;
+
+        gameOver = true;
+
+        message(
+            "🏆 Morgana venceu o duelo!"
+        );
+
+        log(
+            "🏆 " +
+            players[1].name +
+            " é a campeã da Academia!"
+        );
+
+    }
+
+}
+
+
+function update() {
+
+    for(let i = 1; i <= 2; i++) {
+
+        const p = players[i];
+
+        document.getElementById(
+            "hp" + i
+        ).style.width =
+            (p.hp / p.maxHp * 100) + "%";
+
+        document.getElementById(
+            "mana" + i
+        ).style.width =
+            (p.mana / p.maxMana * 100) + "%";
+
+        document.getElementById(
+            "hp" + i + "Text"
+        ).textContent =
+            p.hp;
+
+        document.getElementById(
+            "mana" + i + "Text"
+        ).textContent =
+            p.mana;
+
+        document.getElementById(
+            "power" + i
+        ).textContent =
+            p.power;
+
+        document.getElementById(
+            "def" + i
+        ).textContent =
+            p.defense;
+
+    }
+
+    document.getElementById(
+        "turn"
+    ).textContent =
+        gameOver
+        ? "🏆 Duelo encerrado"
+        : "Vez de " +
+          players[currentPlayer].name;
+
+}
+
+
+function message(text) {
+
+    document.getElementById(
+        "message"
+    ).textContent = text;
+
+}
+
+
+function log(text) {
+
+    const box =
+        document.getElementById("log");
+
+    const p =
+        document.createElement("p");
+
+    p.textContent = text;
+
+    box.prepend(p);
+
+}
+
+
+function resetGame() {
+
+    players[1].hp = 100;
+    players[1].mana = 100;
+    players[1].defending = false;
+
+    players[2].hp = 100;
+    players[2].mana = 100;
+    players[2].defending = false;
+
+    currentPlayer = 1;
+
+    gameOver = false;
+
+    document.getElementById(
+        "log"
+    ).innerHTML = `
+        <p>🏰 Um novo duelo começou!</p>
+        <p>🪄 Prepare sua varinha.</p>
+    `;
+
+    message(
+        "O duelo começou!"
+    );
+
+    update();
+
+}
+
+
+update();
+
+</script>
+
+</body>
+</html>
