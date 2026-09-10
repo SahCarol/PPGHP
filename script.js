@@ -166,7 +166,7 @@ for (var i = 0; i < keys.length; i++) {
 player.hp = clamp(player.hp, 0, 100);
 player.mana = clamp(player.mana, 0, 100);
 player.xp = Math.max(0, player.xp);
-```
+
 
 }
 
