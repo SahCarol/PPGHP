@@ -1,7 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
-
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -10,31 +7,49 @@
 
 
 body {
+
     min-height: 100vh;
 
-    font-family: "Inter", sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     color: #f5f0ff;
 
     background:
-        radial-gradient(circle at top, #30204d 0%, transparent 35%),
-        radial-gradient(circle at bottom right, #151f42 0%, transparent 30%),
-        linear-gradient(135deg, #090711, #12101d 50%, #080912);
+        radial-gradient(
+            circle at top,
+            #30204d 0%,
+            transparent 40%
+        ),
+        linear-gradient(
+            135deg,
+            #090711,
+            #12101d,
+            #080912
+        );
 
     background-attachment: fixed;
 }
 
 
 body::before {
+
     content: "";
 
     position: fixed;
+
     inset: 0;
 
     pointer-events: none;
 
     background-image:
-        radial-gradient(circle, rgba(255,255,255,.08) 1px, transparent 1px);
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.08) 1px,
+            transparent 1px
+        );
 
     background-size: 45px 45px;
 
@@ -42,18 +57,22 @@ body::before {
 }
 
 
-/* =========================
+/* ==============================
    TOPO
-========================= */
+============================== */
 
 .topo {
+
     width: min(1200px, 94%);
+
     margin: auto;
 
     padding: 30px 0 20px;
 
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     gap: 20px;
@@ -61,7 +80,8 @@ body::before {
 
 
 .topo h1 {
-    font-family: "Cinzel", serif;
+
+    font-family: Georgia, serif;
 
     font-size: clamp(25px, 4vw, 42px);
 
@@ -73,86 +93,103 @@ body::before {
 
 
 .topo p {
-    margin-top: 5px;
+
+    margin-top: 6px;
 
     color: #aaa4bd;
 }
 
 
 .player-tag {
+
     padding: 10px 18px;
 
-    border: 1px solid rgba(244,217,138,.35);
+    border: 1px solid
+        rgba(244,217,138,.35);
 
     border-radius: 30px;
 
-    background: rgba(255,255,255,.05);
+    background:
+        rgba(255,255,255,.05);
 
     color: #f4d98a;
 
-    font-weight: 600;
+    font-weight: bold;
 }
 
 
-/* =========================
+/* ==============================
    CONTAINER
-========================= */
+============================== */
 
 .game-container {
+
     width: min(1200px, 94%);
 
     margin: auto;
 
     display: flex;
+
     flex-direction: column;
 
     gap: 22px;
 }
 
 
-/* =========================
-   HISTÓRIA
-========================= */
+/* ==============================
+   CARDS
+============================== */
 
 .story-card,
 .character-card,
 .relationship-card,
 .log-card {
-    border: 1px solid rgba(255,255,255,.1);
+
+    border: 1px solid
+        rgba(255,255,255,.1);
 
     background:
         linear-gradient(
             145deg,
-            rgba(45,35,65,.88),
-            rgba(15,14,27,.92)
+            rgba(45,35,65,.92),
+            rgba(15,14,27,.95)
         );
 
     box-shadow:
         0 20px 60px rgba(0,0,0,.35);
 
-    backdrop-filter: blur(10px);
-
     border-radius: 20px;
 }
 
 
+/* ==============================
+   HISTÓRIA
+============================== */
+
 .story-card {
+
     padding: 30px;
 }
 
 
 .story-header {
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     padding-bottom: 20px;
 
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
 }
 
 
 .story-header span {
+
     color: #b7a5db;
 
     font-size: 13px;
@@ -164,32 +201,39 @@ body::before {
 
 
 .story-header h2 {
-    margin-top: 5px;
 
-    font-family: "Cinzel", serif;
+    margin-top: 6px;
+
+    font-family: Georgia, serif;
 
     color: #f5d88a;
 }
 
 
 .magic-symbol {
-    font-size: 38px;
+
+    font-size: 40px;
 
     color: #e8c96d;
 
-    animation: magicPulse 2s infinite;
+    animation:
+        magicPulse 2s infinite;
 }
 
 
 @keyframes magicPulse {
 
-    0%, 100% {
+    0%,100% {
+
         transform: scale(1);
+
         opacity: .7;
     }
 
     50% {
+
         transform: scale(1.15);
+
         opacity: 1;
     }
 
@@ -197,13 +241,15 @@ body::before {
 
 
 .story-content {
-    min-height: 190px;
+
+    min-height: 230px;
 
     padding: 28px 5px 15px;
 }
 
 
 .story-content p {
+
     color: #ded9e8;
 
     line-height: 1.9;
@@ -214,14 +260,19 @@ body::before {
 }
 
 
-/* =========================
+/* ==============================
    ESCOLHAS
-========================= */
+============================== */
 
 .choices {
+
     display: grid;
 
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(240px, 1fr)
+        );
 
     gap: 12px;
 
@@ -230,15 +281,19 @@ body::before {
 
 
 .choice {
+
     width: 100%;
 
     padding: 16px 18px;
 
     border-radius: 12px;
 
-    border: 1px solid rgba(244,217,138,.18);
+    border:
+        1px solid
+        rgba(244,217,138,.18);
 
-    background: rgba(255,255,255,.045);
+    background:
+        rgba(255,255,255,.045);
 
     color: #eee9f7;
 
@@ -246,22 +301,29 @@ body::before {
 
     text-align: left;
 
+    font-size: 14px;
+
+    line-height: 1.5;
+
     transition: .25s;
 }
 
 
 .choice:hover {
-    transform: translateY(-3px);
 
-    border-color: rgba(244,217,138,.7);
+    transform:
+        translateY(-3px);
 
-    background: rgba(244,217,138,.09);
+    border-color:
+        rgba(244,217,138,.7);
 
-    box-shadow: 0 8px 25px rgba(0,0,0,.25);
+    background:
+        rgba(244,217,138,.09);
 }
 
 
 .choice strong {
+
     display: block;
 
     color: #f4d98a;
@@ -270,11 +332,12 @@ body::before {
 }
 
 
-/* =========================
+/* ==============================
    PERSONAGENS
-========================= */
+============================== */
 
 .status-section {
+
     display: grid;
 
     grid-template-columns: 1fr 1fr;
@@ -284,11 +347,13 @@ body::before {
 
 
 .character-card {
+
     padding: 22px;
 }
 
 
 .character-header {
+
     display: flex;
 
     align-items: center;
@@ -300,7 +365,8 @@ body::before {
 
 
 .character-header h3 {
-    font-family: "Cinzel", serif;
+
+    font-family: Georgia, serif;
 
     color: #f4d98a;
 
@@ -309,6 +375,7 @@ body::before {
 
 
 .character-header span {
+
     display: block;
 
     margin-top: 3px;
@@ -320,39 +387,57 @@ body::before {
 
 
 .character-avatar {
+
     width: 50px;
+
     height: 50px;
 
     border-radius: 50%;
 
     display: grid;
+
     place-items: center;
 
-    font-family: "Cinzel", serif;
+    font-family: Georgia, serif;
 
     font-size: 22px;
 
     font-weight: bold;
 
-    border: 2px solid rgba(255,255,255,.25);
+    border:
+        2px solid
+        rgba(255,255,255,.25);
 }
 
 
 .sasah-avatar {
-    background: linear-gradient(135deg, #72539e, #332145);
+
+    background:
+        linear-gradient(
+            135deg,
+            #72539e,
+            #332145
+        );
 }
 
 
 .lucas-avatar {
-    background: linear-gradient(135deg, #315e91, #182944);
+
+    background:
+        linear-gradient(
+            135deg,
+            #315e91,
+            #182944
+        );
 }
 
 
-/* =========================
+/* ==============================
    BARRAS
-========================= */
+============================== */
 
 .bar-info {
+
     display: flex;
 
     justify-content: space-between;
@@ -368,24 +453,28 @@ body::before {
 
 
 .bar {
+
     height: 8px;
 
     border-radius: 20px;
 
-    background: rgba(0,0,0,.35);
+    background:
+        rgba(0,0,0,.35);
 
     overflow: hidden;
 }
 
 
 .bar-fill {
+
     height: 100%;
 
     width: 0%;
 
     border-radius: inherit;
 
-    transition: width .5s ease;
+    transition:
+        width .5s ease;
 }
 
 
@@ -404,14 +493,16 @@ body::before {
 }
 
 
-/* =========================
+/* ==============================
    ATRIBUTOS
-========================= */
+============================== */
 
 .attributes {
+
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 8px;
 
@@ -420,19 +511,24 @@ body::before {
 
 
 .attributes div {
+
     padding: 10px 5px;
 
     border-radius: 10px;
 
     text-align: center;
 
-    background: rgba(255,255,255,.04);
+    background:
+        rgba(255,255,255,.04);
 
-    border: 1px solid rgba(255,255,255,.05);
+    border:
+        1px solid
+        rgba(255,255,255,.05);
 }
 
 
 .attributes strong {
+
     display: block;
 
     color: #f2d589;
@@ -442,24 +538,27 @@ body::before {
 
 
 .attributes small {
+
     color: #938da1;
 
     font-size: 10px;
 }
 
 
-/* =========================
+/* ==============================
    RELACIONAMENTO
-========================= */
+============================== */
 
 .relationship-card {
+
     padding: 22px;
 }
 
 
 .relationship-card h3,
 .log-card h3 {
-    font-family: "Cinzel", serif;
+
+    font-family: Georgia, serif;
 
     color: #f4d98a;
 
@@ -468,26 +567,31 @@ body::before {
 
 
 .relationship-grid {
+
     display: grid;
 
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns:
+        repeat(4, 1fr);
 
     gap: 10px;
 }
 
 
 .relationship-grid div {
+
     padding: 15px;
 
     text-align: center;
 
     border-radius: 12px;
 
-    background: rgba(255,255,255,.04);
+    background:
+        rgba(255,255,255,.04);
 }
 
 
 .relationship-grid span {
+
     display: block;
 
     color: #aaa4b7;
@@ -499,22 +603,25 @@ body::before {
 
 
 .relationship-grid strong {
+
     font-size: 22px;
 
     color: #f2d589;
 }
 
 
-/* =========================
-   LOG
-========================= */
+/* ==============================
+   DIÁRIO
+============================== */
 
 .log-card {
+
     padding: 22px;
 }
 
 
 #log {
+
     max-height: 250px;
 
     overflow-y: auto;
@@ -524,9 +631,12 @@ body::before {
 
 
 .log-entry {
+
     padding: 10px 0;
 
-    border-bottom: 1px solid rgba(255,255,255,.06);
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
 
     color: #bdb7c9;
 
@@ -536,11 +646,12 @@ body::before {
 }
 
 
-/* =========================
+/* ==============================
    CONTROLES
-========================= */
+============================== */
 
 .controls {
+
     display: flex;
 
     justify-content: center;
@@ -554,13 +665,17 @@ body::before {
 
 
 .controls button {
+
     padding: 11px 20px;
 
     border-radius: 10px;
 
-    border: 1px solid rgba(255,255,255,.12);
+    border:
+        1px solid
+        rgba(255,255,255,.12);
 
-    background: rgba(255,255,255,.06);
+    background:
+        rgba(255,255,255,.06);
 
     color: #ddd7e7;
 
@@ -571,19 +686,23 @@ body::before {
 
 
 .controls button:hover {
-    background: rgba(244,217,138,.1);
 
-    border-color: rgba(244,217,138,.4);
+    background:
+        rgba(244,217,138,.1);
+
+    border-color:
+        rgba(244,217,138,.4);
 
     color: #f4d98a;
 }
 
 
-/* =========================
-   FOOTER
-========================= */
+/* ==============================
+   RODAPÉ
+============================== */
 
 footer {
+
     padding: 25px;
 
     text-align: center;
@@ -594,13 +713,14 @@ footer {
 }
 
 
-/* =========================
-   RESPONSIVO
-========================= */
+/* ==============================
+   CELULAR
+============================== */
 
 @media (max-width: 800px) {
 
     .topo {
+
         flex-direction: column;
 
         align-items: flex-start;
@@ -608,12 +728,15 @@ footer {
 
 
     .status-section {
+
         grid-template-columns: 1fr;
     }
 
 
     .relationship-grid {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
 }
@@ -625,23 +748,23 @@ footer {
     .character-card,
     .relationship-card,
     .log-card {
+
         border-radius: 14px;
     }
 
 
     .story-card {
+
         padding: 20px;
     }
 
 
     .attributes {
-        grid-template-columns: repeat(2, 1fr);
-    }
 
-
-    .relationship-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
 }
+
 
