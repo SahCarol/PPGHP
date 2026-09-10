@@ -1,4 +1,3 @@
-
 /* ============================================================
 AS CRÔNICAS DE HOGWARTS
 SASAH & LUCAS
@@ -75,7 +74,7 @@ z-index: -1;
 CONTAINER PRINCIPAL
 ============================================================ */
 
-.container {
+.game-container {
 width: 100%;
 max-width: 1250px;
 
@@ -162,7 +161,7 @@ align-items: start;
 CARTÃO DA HISTÓRIA
 ============================================================ */
 
-.story-card {
+.story-panel {
 position: relative;
 
 
@@ -188,7 +187,7 @@ overflow: hidden;
 
 }
 
-.story-card::before {
+.story-panel::before {
 content: "";
     
 
@@ -506,7 +505,7 @@ border-color:
 BOTÕES FIXOS
 ============================================================ */
 
-.controls {
+.game-controls {
 display: flex;
 
 
@@ -519,7 +518,7 @@ margin-top: 20px;
 
 }
 
-.controls button {
+.game-controls .control-button {
 flex: 1;
 
 
@@ -549,7 +548,7 @@ transition:
 
 }
 
-.controls button:hover {
+.game-controls .control-button:hover {
 transform: translateY(-2px);
 
 
@@ -565,7 +564,7 @@ box-shadow:
 
 }
 
-.controls button:active {
+.game-controls .control-button:active {
 transform: scale(0.97);
 }
 
@@ -588,7 +587,7 @@ gap: 18px;
 CARTÕES DOS JOGADORES
 ============================================================ */
 
-.player-card,
+.status-card,
 .relationship-card,
 .log-card {
 padding: 22px;
@@ -611,7 +610,7 @@ box-shadow:
 
 }
 
-.player-card h2,
+.status-card h2,
 .relationship-card h2,
 .log-card h2 {
 color: #d9caff;
@@ -655,7 +654,7 @@ font-size: 13px;
 ATRIBUTOS
 ============================================================ */
 
-.attribute {
+.attributes > div {
 display: flex;
 
 
@@ -672,7 +671,7 @@ font-size: 14px;
 
 }
 
-.attribute span:last-child {
+.attributes > divs strong {
 color: #eee8ff;
 
 
@@ -685,7 +684,7 @@ font-weight: bold;
 BARRAS
 ============================================================ */
 
-.bar {
+.status-bar {
 width: 100%;
 
 
@@ -703,7 +702,7 @@ background:
 
 }
 
-.bar-fill {
+.status-fill {
 height: 100%;
 
 
@@ -780,8 +779,8 @@ rgba(170, 145, 235, 0.65);
 ANIMAÇÃO DE ENTRADA
 ============================================================ */
 
-.story-card,
-.player-card,
+.story-panel,
+.status-card,
 .relationship-card,
 .log-card {
 animation:
@@ -843,7 +842,7 @@ header {
     padding: 20px 15px;
 }
 
-.story-card {
+.story-panel {
     padding: 20px 16px;
 }
 
@@ -868,11 +867,11 @@ header {
     display: flex;
 }
 
-.controls {
+.game-controls {
     flex-direction: column;
 }
 
-.controls button {
+.game-controls .control-button {
     width: 100%;
 }
 
@@ -903,3 +902,313 @@ REDUÇÃO DE MOVIMENTO
 
 
 
+
+
+/* ===== ELEMENTOS DINÂMICOS DO RPG ===== */
+
+.game-container {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.story-panel {
+    position: relative;
+    padding: 30px;
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(30,25,52,.97), rgba(13,11,24,.98));
+    border: 1px solid rgba(178,154,255,.18);
+    box-shadow: 0 20px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04);
+    overflow: hidden;
+}
+
+.story-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #9b7cff, transparent);
+}
+
+.story-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.story-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-tag {
+    white-space: nowrap;
+}
+
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.status-header h2 {
+    margin-bottom: 5px;
+}
+
+.status-header p {
+    color: #8f88a9;
+    font-size: 13px;
+}
+
+.character-icon {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.status-card,
+.relationship-card,
+.log-card {
+    padding: 22px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, rgba(29,25,50,.96), rgba(13,11,23,.98));
+    border: 1px solid rgba(175,155,235,.15);
+    box-shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+
+.status-card h2,
+.relationship-card h2,
+.log-card h2 {
+    color: #d9caff;
+    font-size: 19px;
+}
+
+.house-name {
+    display: inline-block;
+    color: #a99bc9;
+    font-size: 13px;
+}
+
+.status-row {
+    margin-top: 15px;
+}
+
+.status-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: #bbb4cb;
+    font-size: 13px;
+}
+
+.status-bar {
+    width: 100%;
+    height: 8px;
+    margin-top: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255,255,255,.07);
+}
+
+.status-fill {
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    transition: width .6s ease;
+}
+
+.hp-fill { background: linear-gradient(90deg, #b83b5e, #ef6b85); }
+.mana-fill { background: linear-gradient(90deg, #4777c7, #7eafff); }
+.xp-fill { background: linear-gradient(90deg, #a17b2f, #e8c45d); }
+
+.attributes {
+    margin-top: 16px;
+    display: grid;
+    gap: 7px;
+}
+
+.attributes > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: #bbb4cb;
+    font-size: 13px;
+}
+
+.attributes strong {
+    color: #eee8ff;
+}
+
+.relationship-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.relationship-grid > div {
+    padding: 11px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(175,155,235,.09);
+}
+
+.relationship-grid span {
+    display: block;
+    color: #aaa3b8;
+    font-size: 12px;
+}
+
+.relationship-grid strong {
+    display: block;
+    margin-top: 4px;
+    color: #eee8ff;
+    font-size: 18px;
+}
+
+.game-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.game-controls .control-button {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(170,150,220,.25);
+    background: rgba(32,27,52,.9);
+    color: #dcd6ed;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.game-controls .control-button:hover {
+    transform: translateY(-2px);
+    background: rgba(61,49,94,.95);
+    border-color: rgba(190,165,255,.55);
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+}
+
+.danger-button:hover {
+    border-color: rgba(230,110,130,.65) !important;
+}
+
+.name-selection {
+    display: grid;
+    gap: 12px;
+    max-width: 600px;
+    margin: 25px auto 5px;
+}
+
+.name-selection label {
+    color: #c9bfe0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.name-selection input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(175,150,235,.25);
+    background: rgba(10,8,20,.75);
+    color: #fff;
+    font: inherit;
+    outline: none;
+}
+
+.name-selection input:focus {
+    border-color: #bca4ff;
+    box-shadow: 0 0 0 3px rgba(155,124,255,.15);
+}
+
+.house-result,
+.ending-box {
+    text-align: center;
+    padding: 15px 5px;
+}
+
+.house-result-icon {
+    font-size: 72px;
+    line-height: 1;
+    margin-bottom: 15px;
+}
+
+.house-result h2,
+.ending-box h2 {
+    color: #e9ddff;
+    margin-bottom: 15px;
+    font-size: clamp(26px, 4vw, 36px);
+}
+
+.house-result p,
+.ending-box p {
+    margin: 12px auto;
+    max-width: 760px;
+    color: #d9d3e8;
+    line-height: 1.8;
+}
+
+.choice-button.selected {
+    border-color: #d9caff;
+    background: linear-gradient(135deg, rgba(100,78,160,.98), rgba(55,43,100,.98));
+    box-shadow: 0 0 0 2px rgba(155,124,255,.2), 0 10px 28px rgba(0,0,0,.35);
+}
+
+.choice-button:disabled {
+    cursor: default;
+    opacity: .72;
+}
+
+.log {
+    max-height: 240px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.log-entry {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    color: #aaa3b8;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.game-footer {
+    text-align: center;
+    margin-top: 25px;
+    padding: 20px 10px 5px;
+    color: #8f88a9;
+    font-size: 13px;
+}
+
+.game-footer p {
+    color: #bdb1da;
+    margin-bottom: 4px;
+}
+
+@media (max-width: 600px) {
+    .story-top {
+        flex-direction: column;
+    }
+
+    .player-tag {
+        white-space: normal;
+    }
+
+    .game-controls {
+        flex-direction: column;
+    }
+
+    .game-controls .control-button {
+        width: 100%;
+    }
+}
