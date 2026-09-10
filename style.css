@@ -1,770 +1,905 @@
 
+/* ============================================================
+AS CRÔNICAS DE HOGWARTS
+SASAH & LUCAS
+ESTILO PRINCIPAL
+============================================================ */
+
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  }
+
+html {
+scroll-behavior: smooth;
 }
+
+body {
+min-height: 100vh;
+
+
+font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+color: #f4f1ff;
+
+background:
+    radial-gradient(
+        circle at top,
+        #252044 0%,
+        #100d1d 45%,
+        #07060d 100%
+    );
+
+padding: 25px;
+
+overflow-x: hidden;
+
+
+}
+
+/* ============================================================
+FUNDO
+============================================================ */
+
+body::before {
+content: "";
+
+
+position: fixed;
+
+inset: 0;
+
+pointer-events: none;
+
+background:
+    radial-gradient(
+        circle at 20% 20%,
+        rgba(130, 100, 255, 0.08),
+        transparent 25%
+    ),
+    radial-gradient(
+        circle at 80% 70%,
+        rgba(90, 140, 255, 0.06),
+        transparent 30%
+    );
+
+z-index: -1;
+
+}
+
+/* ============================================================
+CONTAINER PRINCIPAL
+============================================================ */
+
+.container {
+width: 100%;
+max-width: 1250px;
+
+
+margin: 0 auto;
+
+
+}
+
+/* ============================================================
+CABEÇALHO
+============================================================ */
+
+header {
+text-align: center;
+
+
+margin-bottom: 30px;
+
+padding: 25px;
+
+border-radius: 22px;
+
+background:
+    linear-gradient(
+        145deg,
+        rgba(35, 29, 64, 0.95),
+        rgba(15, 12, 28, 0.95)
+    );
+
+border: 1px solid rgba(180, 160, 255, 0.18);
+
+box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+
+}
+
+header h1 {
+font-size: clamp(28px, 5vw, 46px);
+
+
+margin-bottom: 8px;
+
+color: #e9ddff;
+
+text-shadow:
+    0 0 12px rgba(170, 130, 255, 0.5),
+    0 3px 15px rgba(0, 0, 0, 0.6);
+
+
+}
+
+header p {
+color: #aaa3c7;
+
+
+font-size: 16px;
+
+
+}
+
+/* ============================================================
+ÁREA DO JOGO
+============================================================ */
+
+.game-layout {
+display: grid;
+
+
+grid-template-columns:
+    minmax(0, 1fr)
+    340px;
+
+gap: 25px;
+
+align-items: start;
+
+
+}
+
+/* ============================================================
+CARTÃO DA HISTÓRIA
+============================================================ */
+
+.story-card {
+position: relative;
+
+
+padding: 30px;
+
+border-radius: 24px;
+
+background:
+    linear-gradient(
+        145deg,
+        rgba(30, 25, 52, 0.97),
+        rgba(13, 11, 24, 0.98)
+    );
+
+border: 1px solid rgba(178, 154, 255, 0.18);
+
+box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+overflow: hidden;
+
+
+}
+
+.story-card::before {
+content: "";
+    
+
+position: absolute;
+
+top: 0;
+left: 0;
+right: 0;
+
+height: 2px;
+
+background:
+    linear-gradient(
+        90deg,
+        transparent,
+        #9b7cff,
+        transparent
+    );
+
+opacity: 0.8;
+
+
+}
+
+/* ============================================================
+CAPÍTULO
+============================================================ */
+
+#chapter {
+color: #cbb8ff;
+
+
+font-size: 14px;
+
+text-transform: uppercase;
+
+letter-spacing: 2px;
+
+margin-bottom: 8px;
+
+
+}
+
+/* ============================================================
+LOCALIZAÇÃO
+============================================================ */
+
+#location {
+color: #8f88a9;
+
+font-size: 14px;
+
+margin-bottom: 25px;
+
+
+}
+
+/* ============================================================
+CENA
+============================================================ */
+
+#scene {
+font-size: 18px;
+
+
+line-height: 1.8;
+
+color: #eeeaf8;
+
+min-height: 150px;
+
+margin-bottom: 30px;
+
+white-space: pre-line;
+
+
+}
+
+/* ============================================================
+ÁREA DAS ESCOLHAS
+============================================================ */
+
+#choices {
+display: flex;
+
+
+flex-direction: column;
+
+gap: 12px;
+
+margin-top: 15px;
+
+
+}
+
+/* ============================================================
+BOTÕES DE ESCOLHA
+============================================================ */
+
+.choice-button {
+position: relative;
+
+
+width: 100%;
+
+min-height: 64px;
+
+padding: 17px 22px;
+
+border-radius: 16px;
+
+border: 1px solid rgba(174, 151, 255, 0.28);
+
+color: #f7f4ff;
+
+background:
+    linear-gradient(
+        135deg,
+        rgba(58, 47, 94, 0.95),
+        rgba(30, 25, 54, 0.98)
+    );
+
+font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+font-size: 16px;
+
+line-height: 1.4;
+
+text-align: left;
+
+cursor: pointer;
+
+overflow: hidden;
+
+transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease;
+
+box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.28);
+
+-webkit-tap-highlight-color: transparent;
+
+
+}
+
+/* brilho interno */
+
+.choice-button::before {
+content: "";
+
+
+position: absolute;
+
+top: 0;
+left: -120%;
+
+width: 80%;
+height: 100%;
+
+background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.12),
+        transparent
+    );
+
+transform: skewX(-20deg);
+
+transition:
+    left 0.6s ease;
+
+pointer-events: none;
+
+
+}
+
+/* pequeno brilho lateral */
+
+.choice-button::after {
+content: "✦";
+
+
+position: absolute;
+
+right: 18px;
+top: 50%;
+
+transform:
+    translateY(-50%)
+    scale(0.7);
+
+color: rgba(200, 180, 255, 0.25);
+
+font-size: 18px;
+
+transition:
+    transform 0.22s ease,
+    color 0.22s ease,
+    opacity 0.22s ease;
+
+pointer-events: none;
+
+
+}
+
+/* ============================================================
+HOVER
+============================================================ */
+
+.choice-button:hover {
+transform:
+translateY(-3px)
+translateX(3px);
+
+
+border-color:
+    rgba(194, 170, 255, 0.75);
+
+background:
+    linear-gradient(
+        135deg,
+        rgba(79, 62, 130, 0.98),
+        rgba(43, 34, 78, 0.98)
+    );
+
+color: #ffffff;
+
+box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(137, 105, 255, 0.18);
+
+
+}
+
+.choice-button:hover::before {
+left: 130%;
+}
+
+.choice-button:hover::after {
+color: #d9caff;
+
+
+transform:
+    translateY(-50%)
+    scale(1.15);
+
+opacity: 1;
+
+
+}
+
+/* ============================================================
+CLIQUE
+============================================================ */
+
+.choice-button:active {
+transform:
+translateY(1px)
+scale(0.985);
+
+
+box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.35);
+
+
+}
+
+/* ============================================================
+FOCO PELO TECLADO
+============================================================ */
+
+.choice-button:focus-visible {
+outline: none;
+
+
+border-color: #c9b4ff;
+
+box-shadow:
+    0 0 0 3px rgba(155, 124, 255, 0.25),
+    0 0 25px rgba(155, 124, 255, 0.25);
+
+
+}
+
+/* ============================================================
+BOTÃO CONTINUAR
+============================================================ */
+
+.choice-button.continue-button {
+text-align: center;
+
+
+background:
+    linear-gradient(
+        135deg,
+        rgba(96, 73, 157, 0.98),
+        rgba(57, 42, 105, 0.98)
+    );
+
+border-color:
+    rgba(200, 180, 255, 0.45);
+
+
+}
+
+/* ============================================================
+BOTÕES FIXOS
+============================================================ */
+
+.controls {
+display: flex;
+
+
+flex-wrap: wrap;
+
+gap: 10px;
+
+margin-top: 20px;
+
+
+}
+
+.controls button {
+flex: 1;
+
+
+min-width: 120px;
+
+padding: 12px 16px;
+
+border-radius: 12px;
+
+border: 1px solid rgba(170, 150, 220, 0.25);
+
+background:
+    rgba(32, 27, 52, 0.9);
+
+color: #dcd6ed;
+
+cursor: pointer;
+
+font-family: inherit;
+
+transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+
+}
+
+.controls button:hover {
+transform: translateY(-2px);
+
+
+background:
+    rgba(61, 49, 94, 0.95);
+
+border-color:
+    rgba(190, 165, 255, 0.55);
+
+box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.3);
+
+
+}
+
+.controls button:active {
+transform: scale(0.97);
+}
+
+/* ============================================================
+PAINEL LATERAL
+============================================================ */
+
+.sidebar {
+display: flex;
+
+
+flex-direction: column;
+
+gap: 18px;
+
+
+}
+
+/* ============================================================
+CARTÕES DOS JOGADORES
+============================================================ */
+
+.player-card,
+.relationship-card,
+.log-card {
+padding: 22px;
+
+
+border-radius: 20px;
+
+background:
+    linear-gradient(
+        145deg,
+        rgba(29, 25, 50, 0.96),
+        rgba(13, 11, 23, 0.98)
+    );
+
+border: 1px solid rgba(175, 155, 235, 0.15);
+
+box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.35);
+
+
+}
+
+.player-card h2,
+.relationship-card h2,
+.log-card h2 {
+color: #d9caff;
+
+
+font-size: 19px;
+
+margin-bottom: 14px;
+
+
+}
+
+/* ============================================================
+TAG DO JOGADOR
+============================================================ */
+
+#playerTag {
+display: inline-block;
+
+
+padding: 7px 12px;
+
+margin-bottom: 18px;
+
+border-radius: 999px;
+
+background:
+    rgba(120, 92, 190, 0.16);
+
+border: 1px solid
+    rgba(175, 145, 240, 0.25);
+
+color: #c9b8e8;
+
+font-size: 13px;
+
+
+}
+
+/* ============================================================
+ATRIBUTOS
+============================================================ */
+
+.attribute {
+display: flex;
+
+
+justify-content: space-between;
+
+align-items: center;
+
+margin: 9px 0;
+
+color: #bbb4cb;
+
+font-size: 14px;
+
+
+}
+
+.attribute span:last-child {
+color: #eee8ff;
+
+
+font-weight: bold;
+
+
+}
+
+/* ============================================================
+BARRAS
+============================================================ */
+
+.bar {
+width: 100%;
+
+
+height: 8px;
+
+margin-top: 5px;
+
+overflow: hidden;
+
+border-radius: 999px;
+
+background:
+    rgba(255, 255, 255, 0.07);
+
+
+}
+
+.bar-fill {
+height: 100%;
+
+
+width: 0;
+
+border-radius: inherit;
+
+transition:
+    width 0.6s ease;
+
+
+}
+
+/* ============================================================
+LOG
+============================================================ */
+
+#log {
+max-height: 240px;
+
+
+overflow-y: auto;
+
+padding-right: 5px;
+
+
+}
+
+#log p {
+padding: 8px 0;
+
+
+border-bottom:
+    1px solid rgba(255, 255, 255, 0.05);
+
+color: #aaa3b8;
+
+font-size: 13px;
+
+line-height: 1.5;
+
+
+}
+
+/* ============================================================
+SCROLLBAR
+============================================================ */
+
+::-webkit-scrollbar {
+width: 8px;
+}
+
+::-webkit-scrollbar-track {
+background:
+rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+border-radius: 999px;
+
+
+background:
+    rgba(145, 119, 205, 0.45);
+
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+background:
+rgba(170, 145, 235, 0.65);
+}
+
+/* ============================================================
+ANIMAÇÃO DE ENTRADA
+============================================================ */
+
+.story-card,
+.player-card,
+.relationship-card,
+.log-card {
+animation:
+cardAppear 0.5s ease both;
+}
+
+@keyframes cardAppear {
+from {
+opacity: 0;
+
+
+    transform:
+        translateY(12px);
+}
+
+to {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+}
+
+/* ============================================================
+RESPONSIVIDADE
+============================================================ */
+
+@media (max-width: 900px) {
+
+
+.game-layout {
+    grid-template-columns: 1fr;
+}
+
+.sidebar {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+}
+
+.log-card {
+    grid-column: 1 / -1;
+}
+
+    
+}
+
+@media (max-width: 600px) {
 
 
 body {
-
-    min-height: 100vh;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    color: #f5f0ff;
-
-    background:
-        radial-gradient(
-            circle at top,
-            #30204d 0%,
-            transparent 40%
-        ),
-        linear-gradient(
-            135deg,
-            #090711,
-            #12101d,
-            #080912
-        );
-
-    background-attachment: fixed;
+    padding: 12px;
 }
 
-
-body::before {
-
-    content: "";
-
-    position: fixed;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    background-image:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.08) 1px,
-            transparent 1px
-        );
-
-    background-size: 45px 45px;
-
-    opacity: .25;
+header {
+    padding: 20px 15px;
 }
-
-
-/* ==============================
-   TOPO
-============================== */
-
-.topo {
-
-    width: min(1200px, 94%);
-
-    margin: auto;
-
-    padding: 30px 0 20px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 20px;
-}
-
-
-.topo h1 {
-
-    font-family: Georgia, serif;
-
-    font-size: clamp(25px, 4vw, 42px);
-
-    color: #f4d98a;
-
-    text-shadow:
-        0 0 15px rgba(244,217,138,.25);
-}
-
-
-.topo p {
-
-    margin-top: 6px;
-
-    color: #aaa4bd;
-}
-
-
-.player-tag {
-
-    padding: 10px 18px;
-
-    border: 1px solid
-        rgba(244,217,138,.35);
-
-    border-radius: 30px;
-
-    background:
-        rgba(255,255,255,.05);
-
-    color: #f4d98a;
-
-    font-weight: bold;
-}
-
-
-/* ==============================
-   CONTAINER
-============================== */
-
-.game-container {
-
-    width: min(1200px, 94%);
-
-    margin: auto;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 22px;
-}
-
-
-/* ==============================
-   CARDS
-============================== */
-
-.story-card,
-.character-card,
-.relationship-card,
-.log-card {
-
-    border: 1px solid
-        rgba(255,255,255,.1);
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(45,35,65,.92),
-            rgba(15,14,27,.95)
-        );
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.35);
-
-    border-radius: 20px;
-}
-
-
-/* ==============================
-   HISTÓRIA
-============================== */
 
 .story-card {
-
-    padding: 30px;
+    padding: 20px 16px;
 }
 
-
-.story-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding-bottom: 20px;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.08);
-}
-
-
-.story-header span {
-
-    color: #b7a5db;
-
-    font-size: 13px;
-
-    text-transform: uppercase;
-
-    letter-spacing: 2px;
-}
-
-
-.story-header h2 {
-
-    margin-top: 6px;
-
-    font-family: Georgia, serif;
-
-    color: #f5d88a;
-}
-
-
-.magic-symbol {
-
-    font-size: 40px;
-
-    color: #e8c96d;
-
-    animation:
-        magicPulse 2s infinite;
-}
-
-
-@keyframes magicPulse {
-
-    0%,100% {
-
-        transform: scale(1);
-
-        opacity: .7;
-    }
-
-    50% {
-
-        transform: scale(1.15);
-
-        opacity: 1;
-    }
-
-}
-
-
-.story-content {
-
-    min-height: 230px;
-
-    padding: 28px 5px 15px;
-}
-
-
-.story-content p {
-
-    color: #ded9e8;
-
-    line-height: 1.9;
-
+#scene {
     font-size: 16px;
 
-    white-space: pre-line;
+    line-height: 1.7;
 }
 
+.choice-button {
+    min-height: 62px;
 
-/* ==============================
-   ESCOLHAS
-============================== */
+    padding:
+        15px 18px;
 
-.choices {
+    padding-right: 45px;
 
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(240px, 1fr)
-        );
-
-    gap: 12px;
-
-    margin-top: 10px;
+    font-size: 15px;
 }
 
-
-.choice {
-
-    width: 100%;
-
-    padding: 16px 18px;
-
-    border-radius: 12px;
-
-    border:
-        1px solid
-        rgba(244,217,138,.18);
-
-    background:
-        rgba(255,255,255,.045);
-
-    color: #eee9f7;
-
-    cursor: pointer;
-
-    text-align: left;
-
-    font-size: 14px;
-
-    line-height: 1.5;
-
-    transition: .25s;
-}
-
-
-.choice:hover {
-
-    transform:
-        translateY(-3px);
-
-    border-color:
-        rgba(244,217,138,.7);
-
-    background:
-        rgba(244,217,138,.09);
-}
-
-
-.choice strong {
-
-    display: block;
-
-    color: #f4d98a;
-
-    margin-bottom: 5px;
-}
-
-
-/* ==============================
-   PERSONAGENS
-============================== */
-
-.status-section {
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 22px;
-}
-
-
-.character-card {
-
-    padding: 22px;
-}
-
-
-.character-header {
-
+.sidebar {
     display: flex;
-
-    align-items: center;
-
-    gap: 14px;
-
-    margin-bottom: 20px;
 }
-
-
-.character-header h3 {
-
-    font-family: Georgia, serif;
-
-    color: #f4d98a;
-
-    font-size: 21px;
-}
-
-
-.character-header span {
-
-    display: block;
-
-    margin-top: 3px;
-
-    color: #a9a3b7;
-
-    font-size: 12px;
-}
-
-
-.character-avatar {
-
-    width: 50px;
-
-    height: 50px;
-
-    border-radius: 50%;
-
-    display: grid;
-
-    place-items: center;
-
-    font-family: Georgia, serif;
-
-    font-size: 22px;
-
-    font-weight: bold;
-
-    border:
-        2px solid
-        rgba(255,255,255,.25);
-}
-
-
-.sasah-avatar {
-
-    background:
-        linear-gradient(
-            135deg,
-            #72539e,
-            #332145
-        );
-}
-
-
-.lucas-avatar {
-
-    background:
-        linear-gradient(
-            135deg,
-            #315e91,
-            #182944
-        );
-}
-
-
-/* ==============================
-   BARRAS
-============================== */
-
-.bar-info {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-top: 13px;
-
-    margin-bottom: 6px;
-
-    color: #aaa4b8;
-
-    font-size: 12px;
-}
-
-
-.bar {
-
-    height: 8px;
-
-    border-radius: 20px;
-
-    background:
-        rgba(0,0,0,.35);
-
-    overflow: hidden;
-}
-
-
-.bar-fill {
-
-    height: 100%;
-
-    width: 0%;
-
-    border-radius: inherit;
-
-    transition:
-        width .5s ease;
-}
-
-
-.hp {
-    background: #d65a6f;
-}
-
-
-.mana {
-    background: #657ad9;
-}
-
-
-.xp {
-    background: #d2a84c;
-}
-
-
-/* ==============================
-   ATRIBUTOS
-============================== */
-
-.attributes {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 8px;
-
-    margin-top: 18px;
-}
-
-
-.attributes div {
-
-    padding: 10px 5px;
-
-    border-radius: 10px;
-
-    text-align: center;
-
-    background:
-        rgba(255,255,255,.04);
-
-    border:
-        1px solid
-        rgba(255,255,255,.05);
-}
-
-
-.attributes strong {
-
-    display: block;
-
-    color: #f2d589;
-
-    font-size: 18px;
-}
-
-
-.attributes small {
-
-    color: #938da1;
-
-    font-size: 10px;
-}
-
-
-/* ==============================
-   RELACIONAMENTO
-============================== */
-
-.relationship-card {
-
-    padding: 22px;
-}
-
-
-.relationship-card h3,
-.log-card h3 {
-
-    font-family: Georgia, serif;
-
-    color: #f4d98a;
-
-    margin-bottom: 17px;
-}
-
-
-.relationship-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 10px;
-}
-
-
-.relationship-grid div {
-
-    padding: 15px;
-
-    text-align: center;
-
-    border-radius: 12px;
-
-    background:
-        rgba(255,255,255,.04);
-}
-
-
-.relationship-grid span {
-
-    display: block;
-
-    color: #aaa4b7;
-
-    font-size: 12px;
-
-    margin-bottom: 5px;
-}
-
-
-.relationship-grid strong {
-
-    font-size: 22px;
-
-    color: #f2d589;
-}
-
-
-/* ==============================
-   DIÁRIO
-============================== */
-
-.log-card {
-
-    padding: 22px;
-}
-
-
-#log {
-
-    max-height: 250px;
-
-    overflow-y: auto;
-
-    padding-right: 8px;
-}
-
-
-.log-entry {
-
-    padding: 10px 0;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.06);
-
-    color: #bdb7c9;
-
-    font-size: 13px;
-
-    line-height: 1.6;
-}
-
-
-/* ==============================
-   CONTROLES
-============================== */
 
 .controls {
-
-    display: flex;
-
-    justify-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 10px;
-
-    padding-bottom: 20px;
+    flex-direction: column;
 }
-
 
 .controls button {
-
-    padding: 11px 20px;
-
-    border-radius: 10px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    background:
-        rgba(255,255,255,.06);
-
-    color: #ddd7e7;
-
-    cursor: pointer;
-
-    transition: .2s;
+    width: 100%;
 }
 
 
-.controls button:hover {
+}
 
-    background:
-        rgba(244,217,138,.1);
+/* ============================================================
+REDUÇÃO DE MOVIMENTO
+============================================================ */
 
-    border-color:
-        rgba(244,217,138,.4);
+@media (prefers-reduced-motion: reduce) {
 
-    color: #f4d98a;
+
+*,
+*::before,
+*::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+
+    scroll-behavior: auto !important;
 }
 
 
-/* ==============================
-   RODAPÉ
-============================== */
-
-footer {
-
-    padding: 25px;
-
-    text-align: center;
-
-    color: #777181;
-
-    font-size: 12px;
 }
 
-
-/* ==============================
-   CELULAR
-============================== */
-
-@media (max-width: 800px) {
-
-    .topo {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-    }
-
-
-    .status-section {
-
-        grid-template-columns: 1fr;
-    }
-
-
-    .relationship-grid {
-
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-}
-
-
-@media (max-width: 500px) {
-
-    .story-card,
-    .character-card,
-    .relationship-card,
-    .log-card {
-
-        border-radius: 14px;
-    }
-
-
-    .story-card {
-
-        padding: 20px;
-    }
-
-
-    .attributes {
-
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-}
 
 
