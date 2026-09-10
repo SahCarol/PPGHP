@@ -1,2 +1,1750 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sasah & Lucas — Crônicas de Hogwarts</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at top,#39274b 0,#17111f 45%,#08070b 100%);
+    color:#eee5d2;
+    font-family:Georgia,serif;
+    min-height:100vh;
+}
+
+button{
+    font-family:Georgia,serif;
+}
+
+#game{
+    max-width:1150px;
+    margin:auto;
+    padding:25px;
+}
+
+header{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+header h1{
+    color:#e8c76a;
+    font-size:42px;
+    margin:5px;
+    text-shadow:0 4px 15px #000;
+}
+
+header p{
+    color:#c5b5d2;
+}
+
+.playerTag{
+    display:inline-block;
+    padding:8px 18px;
+    border-radius:20px;
+    background:#3c2c4d;
+    border:1px solid #80639b;
+    color:#e4c978;
+    font-weight:bold;
+}
+
+.story{
+    background:rgba(12,9,17,.96);
+    border:2px solid #715582;
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.chapter{
+    color:#e4c76c;
+    font-size:27px;
+    margin-bottom:18px;
+}
+
+.scene{
+    line-height:1.8;
+    font-size:18px;
+    min-height:230px;
+}
+
+.narrator{
+    color:#bcaec9;
+    font-style:italic;
+}
+
+.dialogue{
+    padding:13px 17px;
+    margin:13px 0;
+    border-radius:8px;
+    background:#18131f;
+    border-left:4px solid #8b6ca2;
+}
+
+.sasah{
+    border-left-color:#d083c1;
+}
+
+.lucas{
+    border-left-color:#6d9edb;
+}
+
+.question{
+    color:#f0d67a;
+    font-size:21px;
+    margin-top:25px;
+}
+
+.choices{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-top:20px;
+}
+
+.choice{
+    background:#292035;
+    border:1px solid #74578a;
+    color:#f4ead7;
+    border-radius:10px;
+    padding:14px;
+    text-align:left;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.choice:hover{
+    background:#45325a;
+    transform:translateX(4px);
+}
+
+.status{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:20px;
+}
+
+.card{
+    background:#110d17;
+    border:1px solid #55425f;
+    border-radius:14px;
+    padding:17px;
+}
+
+.card h2{
+    margin-top:0;
+    text-align:center;
+    color:#e1c66e;
+}
+
+.stat{
+    margin:8px 0;
+}
+
+.bar{
+    height:13px;
+    background:#211a27;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    transition:.4s;
+}
+
+.hp{
+    background:#b93248;
+}
+
+.mana{
+    background:#3d80cf;
+}
+
+.xp{
+    background:#a46bd1;
+}
+
+.statsGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+}
+
+.mini{
+    background:#211a28;
+    padding:8px;
+    border-radius:6px;
+    font-size:14px;
+}
+
+.location{
+    text-align:center;
+    color:#9dc3ec;
+    margin:12px;
+}
+
+.log{
+    margin-top:20px;
+    height:160px;
+    overflow-y:auto;
+    background:#09070d;
+    border:1px solid #362a3d;
+    border-radius:10px;
+    padding:12px;
+}
+
+.log p{
+    margin:5px;
+    border-bottom:1px solid #211a25;
+    padding-bottom:5px;
+}
+
+.controls{
+    text-align:center;
+    margin-top:15px;
+}
+
+.control{
+    background:#60417b;
+    border:1px solid #9676ad;
+    color:white;
+    padding:11px 17px;
+    border-radius:8px;
+    cursor:pointer;
+    margin:4px;
+}
+
+.control:hover{
+    filter:brightness(1.2);
+}
+
+.house{
+    text-align:center;
+    color:#e5c96e;
+    font-size:20px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 12px;
+    border-radius:15px;
+    background:#28202f;
+}
+
+@media(max-width:700px){
+    .status{
+        grid-template-columns:1fr;
+    }
+
+    header h1{
+        font-size:30px;
+    }
+
+    .scene{
+        font-size:16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+<header>
+    <h1>⚡ Sasah & Lucas ⚡</h1>
+    <p>Crônicas de Hogwarts</p>
+    <div id="playerTag" class="playerTag">
+        Jogadora 1 — Sasah
+    </div>
+</header>
+
+<section class="story">
+
+    <div id="chapter" class="chapter">
+        Prólogo — Dois caminhos
+    </div>
+
+    <div id="location" class="location">
+        Uma pequena cidade, longe de Hogwarts
+    </div>
+
+    <div id="scene" class="scene"></div>
+
+    <div id="choices" class="choices"></div>
+
+</section>
+
+
+<section class="status">
+
+    <div class="card">
+
+        <h2>🌙 Sasah</h2>
+
+        <div id="houseSasah" class="house">
+            Casa: ainda não escolhida
+        </div>
+
+        <div class="stat">
+            ❤️ Vida
+            <div class="bar">
+                <div id="hpSasah" class="fill hp"></div>
+            </div>
+        </div>
+
+        <div class="stat">
+            🔮 Magia
+            <div class="bar">
+                <div id="manaSasah" class="fill mana"></div>
+            </div>
+        </div>
+
+        <div class="stat">
+            ⭐ Experiência
+            <div class="bar">
+                <div id="xpSasah" class="fill xp"></div>
+            </div>
+        </div>
+
+        <div id="statsSasah" class="statsGrid"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🌑 Lucas</h2>
+
+        <div id="houseLucas" class="house">
+            Casa: ainda não escolhida
+        </div>
+
+        <div class="stat">
+            ❤️ Vida
+            <div class="bar">
+                <div id="hpLucas" class="fill hp"></div>
+            </div>
+        </div>
+
+        <div class="stat">
+            🔮 Magia
+            <div class="bar">
+                <div id="manaLucas" class="fill mana"></div>
+            </div>
+        </div>
+
+        <div class="stat">
+            ⭐ Experiência
+            <div class="bar">
+                <div id="xpLucas" class="fill xp"></div>
+            </div>
+        </div>
+
+        <div id="statsLucas" class="statsGrid"></div>
+
+    </div>
+
+</section>
+
+
+<div class="log" id="log"></div>
+
+<div class="controls">
+    <button class="control" onclick="saveGame()">💾 Salvar</button>
+    <button class="control" onclick="loadGame()">📂 Carregar</button>
+    <button class="control" onclick="restart()">🔄 Reiniciar</button>
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   ESTADO DOS PERSONAGENS
+===================================================== */
+
+const defaultGame = {
+
+    currentPlayer:"sasah",
+
+    chapterSasah:0,
+    chapterLucas:0,
+
+    meeting:false,
+
+    relationship:{
+        friendship:0,
+        trust:0,
+        rivalry:0,
+        affinity:0
+    },
+
+    sasah:{
+        hp:100,
+        mana:100,
+        xp:0,
+        house:null,
+
+        bravery:0,
+        loyalty:0,
+        intelligence:0,
+        ambition:0,
+        empathy:0,
+        magic:0
+    },
+
+    lucas:{
+        hp:100,
+        mana:100,
+        xp:0,
+        house:null,
+
+        bravery:0,
+        loyalty:0,
+        intelligence:0,
+        ambition:0,
+        empathy:0,
+        magic:0
+    },
+
+    flags:{}
+
+};
+
+let game = JSON.parse(JSON.stringify(defaultGame));
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const scene =
+    document.getElementById("scene");
+
+const choices =
+    document.getElementById("choices");
+
+const chapter =
+    document.getElementById("chapter");
+
+const locationText =
+    document.getElementById("location");
+
+const playerTag =
+    document.getElementById("playerTag");
+
+
+/* =====================================================
+   CASAS
+===================================================== */
+
+const houses = {
+
+    gryffindor:{
+        name:"Grifinória",
+        emoji:"🦁"
+    },
+
+    hufflepuff:{
+        name:"Lufa-Lufa",
+        emoji:"🦡"
+    },
+
+    ravenclaw:{
+        name:"Corvinal",
+        emoji:"🦅"
+    },
+
+    slytherin:{
+        name:"Sonserina",
+        emoji:"🐍"
+    }
+
+};
+
+
+/* =====================================================
+   UTILIDADES
+===================================================== */
+
+function log(text){
+
+    const p =
+        document.createElement("p");
+
+    p.textContent=text;
+
+    document
+        .getElementById("log")
+        .prepend(p);
+}
+
+
+function update(){
+
+    updateCharacter(
+        "Sasah",
+        game.sasah,
+        "Sasah"
+    );
+
+    updateCharacter(
+        "Lucas",
+        game.lucas,
+        "Lucas"
+    );
+
+    playerTag.textContent =
+        game.currentPlayer === "sasah"
+        ? "Jogadora 1 — Sasah"
+        : "Jogador 2 — Lucas";
+}
+
+
+function updateCharacter(name,p,id){
+
+    document.getElementById(
+        "hp"+id
+    ).style.width =
+        p.hp+"%";
+
+    document.getElementById(
+        "mana"+id
+    ).style.width =
+        p.mana+"%";
+
+    document.getElementById(
+        "xp"+id
+    ).style.width =
+        Math.min(p.xp,100)+"%";
+
+
+    const houseElement =
+        document.getElementById(
+            "house"+id
+        );
+
+    if(p.house){
+
+        houseElement.innerHTML =
+            houses[p.house].emoji+
+            " "+
+            houses[p.house].name;
+
+    }
+
+
+    document.getElementById(
+        "stats"+id
+    ).innerHTML = `
+
+        <div class="mini">
+            ⚔️ Coragem: ${p.bravery}
+        </div>
+
+        <div class="mini">
+            🤝 Lealdade: ${p.loyalty}
+        </div>
+
+        <div class="mini">
+            🧠 Inteligência: ${p.intelligence}
+        </div>
+
+        <div class="mini">
+            🐍 Ambição: ${p.ambition}
+        </div>
+
+        <div class="mini">
+            💚 Empatia: ${p.empathy}
+        </div>
+
+        <div class="mini">
+            ✨ Magia: ${p.magic}
+        </div>
+
+    `;
+}
+
+
+/* =====================================================
+   SISTEMA DE ESCOLHAS
+===================================================== */
+
+function makeChoices(options){
+
+    choices.innerHTML="";
+
+    options.forEach((option,index)=>{
+
+        const button =
+            document.createElement("button");
+
+        button.className="choice";
+
+        button.textContent =
+            (index+1)+". "+option.text;
+
+        button.onclick=()=>{
+
+            applyEffects(
+                option.effects
+            );
+
+            option.action();
+
+            update();
+
+        };
+
+        choices.appendChild(button);
+
+    });
+
+}
+
+
+/* =====================================================
+   ATRIBUTOS
+===================================================== */
+
+function applyEffects(effects){
+
+    if(!effects)
+        return;
+
+    const p =
+        game[game.currentPlayer];
+
+    Object.keys(effects).forEach(key=>{
+
+        if(
+            game.relationship[key]
+            !== undefined
+        ){
+
+            game.relationship[key]
+            += effects[key];
+
+        }
+
+        else if(
+            p[key] !== undefined
+        ){
+
+            p[key]+=effects[key];
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   INÍCIO
+===================================================== */
+
+function start(){
+
+    game.currentPlayer="sasah";
+
+    chapter.textContent =
+        "Prólogo — A vida de Sasah";
+
+    locationText.textContent =
+        "Casa de Sasah";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Muito antes de Hogwarts aparecer diante
+        dos olhos de Sasah, sua vida parecia
+        completamente comum.
+        </p>
+
+        <p class="narrator">
+        Mas havia pequenas coisas que ninguém
+        conseguia explicar.
+        </p>
+
+        <p>
+        Objetos que se moviam sozinhos.
+        Sonhos estranhos.
+        Luzes que apareciam quando Sasah ficava
+        muito concentrada.
+        </p>
+
+        <div class="dialogue sasah">
+        <strong>Sasah:</strong><br>
+        Talvez eu esteja imaginando coisas...
+        </div>
+
+        <p class="question">
+        O que Sasah decide fazer?
+        </p>
+    `;
+
+    makeChoices([
+
+        {
+            text:"Investigar silenciosamente os fenômenos.",
+            effects:{
+                intelligence:2,
+                magic:2
+            },
+            action:nextSasah1
+        },
+
+        {
+            text:"Contar tudo para alguém de confiança.",
+            effects:{
+                empathy:1,
+                loyalty:2
+            },
+            action:nextSasah1
+        },
+
+        {
+            text:"Tentar provocar novamente o fenômeno.",
+            effects:{
+                bravery:2,
+                magic:2
+            },
+            action:nextSasah1
+        },
+
+        {
+            text:"Pesquisar livros e tentar encontrar uma explicação.",
+            effects:{
+                intelligence:3
+            },
+            action:nextSasah1
+        },
+
+        {
+            text:"Ignorar tudo e continuar a vida normalmente.",
+            effects:{
+                loyalty:1
+            },
+            action:nextSasah1
+        }
+
+    ]);
+
+    update();
+}
+
+
+/* =====================================================
+   SASAH — CAPÍTULO 1
+===================================================== */
+
+function nextSasah1(){
+
+    game.chapterSasah=1;
+
+    chapter.textContent =
+        "Sasah — Capítulo 1: A Carta";
+
+    locationText.textContent =
+        "Quarto de Sasah";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Naquela noite, uma coruja pousa na janela.
+        </p>
+
+        <p class="narrator">
+        Presa ao seu pé existe uma carta.
+        O envelope é pesado e possui um selo
+        desconhecido.
+        </p>
+
+        <div class="dialogue sasah">
+        <strong>Sasah:</strong><br>
+        Uma coruja entregando uma carta?
+        Isso não pode ser real.
+        </div>
+
+        <p class="question">
+        O que Sasah faz?
+        </p>
+    `;
+
+    makeChoices([
+
+        {
+            text:"Abrir a carta imediatamente.",
+            effects:{
+                bravery:2
+            },
+            action:nextSasah2
+        },
+
+        {
+            text:"Examinar o envelope antes de abrir.",
+            effects:{
+                intelligence:2
+            },
+            action:nextSasah2
+        },
+
+        {
+            text:"Guardar a carta e procurar alguém.",
+            effects:{
+                loyalty:2,
+                empathy:1
+            },
+            action:nextSasah2
+        },
+
+        {
+            text:"Tentar descobrir quem enviou.",
+            effects:{
+                ambition:1,
+                intelligence:2
+            },
+            action:nextSasah2
+        },
+
+        {
+            text:"Deixar a carta onde está.",
+            effects:{
+                empathy:1
+            },
+            action:nextSasah2
+        }
+
+    ]);
+}
+
+
+/* =====================================================
+   SASAH — CAPÍTULO 2
+===================================================== */
+
+function nextSasah2(){
+
+    chapter.textContent =
+        "Sasah — Capítulo 2: O mundo escondido";
+
+    locationText.textContent =
+        "Beco mágico";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        A carta revela que Sasah foi aceita em
+        uma antiga escola de magia.
+        </p>
+
+        <p class="narrator">
+        Pela primeira vez ela atravessa uma passagem
+        escondida e entra em um mundo que existia
+        bem diante dos olhos das pessoas comuns.
+        </p>
+
+        <div class="dialogue sasah">
+        <strong>Sasah:</strong><br>
+        Então tudo isso sempre esteve aqui...
+        </div>
+
+        <p>
+        Lojas de varinhas, livros encantados,
+        animais mágicos e bruxos atravessam
+        as ruas.
+        </p>
+
+        <p class="question">
+        O que chama a atenção de Sasah?
+        </p>
+    `;
+
+    makeChoices([
+
+        {
+            text:"Uma loja cheia de livros antigos.",
+            effects:{intelligence:3},
+            action:goHogwartsSasah
+        },
+
+        {
+            text:"Uma criatura mágica ferida.",
+            effects:{empathy:3},
+            action:goHogwartsSasah
+        },
+
+        {
+            text:"Uma loja de objetos mágicos raros.",
+            effects:{ambition:2},
+            action:goHogwartsSasah
+        },
+
+        {
+            text:"Um grupo de jovens duelando.",
+            effects:{bravery:2},
+            action:goHogwartsSasah
+        },
+
+        {
+            text:"Uma velha bruxa observando Sasah.",
+            effects:{intelligence:1,bravery:1},
+            action:goHogwartsSasah
+        }
+
+    ]);
+}
+
+
+/* =====================================================
+   SASAH — HOGWARTS
+===================================================== */
+
+function goHogwartsSasah(){
+
+    chapter.textContent =
+        "Sasah — Capítulo 3: Hogwarts";
+
+    locationText.textContent =
+        "Hogwarts — Grande Salão";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Depois de uma longa viagem, Sasah chega
+        ao castelo.
+        </p>
+
+        <p class="narrator">
+        As portas do Grande Salão se abrem.
+        Centenas de velas flutuam no teto.
+        </p>
+
+        <div class="dialogue sasah">
+        <strong>Sasah:</strong><br>
+        Eu realmente estou aqui...
+        </div>
+
+        <p class="narrator">
+        Um antigo chapéu mágico é colocado sobre
+        sua cabeça.
+        </p>
+
+        <p class="question">
+        O teste de seleção começa.
+        </p>
+    `;
+
+    selection("sasah",0);
+}
+
+
+/* =====================================================
+   SELEÇÃO DAS CASAS
+===================================================== */
+
+const questions = [
+
+    {
+        q:"Você encontra alguém em perigo. O que faz?",
+
+        a:[
+            ["Enfrento o perigo imediatamente.", "bravery"],
+            ["Fico ao lado da pessoa até ela estar segura.", "loyalty"],
+            ["Procuro uma solução lógica.", "intelligence"],
+            ["Analiso quem está por trás do problema antes de agir.", "ambition"],
+            ["Tento entender o que a pessoa está sentindo.", "empathy"]
+        ]
+    },
+
+    {
+        q:"Qual característica você mais valoriza?",
+
+        a:[
+            ["Coragem diante do impossível.","bravery"],
+            ["Lealdade aos amigos.","loyalty"],
+            ["Conhecimento e curiosidade.","intelligence"],
+            ["Determinação para alcançar objetivos.","ambition"],
+            ["Bondade e compreensão.","empathy"]
+        ]
+    },
+
+    {
+        q:"Você encontra uma passagem proibida.",
+
+        a:[
+            ["Entro. Talvez alguém precise de ajuda.","bravery"],
+            ["Só entro se puder levar meus amigos comigo.","loyalty"],
+            ["Estudo a passagem antes de atravessá-la.","intelligence"],
+            ["Descubro quem proibiu a entrada e por quê.","ambition"],
+            ["Pergunto se alguém já se machucou ali.","empathy"]
+        ]
+    },
+
+    {
+        q:"Um colega possui um segredo.",
+
+        a:[
+            ["Pergunto diretamente o que está acontecendo.","bravery"],
+            ["Guardo o segredo se ele confiar em mim.","loyalty"],
+            ["Tento descobrir a verdade sozinho.","intelligence"],
+            ["Uso a informação apenas se for necessário.","ambition"],
+            ["Converso com ele para entender sua situação.","empathy"]
+        ]
+    },
+
+    {
+        q:"Você falha em um feitiço importante.",
+
+        a:[
+            ["Tento novamente imediatamente.","bravery"],
+            ["Peço ajuda a alguém de confiança.","loyalty"],
+            ["Estudo o erro para entender o que aconteceu.","intelligence"],
+            ["Treino até conseguir superar todos.","ambition"],
+            ["Aceito o erro e tento aprender com ele.","empathy"]
+        ]
+    }
+
+];
+
+
+function selection(player,index){
+
+    const q =
+        questions[index];
+
+    chapter.textContent =
+        player==="sasah"
+        ? "Sasah — Seleção da Casa"
+        : "Lucas — Seleção da Casa";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        O chapéu mágico observa cuidadosamente
+        os pensamentos de ${player==="sasah"?"Sasah":"Lucas"}.
+        </p>
+
+        <p class="question">
+        ${q.q}
+        </p>
+    `;
+
+    makeChoices(
+        q.a.map(answer=>({
+
+            text:answer[0],
+
+            effects:{
+                [answer[1]]:2
+            },
+
+            action:()=>{
+
+                if(index+1 < questions.length){
+
+                    selection(
+                        player,
+                        index+1
+                    );
+
+                }else{
+
+                    finishSelection(player);
+
+                }
+
+            }
+
+        }))
+    );
+
+}
+
+
+/* =====================================================
+   DEFINIR CASA
+===================================================== */
+
+function finishSelection(player){
+
+    const p =
+        game[player];
+
+    let scores={
+
+        gryffindor:p.bravery,
+
+        hufflepuff:p.loyalty+p.empathy,
+
+        ravenclaw:p.intelligence,
+
+        slytherin:p.ambition
+
+    };
+
+    let house =
+        Object.keys(scores)
+        .sort(
+            (a,b)=>
+            scores[b]-scores[a]
+        )[0];
+
+    p.house=house;
+
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        O chapéu permanece em silêncio por
+        alguns segundos.
+        </p>
+
+        <h2 style="text-align:center">
+        ${houses[house].emoji}
+        ${houses[house].name}
+        </h2>
+
+        <p class="narrator">
+        A mesa da casa escolhida explode
+        em aplausos.
+        </p>
+
+        <div class="dialogue">
+        A partir deste momento, o caminho de
+        ${player==="sasah"?"Sasah":"Lucas"}
+        dentro de Hogwarts será moldado por
+        essa escolha.
+        </div>
+    `;
+
+
+    log(
+        "🏰 "+
+        (player==="sasah"?"Sasah":"Lucas")+
+        " foi selecionado(a) para "+
+        houses[house].name+"."
+    );
+
+
+    if(player==="sasah"){
+
+        game.currentPlayer="lucas";
+
+        setTimeout(startLucas,700);
+
+    }else{
+
+        game.currentPlayer="sasah";
+
+        setTimeout(startLucasMeeting,700);
+
+    }
+
+    update();
+}
+
+
+/* =====================================================
+   HISTÓRIA DE LUCAS
+===================================================== */
+
+function startLucas(){
+
+    chapter.textContent =
+        "Prólogo — A vida de Lucas";
+
+    locationText.textContent =
+        "Casa de Lucas";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Enquanto Sasah começa sua nova vida em
+        Hogwarts, Lucas ainda está muito longe
+        dali.
+        </p>
+
+        <p class="narrator">
+        Há semanas ele percebe coisas estranhas
+        acontecendo ao seu redor.
+        </p>
+
+        <div class="dialogue lucas">
+        <strong>Lucas:</strong><br>
+        Eu sabia que tinha alguma coisa errada.
+        </div>
+
+        <p class="narrator">
+        Então uma carta chega.
+        </p>
+
+        <p class="question">
+        O que Lucas faz?
+        </p>
+    `;
+
+    makeChoices([
+
+        {
+            text:"Abrir a carta sem hesitar.",
+            effects:{bravery:2},
+            action:lucas2
+        },
+
+        {
+            text:"Investigar a origem da carta.",
+            effects:{intelligence:2},
+            action:lucas2
+        },
+
+        {
+            text:"Procurar alguém que possa ajudá-lo.",
+            effects:{loyalty:2},
+            action:lucas2
+        },
+
+        {
+            text:"Descobrir tudo antes de aceitar.",
+            effects:{ambition:2},
+            action:lucas2
+        },
+
+        {
+            text:"Pensar primeiro nas consequências.",
+            effects:{empathy:2},
+            action:lucas2
+        }
+
+    ]);
+}
+
+
+function lucas2(){
+
+    chapter.textContent =
+        "Lucas — Capítulo 1: O convite";
+
+    locationText.textContent =
+        "Distrito mágico";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Lucas entra pela primeira vez em uma
+        rua escondida do mundo mágico.
+        </p>
+
+        <div class="dialogue lucas">
+        <strong>Lucas:</strong><br>
+        Então magia existe mesmo.
+        </div>
+
+        <p>
+        Uma loja de varinhas parece chamá-lo.
+        </p>
+
+        <p class="question">
+        Qual caminho Lucas escolhe?
+        </p>
+    `;
+
+    makeChoices([
+
+        {
+            text:"Entrar na loja de varinhas.",
+            effects:{magic:3},
+            action:lucasHogwarts
+        },
+
+        {
+            text:"Entrar na biblioteca.",
+            effects:{intelligence:3},
+            action:lucasHogwarts
+        },
+
+        {
+            text:"Seguir um grupo de jovens bruxos.",
+            effects:{bravery:2},
+            action:lucasHogwarts
+        },
+
+        {
+            text:"Investigar uma loja suspeita.",
+            effects:{ambition:3},
+            action:lucasHogwarts
+        },
+
+        {
+            text:"Ajudar uma pessoa perdida.",
+            effects:{empathy:3},
+            action:lucasHogwarts
+        }
+
+    ]);
+}
+
+
+function lucasHogwarts(){
+
+    chapter.textContent =
+        "Lucas — Capítulo 2: O castelo";
+
+    locationText.textContent =
+        "Hogwarts — Grande Salão";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Lucas finalmente chega a Hogwarts.
+        </p>
+
+        <p class="narrator">
+        O castelo parece observar cada novo aluno.
+        </p>
+
+        <div class="dialogue lucas">
+        <strong>Lucas:</strong><br>
+        Tenho a sensação de que essa escola
+        está escondendo alguma coisa.
+        </div>
+
+        <p class="question">
+        A seleção começa.
+        </p>
+    `;
+
+    selection("lucas",0);
+}
+
+
+/* =====================================================
+   PRIMEIRO ENCONTRO
+===================================================== */
+
+function startLucasMeeting(){
+
+    game.meeting=true;
+
+    game.currentPlayer="sasah";
+
+    chapter.textContent =
+        "Capítulo — Dois caminhos se cruzam";
+
+    locationText.textContent =
+        "Corredor antigo de Hogwarts";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Dias se passam.
+        </p>
+
+        <p class="narrator">
+        Sasah começa a perceber que existe
+        algo estranho acontecendo dentro do castelo.
+        </p>
+
+        <p class="narrator">
+        Ao mesmo tempo, Lucas encontra pistas
+        sobre exatamente o mesmo mistério.
+        </p>
+
+        <p class="narrator">
+        Os dois seguem pistas diferentes.
+        Até que uma porta se fecha atrás deles.
+        </p>
+
+        <div class="dialogue sasah">
+        <strong>Sasah:</strong><br>
+        Você também estava procurando esta sala?
+        </div>
+
+        <div class="dialogue lucas">
+        <strong>Lucas:</strong><br>
+        Depende...
+        Você está aqui para descobrir a verdade
+        ou para me impedir?
+        </div>
+
+        <p class="question">
+        Como Sasah responde?
+        </p>
+    `;
+
+    makeChoices([
+
+        {
+            text:"Quero descobrir a verdade. Podemos trabalhar juntos.",
+            effects:{
+                trust:3,
+                friendship:2,
+                affinity:2
+            },
+            action:meetingLucas
+        },
+
+        {
+            text:"Ainda não decidi se posso confiar em você.",
+            effects:{
+                trust:1,
+                rivalry:1
+            },
+            action:meetingLucas
+        },
+
+        {
+            text:"Se você souber alguma coisa, conte agora.",
+            effects:{
+                ambition:1,
+                rivalry:2
+            },
+            action:meetingLucas
+        },
+
+        {
+            text:"Eu não vim procurar você.",
+            effects:{
+                trust:-1,
+                rivalry:2
+            },
+            action:meetingLucas
+        },
+
+        {
+            text:"Talvez devêssemos sair daqui antes de conversar.",
+            effects:{
+                trust:1,
+                empathy:1
+            },
+            action:meetingLucas
+        }
+
+    ]);
+
+}
+
+
+function meetingLucas(){
+
+    game.currentPlayer="lucas";
+
+    chapter.textContent =
+        "Capítulo — O primeiro diálogo";
+
+    locationText.textContent =
+        "Sala secreta";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Lucas observa Sasah por alguns segundos.
+        </p>
+
+        <div class="dialogue lucas">
+        <strong>Lucas:</strong><br>
+        Então você também encontrou as marcas
+        escondidas nos corredores.
+        </div>
+
+        <p class="narrator">
+        Há um estranho símbolo brilhando na parede.
+        </p>
+
+        <p class="question">
+        O que Lucas responde?
+        </p>
+    `;
+
+    makeChoices([
+
+        {
+            text:"Confio nela. Vou contar tudo o que descobri.",
+            effects:{
+                trust:3,
+                friendship:2
+            },
+            action:jointMission
+        },
+
+        {
+            text:"Vou revelar apenas uma parte.",
+            effects:{
+                trust:1,
+                rivalry:1
+            },
+            action:jointMission
+        },
+
+        {
+            text:"Quero descobrir primeiro se ela está envolvida.",
+            effects:{
+                rivalry:2,
+                ambition:1
+            },
+            action:jointMission
+        },
+
+        {
+            text:"Vou pedir que ela prove que está do meu lado.",
+            effects:{
+                trust:1,
+                rivalry:2
+            },
+            action:jointMission
+        },
+
+        {
+            text:"Vou simplesmente ajudá-la sem fazer perguntas.",
+            effects:{
+                friendship:3,
+                empathy:2
+            },
+            action:jointMission
+        }
+
+    ]);
+
+}
+
+
+/* =====================================================
+   PRIMEIRA MISSÃO DOS DOIS
+===================================================== */
+
+function jointMission(){
+
+    game.currentPlayer="sasah";
+
+    chapter.textContent =
+        "Capítulo — A investigação";
+
+    locationText.textContent =
+        "Biblioteca proibida";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Pela primeira vez, Sasah e Lucas trabalham
+        juntos.
+        </p>
+
+        <p class="narrator">
+        Eles descobrem que os símbolos encontrados
+        pela escola aparecem em um livro antigo.
+        </p>
+
+        <div class="dialogue sasah">
+        <strong>Sasah:</strong><br>
+        Esse símbolo estava na minha carta.
+        </div>
+
+        <div class="dialogue lucas">
+        <strong>Lucas:</strong><br>
+        E apareceu na minha também.
+        </div>
+
+        <p class="narrator">
+        Uma página do livro começa a virar sozinha.
+        </p>
+
+        <p class="question">
+        O que os dois fazem?
+        </p>
+    `;
+
+    makeChoices([
+
+        {
+            text:"Continuar lendo o livro.",
+            effects:{
+                intelligence:2,
+                trust:2
+            },
+            action:endFirstChapter
+        },
+
+        {
+            text:"Procurar o professor responsável.",
+            effects:{
+                loyalty:2
+            },
+            action:endFirstChapter
+        },
+
+        {
+            text:"Esconder o livro e investigar sozinhos.",
+            effects:{
+                ambition:2,
+                trust:1
+            },
+            action:endFirstChapter
+        },
+
+        {
+            text:"Usar magia para revelar a página.",
+            effects:{
+                magic:3
+            },
+            action:endFirstChapter
+        },
+
+        {
+            text:"Fechar o livro e fugir.",
+            effects:{
+                bravery:1,
+                trust:1
+            },
+            action:endFirstChapter
+        }
+
+    ]);
+
+}
+
+
+/* =====================================================
+   FINAL DO PRIMEIRO ARCO
+===================================================== */
+
+function endFirstChapter(){
+
+    chapter.textContent =
+        "Fim do primeiro arco — O segredo começa";
+
+    locationText.textContent =
+        "Hogwarts";
+
+    scene.innerHTML = `
+
+        <p class="narrator">
+        Lucas e Sasah deixam a biblioteca.
+        </p>
+
+        <p class="narrator">
+        Agora sabem que seus caminhos não se
+        cruzaram por acaso.
+        </p>
+
+        <p>
+        Mas ainda existe uma pergunta:
+        </p>
+
+        <div class="dialogue">
+        <strong>O que existe por trás do símbolo?</strong>
+        </div>
+
+        <p class="narrator">
+        Dependendo das escolhas feitas até aqui,
+        Lucas e Sasah podem se tornar grandes amigos,
+        rivais, aliados cautelosos ou simplesmente
+        duas pessoas tentando descobrir a verdade
+        antes da outra.
+        </p>
+
+        <h2 style="text-align:center;color:#e6c76a">
+        ✨ FIM DO PRIMEIRO ARCO ✨
+        </h2>
+
+        <p style="text-align:center">
+        A aventura continuará...
+        </p>
+    `;
+
+    choices.innerHTML="";
+
+    log(
+        "✨ Lucas e Sasah chegaram ao final do primeiro arco."
+    );
+
+    update();
+}
+
+
+/* =====================================================
+   SALVAR
+===================================================== */
+
+function saveGame(){
+
+    localStorage.setItem(
+        "sasahLucasRPG",
+        JSON.stringify(game)
+    );
+
+    log("💾 Jogo salvo com sucesso.");
+}
+
+
+function loadGame(){
+
+    const saved =
+        localStorage.getItem(
+            "sasahLucasRPG"
+        );
+
+    if(!saved){
+
+        log("❌ Nenhum jogo salvo.");
+
+        return;
+    }
+
+    game =
+        JSON.parse(saved);
+
+    log("📂 Jogo carregado.");
+
+    update();
+}
+
+
+/* =====================================================
+   REINICIAR
+===================================================== */
+
+function restart(){
+
+    if(
+        confirm(
+            "Deseja realmente começar uma nova aventura?"
+        )
+    ){
+
+        localStorage.removeItem(
+            "sasahLucasRPG"
+        );
+
+        location.reload();
+
+    }
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+start();
+
+</script>
+
+</body>
+</html>
+
 
 
