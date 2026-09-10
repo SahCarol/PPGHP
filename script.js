@@ -1,16 +1,14 @@
 "use strict";
 
 /* ============================================================
-AS CRÔNICAS DE HOGWARTS
-SASAH & LUCAS
-SCRIPT PRINCIPAL
-Versão corrigida para GitHub Pages
+HOGWARTS RPG
+Dois protagonistas — nomes personalizados
 ============================================================ */
 
-var SAVE_KEY = "PPGHP_SASAH_LUCAS_V1";
+var SAVE_KEY = "PPGHP_SASAH_LUCAS_V2";
 
 /* ============================================================
-ESTADO PADRÃO DO JOGO
+ESTADO PADRÃO
 ============================================================ */
 
 function createDefaultGame() {
@@ -18,43 +16,75 @@ return {
 currentPlayer: "sasah",
 
 
+    gameStarted: false,
+    finished: false,
+
     sasah: {
         name: "Sasah",
-        house: "Não definida",
+        house: "",
         hp: 100,
+        maxHp: 100,
         mana: 100,
+        maxMana: 100,
         xp: 0,
+
         bravery: 0,
         loyalty: 0,
         intelligence: 0,
         ambition: 0,
         empathy: 0,
-        magic: 0
+        magic: 0,
+
+        chapter: 0,
+        finished: false
     },
 
     lucas: {
         name: "Lucas",
-        house: "Não definida",
+        house: "",
         hp: 100,
+        maxHp: 100,
         mana: 100,
+        maxMana: 100,
         xp: 0,
+
         bravery: 0,
         loyalty: 0,
         intelligence: 0,
         ambition: 0,
         empathy: 0,
-        magic: 0
+        magic: 0,
+
+        chapter: 0,
+        finished: false
     },
 
-    friendship: 0,
-    trust: 0,
-    rivalry: 0,
-    affinity: 0,
+    relationship: {
+        friendship: 0,
+        trust: 0,
+        rivalry: 0,
+        affinity: 0
+    },
 
-    sasahChapter: 0,
-    lucasChapter: 0,
+    houseQuestion: 0,
 
-    finished: false
+    houseAnswers: {
+        sasah: [],
+        lucas: []
+    },
+
+    meetingStarted: false,
+    missionStarted: false,
+
+    storyFlags: {
+        secretDoor: false,
+        mysteriousBook: false,
+        forbiddenForest: false,
+        ancientArtifact: false,
+        discoveredTruth: false
+    },
+
+    log: []
 };
 
 
@@ -63,37 +93,39 @@ currentPlayer: "sasah",
 var game = createDefaultGame();
 
 /* ============================================================
-ELEMENTOS DA INTERFACE
+ELEMENTOS DA PÁGINA
 ============================================================ */
 
-var sceneElement = null;
-var chapterElement = null;
-var locationElement = null;
-var choicesElement = null;
-var playerTagElement = null;
-var logElement = null;
-
-/* ============================================================
-UTILIDADES
-============================================================ */
+var scene;
+var chapter;
+var locationElement;
+var choices;
+var playerTag;
+var logElement;
 
 function getElements() {
-sceneElement = document.getElementById("scene");
-chapterElement = document.getElementById("chapter");
+scene = document.getElementById("scene");
+chapter = document.getElementById("chapter");
 locationElement = document.getElementById("location");
-choicesElement = document.getElementById("choices");
-playerTagElement = document.getElementById("playerTag");
+choices = document.getElementById("choices");
+playerTag = document.getElementById("playerTag");
 logElement = document.getElementById("log");
 }
 
 function pageIsReady() {
 return (
-sceneElement !== null &&
-chapterElement !== null &&
-locationElement !== null &&
-choicesElement !== null
+scene &&
+chapter &&
+locationElement &&
+choices &&
+playerTag &&
+logElement
 );
 }
+
+/* ============================================================
+UTILITÁRIOS
+============================================================ */
 
 function setText(element, text) {
 if (element) {
@@ -101,28 +133,11 @@ element.textContent = text;
 }
 }
 
-function clamp(value, min, max) {
-return Math.max(min, Math.min(max, value));
-}
-
-function addLog(text) {
-if (!logElement) {
-return;
-}
-
-
-var entry = document.createElement("p");
-entry.textContent = text;
-
-logElement.appendChild(entry);
-
-while (logElement.children.length > 12) {
-    logElement.removeChild(logElement.firstChild);
-}
-
-logElement.scrollTop = logElement.scrollHeight;
-
-
+function clamp(value, minimum, maximum) {
+return Math.max(
+minimum,
+Math.min(maximum, value)
+);
 }
 
 function getPlayer(playerName) {
@@ -136,6 +151,62 @@ return game.sasah;
 
 }
 
+function addLog(message) {
+if (!message) {
+return;
+}
+
+
+game.log.push(message);
+
+if (game.log.length > 50) {
+    game.log.shift();
+}
+
+updateLog();
+
+
+}
+
+function updateLog() {
+if (!logElement) {
+return;
+}
+
+
+logElement.innerHTML = "";
+
+if (game.log.length === 0) {
+    var empty = document.createElement("div");
+
+    empty.className = "log-empty";
+
+    empty.textContent =
+        "A aventura ainda está começando...";
+
+    logElement.appendChild(empty);
+
+    return;
+}
+
+for (var i = 0; i < game.log.length; i++) {
+    var entry =
+        document.createElement("div");
+
+    entry.className = "log-entry";
+
+    entry.textContent =
+        game.log[i];
+
+    logElement.appendChild(entry);
+}
+
+logElement.scrollTop =
+    logElement.scrollHeight;
+```
+
+}
+
 /* ============================================================
 EFEITOS
 ============================================================ */
@@ -146,31 +217,56 @@ return;
 }
 
 
-var player = getPlayer(playerName);
+var player =
+    getPlayer(playerName);
 
-var keys = [
-    "bravery",
-    "loyalty",
-    "intelligence",
-    "ambition",
-    "empathy",
-    "magic",
-    "hp",
-    "mana",
-    "xp"
-];
-
-for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-
-    if (typeof effects[key] === "number") {
-        player[key] += effects[key];
-    }
+if (typeof effects.bravery === "number") {
+    player.bravery += effects.bravery;
 }
 
-player.hp = clamp(player.hp, 0, 100);
-player.mana = clamp(player.mana, 0, 100);
-player.xp = Math.max(0, player.xp);
+if (typeof effects.loyalty === "number") {
+    player.loyalty += effects.loyalty;
+}
+
+if (typeof effects.intelligence === "number") {
+    player.intelligence += effects.intelligence;
+}
+
+if (typeof effects.ambition === "number") {
+    player.ambition += effects.ambition;
+}
+
+if (typeof effects.empathy === "number") {
+    player.empathy += effects.empathy;
+}
+
+if (typeof effects.magic === "number") {
+    player.magic += effects.magic;
+}
+
+if (typeof effects.hp === "number") {
+    player.hp = clamp(
+        player.hp + effects.hp,
+        0,
+        player.maxHp
+    );
+}
+
+if (typeof effects.mana === "number") {
+    player.mana = clamp(
+        player.mana + effects.mana,
+        0,
+        player.maxMana
+    );
+}
+
+if (typeof effects.xp === "number") {
+    player.xp =
+        Math.max(
+            0,
+            player.xp + effects.xp
+        );
+}
 
 
 }
@@ -182,20 +278,53 @@ return;
 
 
 if (typeof effects.friendship === "number") {
-    game.friendship += effects.friendship;
+    game.relationship.friendship +=
+        effects.friendship;
 }
 
 if (typeof effects.trust === "number") {
-    game.trust += effects.trust;
+    game.relationship.trust +=
+        effects.trust;
 }
 
 if (typeof effects.rivalry === "number") {
-    game.rivalry += effects.rivalry;
+    game.relationship.rivalry +=
+        effects.rivalry;
 }
 
 if (typeof effects.affinity === "number") {
-    game.affinity += effects.affinity;
+    game.relationship.affinity +=
+        effects.affinity;
 }
+
+game.relationship.friendship =
+    clamp(
+        game.relationship.friendship,
+        -100,
+        100
+    );
+
+game.relationship.trust =
+    clamp(
+        game.relationship.trust,
+        -100,
+        100
+    );
+
+game.relationship.rivalry =
+    clamp(
+        game.relationship.rivalry,
+        -100,
+        100
+    );
+
+game.relationship.affinity =
+    clamp(
+        game.relationship.affinity,
+        -100,
+        100
+    );
+
 
 }
 
@@ -204,146 +333,197 @@ HISTÓRIA DE SASAH
 ============================================================ */
 
 var sasahStory = [
+
+
 {
-chapter: "Prólogo — A Carta",
-location: "Casa de Sasah",
-text:
-"A noite parecia comum até que três batidas ecoaram na janela. " +
-"Sasah se aproximou lentamente e encontrou uma coruja carregando " +
-"um envelope grosso e antigo. O selo de cera trazia um brasão que " +
-"ela jamais havia visto antes.",
-
-
+    title: "Prólogo — A Carta",
+    location: "Casa de " + "Sasah",
+    text:
+        "Era uma noite aparentemente comum. A chuva batia suavemente " +
+        "contra a janela quando uma coruja pousou no parapeito. " +
+        "Preso à sua pata havia um envelope grosso, selado com cera vermelha. " +
+        "No selo havia um símbolo que parecia familiar.",
     choices: [
         {
             text: "Abrir a carta imediatamente.",
             effects: {
-                bravery: 2,
+                bravery: 1,
                 intelligence: 1,
                 magic: 1,
                 xp: 10
             },
-            result:
-                "Sasah rompe o selo. A carta começa a brilhar e revela que " +
-                "ela foi aceita na Escola de Magia e Bruxaria de Hogwarts."
+            log: "Sasah abriu a carta misteriosa."
         },
-
         {
-            text: "Examinar o envelope antes de abri-lo.",
+            text: "Examinar cuidadosamente o selo.",
             effects: {
                 intelligence: 2,
-                empathy: 1,
                 xp: 10
             },
-            result:
-                "Sasah observa cuidadosamente cada detalhe. O papel possui " +
-                "uma energia mágica incomum, como se a própria carta estivesse viva."
+            log: "Sasah examinou o estranho selo."
         },
-
         {
-            text: "Guardar a carta e fingir que nada aconteceu.",
+            text: "Guardar a carta e esperar.",
             effects: {
-                empathy: 1,
+                loyalty: 1,
                 ambition: 1,
-                xp: 5
+                xp: 10
             },
-            result:
-                "Sasah guarda o envelope, mas ele começa a vibrar dentro da gaveta. " +
-                "Ignorar Hogwarts parece cada vez mais difícil."
+            log: "Sasah decidiu agir com cautela."
         }
     ]
 },
 
 {
-    chapter: "Capítulo I — O Símbolo",
-    location: "Quarto de Sasah",
+    title: "Capítulo I — A Mensagem",
+    location: "Quarto",
     text:
-        "Na manhã seguinte, Sasah percebe um pequeno símbolo desenhado em sua mão. " +
-        "O desenho se parece com uma estrela cercada por quatro animais. " +
-        "Quando ela toca o símbolo, uma voz distante sussurra seu nome.",
-
+        "A carta dizia que uma vaga havia sido reservada para você " +
+        "na Escola de Magia e Bruxaria de Hogwarts. Entretanto, havia " +
+        "uma segunda mensagem escrita à mão: 'Não confie em tudo o que " +
+        "o castelo lhe mostrar.'",
     choices: [
         {
-            text: "Tentar descobrir o significado do símbolo.",
+            text: "Investigar quem escreveu a mensagem.",
             effects: {
-                intelligence: 3,
+                intelligence: 2,
+                ambition: 1,
+                xp: 15
+            },
+            log: "Sasah decidiu descobrir a origem da mensagem."
+        },
+        {
+            text: "Ignorar o aviso e pensar em Hogwarts.",
+            effects: {
+                bravery: 1,
+                empathy: 1,
+                xp: 15
+            },
+            log: "Sasah decidiu não deixar o aviso estragar sua expectativa."
+        },
+        {
+            text: "Guardar a mensagem em segredo.",
+            effects: {
+                loyalty: 2,
+                intelligence: 1,
+                xp: 15
+            },
+            log: "Sasah guardou a mensagem cuidadosamente."
+        }
+    ]
+},
+
+{
+    title: "Capítulo II — O Objeto",
+    location: "Sótão",
+    text:
+        "Antes da viagem, algo estranho acontece. Um pequeno objeto " +
+        "metálico aparece entre seus pertences. Ele possui o mesmo símbolo " +
+        "da carta e emite uma fraca luz quando você o toca.",
+    choices: [
+        {
+            text: "Tocar no objeto novamente.",
+            effects: {
+                bravery: 1,
+                magic: 2,
+                xp: 15
+            },
+            log: "Sasah tocou novamente no objeto mágico."
+        },
+        {
+            text: "Pesquisar o símbolo nos livros.",
+            effects: {
+                intelligence: 2,
                 magic: 1,
                 xp: 15
             },
-            result:
-                "Sasah pesquisa antigos livros e percebe que o símbolo parece estar " +
-                "relacionado às quatro casas de Hogwarts."
+            log: "Sasah pesquisou o símbolo."
         },
-
         {
-            text: "Concentrar-se e tentar usar magia.",
+            text: "Esconder o objeto.",
             effects: {
-                bravery: 2,
-                magic: 3,
+                ambition: 1,
+                loyalty: 1,
                 xp: 15
             },
-            result:
-                "Uma pequena luz surge na ponta dos dedos de Sasah. " +
-                "Pela primeira vez, ela sente a magia respondendo ao seu chamado."
-        },
-
-        {
-            text: "Esconder o símbolo de todos.",
-            effects: {
-                ambition: 2,
-                empathy: 1,
-                xp: 10
-            },
-            result:
-                "Sasah cobre a mão. Algo lhe diz que aquele símbolo pode ser importante " +
-                "e que nem todos devem saber sobre ele."
+            log: "Sasah decidiu esconder o objeto."
         }
     ]
 },
 
 {
-    chapter: "Capítulo II — A Figura Encapuzada",
-    location: "Distrito Mágico",
+    title: "Capítulo III — A Coruja",
+    location: "Janela",
     text:
-        "No caminho para encontrar os materiais necessários para Hogwarts, Sasah " +
-        "percebe que está sendo observada. Em uma rua estreita, uma figura encapuzada " +
-        "surge diante dela. A pessoa parece conhecer seu nome.",
-
+        "Na madrugada anterior à partida, a mesma coruja retorna. " +
+        "Ela deixa cair uma pena escura sobre a mesa. Quando você toca " +
+        "na pena, escuta uma voz distante dizendo apenas uma palavra: " +
+        "'Hogwarts.'",
     choices: [
         {
-            text: "Enfrentar a figura.",
+            text: "Seguir a voz.",
             effects: {
-                bravery: 3,
-                magic: 2,
+                bravery: 2,
+                magic: 1,
                 xp: 20
             },
-            result:
-                "Sasah não recua. A figura desaparece em uma nuvem escura, deixando " +
-                "para trás apenas uma pequena moeda prateada."
+            log: "Sasah tentou seguir a misteriosa voz."
         },
-
         {
-            text: "Perguntar quem ela é.",
+            text: "Analisar a pena.",
             effects: {
                 intelligence: 2,
-                empathy: 2,
-                xp: 15
+                magic: 1,
+                xp: 20
             },
-            result:
-                "A figura responde apenas: \"Você não é a única escolhida.\" " +
-                "Antes que Sasah consiga perguntar mais alguma coisa, ela desaparece."
+            log: "Sasah estudou cuidadosamente a pena."
         },
-
         {
-            text: "Seguir a figura discretamente.",
+            text: "Guardar a pena para usar depois.",
             effects: {
-                ambition: 3,
+                ambition: 1,
                 intelligence: 1,
                 xp: 20
             },
-            result:
-                "Sasah segue a figura até uma passagem secreta. Lá encontra um " +
-                "símbolo idêntico ao que apareceu em sua mão."
+            log: "Sasah guardou a pena misteriosa."
+        }
+    ]
+},
+
+{
+    title: "Capítulo IV — A Partida",
+    location: "Estação",
+    text:
+        "Chega o dia da viagem. A plataforma está cheia de estudantes. " +
+        "O trem para Hogwarts espera silenciosamente. Antes de embarcar, " +
+        "você percebe uma pessoa encapuzada observando de longe.",
+    choices: [
+        {
+            text: "Observar a pessoa.",
+            effects: {
+                intelligence: 1,
+                bravery: 1,
+                xp: 20
+            },
+            log: "Sasah observou atentamente a figura encapuzada."
+        },
+        {
+            text: "Aproximar-se.",
+            effects: {
+                bravery: 2,
+                empathy: 1,
+                xp: 20
+            },
+            log: "Sasah tentou se aproximar da figura."
+        },
+        {
+            text: "Entrar no trem e não olhar para trás.",
+            effects: {
+                intelligence: 1,
+                ambition: 1,
+                xp: 20
+            },
+            log: "Sasah embarcou no trem."
         }
     ]
 }
@@ -356,141 +536,190 @@ HISTÓRIA DE LUCAS
 ============================================================ */
 
 var lucasStory = [
+
+
 {
-chapter: "Prólogo — O Livro",
-location: "Casa de Lucas",
-text:
-"Lucas encontra um livro antigo escondido entre objetos que pertenciam à sua família. " +
-"A capa não possui título. Quando ele abre a primeira página, palavras aparecem " +
-"sozinhas diante de seus olhos.",
-
-
+    title: "Prólogo — O Livro",
+    location: "Casa de Lucas",
+    text:
+        "Entre caixas antigas, você encontra um livro que ninguém " +
+        "parece lembrar que existe. A capa não possui título. " +
+        "Há apenas um símbolo prateado gravado no centro.",
     choices: [
         {
-            text: "Ler o livro.",
+            text: "Abrir o livro.",
             effects: {
                 intelligence: 2,
-                magic: 2,
+                magic: 1,
                 xp: 10
             },
-            result:
-                "O livro conta histórias sobre Hogwarts e menciona um acontecimento " +
-                "misterioso que deverá ocorrer naquele ano."
+            log: "Lucas abriu o misterioso livro."
         },
-
         {
-            text: "Procurar informações sobre o livro.",
+            text: "Pesquisar o símbolo primeiro.",
             effects: {
-                intelligence: 3,
+                intelligence: 2,
                 ambition: 1,
                 xp: 10
             },
-            result:
-                "Lucas descobre que o livro pertenceu a um antigo estudante de Hogwarts."
+            log: "Lucas pesquisou o símbolo."
         },
-
         {
-            text: "Fechar o livro e escondê-lo.",
+            text: "Guardar o livro.",
             effects: {
-                loyalty: 2,
+                loyalty: 1,
                 empathy: 1,
-                xp: 5
+                xp: 10
             },
-            result:
-                "Lucas decide que talvez seja melhor não mexer com aquilo. " +
-                "Mas o livro começa a emitir uma fraca luz azul."
+            log: "Lucas decidiu guardar o livro."
         }
     ]
 },
 
 {
-    chapter: "Capítulo I — A Mensagem",
-    location: "Quarto de Lucas",
+    title: "Capítulo I — As Páginas",
+    location: "Quarto",
     text:
-        "Durante a madrugada, Lucas acorda com uma mensagem escrita na parede. " +
-        "Ela diz que alguém em Hogwarts precisa encontrá-lo. " +
-        "Antes que consiga compreender a mensagem, ela desaparece.",
-
+        "Quando você abre o livro novamente, as páginas começam a virar " +
+        "sozinhas. Uma frase aparece lentamente: 'Dois caminhos serão " +
+        "abertos. Apenas dois poderão fechá-los.'",
     choices: [
         {
-            text: "Memorizar a mensagem.",
-            effects: {
-                intelligence: 3,
-                xp: 15
-            },
-            result:
-                "Lucas memoriza cada palavra. A mensagem parece conter pistas sobre um segredo."
-        },
-
-        {
-            text: "Tentar responder à mensagem.",
-            effects: {
-                bravery: 2,
-                magic: 2,
-                xp: 15
-            },
-            result:
-                "As letras reaparecem e formam uma nova frase: " +
-                "\"Procure a estrela de quatro caminhos.\""
-        },
-
-        {
-            text: "Contar tudo para alguém de confiança.",
-            effects: {
-                loyalty: 3,
-                empathy: 2,
-                xp: 15
-            },
-            result:
-                "Lucas decide que não deve enfrentar aquilo sozinho. " +
-                "A ideia de confiar em alguém poderá ser importante no futuro."
-        }
-    ]
-},
-
-{
-    chapter: "Capítulo II — A Perseguição",
-    location: "Distrito Mágico",
-    text:
-        "No distrito mágico, Lucas percebe passos atrás dele. " +
-        "Quando olha para trás, vê uma figura encapuzada. " +
-        "Ela segura uma moeda prateada semelhante à que aparece no antigo livro.",
-
-    choices: [
-        {
-            text: "Correr e tentar despistar a figura.",
-            effects: {
-                bravery: 2,
-                hp: -5,
-                xp: 20
-            },
-            result:
-                "Lucas consegue despistar o perseguidor, mas percebe que a moeda " +
-                "ficou misteriosamente em seu bolso."
-        },
-
-        {
-            text: "Parar e confrontar o perseguidor.",
-            effects: {
-                bravery: 3,
-                magic: 2,
-                xp: 20
-            },
-            result:
-                "Lucas encara a figura. Ela desaparece, deixando apenas uma frase: " +
-                "\"O encontro está próximo.\""
-        },
-
-        {
-            text: "Seguir a figura sem ser percebido.",
+            text: "Continuar lendo.",
             effects: {
                 intelligence: 2,
-                ambition: 3,
+                magic: 1,
+                xp: 15
+            },
+            log: "Lucas continuou lendo."
+        },
+        {
+            text: "Tentar destruir o livro.",
+            effects: {
+                bravery: 2,
+                magic: 1,
+                xp: 15
+            },
+            log: "Lucas tentou destruir o livro."
+        },
+        {
+            text: "Guardar o livro em segredo.",
+            effects: {
+                loyalty: 1,
+                ambition: 1,
+                xp: 15
+            },
+            log: "Lucas decidiu guardar o segredo."
+        }
+    ]
+},
+
+{
+    title: "Capítulo II — A Mensagem",
+    location: "Quarto",
+    text:
+        "Uma nova mensagem surge: 'Procure Hogwarts. O castelo guarda " +
+        "a resposta.' Ao terminar de ler, uma página desaparece.",
+    choices: [
+        {
+            text: "Memorizar o conteúdo.",
+            effects: {
+                intelligence: 2,
+                xp: 15
+            },
+            log: "Lucas memorizou a mensagem."
+        },
+        {
+            text: "Procurar a página desaparecida.",
+            effects: {
+                bravery: 1,
+                intelligence: 1,
+                magic: 1,
+                xp: 15
+            },
+            log: "Lucas procurou a página desaparecida."
+        },
+        {
+            text: "Aceitar que Hogwarts é o próximo destino.",
+            effects: {
+                ambition: 2,
+                bravery: 1,
+                xp: 15
+            },
+            log: "Lucas decidiu seguir para Hogwarts."
+        }
+    ]
+},
+
+{
+    title: "Capítulo III — O Visitante",
+    location: "Rua",
+    text:
+        "Na noite seguinte, alguém bate à porta. Quando você abre, não há " +
+        "ninguém. Apenas uma pequena caixa contendo uma peça metálica " +
+        "com o mesmo símbolo do livro.",
+    choices: [
+        {
+            text: "Abrir a caixa.",
+            effects: {
+                bravery: 1,
+                magic: 2,
                 xp: 20
             },
-            result:
-                "Lucas segue a figura até uma passagem secreta. " +
-                "Na parede há um símbolo com quatro caminhos."
+            log: "Lucas abriu a caixa misteriosa."
+        },
+        {
+            text: "Examinar a caixa.",
+            effects: {
+                intelligence: 2,
+                xp: 20
+            },
+            log: "Lucas examinou a caixa."
+        },
+        {
+            text: "Guardar a caixa.",
+            effects: {
+                ambition: 1,
+                loyalty: 1,
+                xp: 20
+            },
+            log: "Lucas guardou a caixa."
+        }
+    ]
+},
+
+{
+    title: "Capítulo IV — A Partida",
+    location: "Estação",
+    text:
+        "No dia da viagem, você embarca rumo a Hogwarts. " +
+        "Antes de entrar no trem, vê uma figura encapuzada segurando " +
+        "algo que parece ser uma cópia do seu livro.",
+    choices: [
+        {
+            text: "Seguir a figura.",
+            effects: {
+                bravery: 2,
+                xp: 20
+            },
+            log: "Lucas decidiu seguir a figura."
+        },
+        {
+            text: "Observar de longe.",
+            effects: {
+                intelligence: 2,
+                xp: 20
+            },
+            log: "Lucas decidiu observar."
+        },
+        {
+            text: "Entrar no trem.",
+            effects: {
+                ambition: 1,
+                intelligence: 1,
+                xp: 20
+            },
+            log: "Lucas entrou no trem."
         }
     ]
 }
@@ -499,35 +728,34 @@ text:
 ];
 
 /* ============================================================
-PERGUNTAS DO CHAPÉU SELETOR
-Cada pergunta possui cinco alternativas.
+CHAPÉU SELETOR
 ============================================================ */
 
 var houseQuestions = [
+
+
 {
-question:
-"Você encontra um colega em perigo dentro de uma área proibida. O que faz?",
-
-
+    question:
+        "Você encontra uma criatura perigosa bloqueando seu caminho. O que faz?",
     answers: [
         {
-            text: "Entro no local imediatamente para salvá-lo.",
+            text: "Enfrento a criatura, mesmo com medo.",
             trait: "bravery"
         },
         {
-            text: "Permaneço ao lado dele e não o abandono.",
+            text: "Protejo meus amigos e procuro uma saída juntos.",
             trait: "loyalty"
         },
         {
-            text: "Procuro uma maneira inteligente de tirá-lo do perigo.",
+            text: "Analiso o comportamento da criatura antes de agir.",
             trait: "intelligence"
         },
         {
-            text: "Uso a situação para conseguir uma vantagem.",
+            text: "Procuro uma maneira de usar a situação a meu favor.",
             trait: "ambition"
         },
         {
-            text: "Tento entender o que ele está sentindo e ajudá-lo.",
+            text: "Tento descobrir por que a criatura está assustada.",
             trait: "empathy"
         }
     ]
@@ -535,64 +763,7 @@ question:
 
 {
     question:
-        "Um professor propõe um desafio aparentemente impossível. Qual é sua reação?",
-
-    answers: [
-        {
-            text: "Aceito o desafio mesmo com medo.",
-            trait: "bravery"
-        },
-        {
-            text: "Faço o desafio junto com meus amigos.",
-            trait: "loyalty"
-        },
-        {
-            text: "Estudo o problema antes de agir.",
-            trait: "intelligence"
-        },
-        {
-            text: "Penso em como transformar o desafio em uma oportunidade.",
-            trait: "ambition"
-        },
-        {
-            text: "Penso em como minhas decisões podem afetar os outros.",
-            trait: "empathy"
-        }
-    ]
-},
-
-{
-    question:
-        "Você descobre um segredo que poderia prejudicar alguém. O que faria?",
-
-    answers: [
-        {
-            text: "Enfrentaria a situação diretamente.",
-            trait: "bravery"
-        },
-        {
-            text: "Protegeria a pessoa que confiou em mim.",
-            trait: "loyalty"
-        },
-        {
-            text: "Investigaria todos os fatos antes de decidir.",
-            trait: "intelligence"
-        },
-        {
-            text: "Guardaria o segredo para usar somente quando necessário.",
-            trait: "ambition"
-        },
-        {
-            text: "Pensaria primeiro em como evitar que alguém se machuque.",
-            trait: "empathy"
-        }
-    ]
-},
-
-{
-    question:
-        "Qual dessas características mais representa você?",
-
+        "Qual destas qualidades você considera mais importante?",
     answers: [
         {
             text: "Coragem.",
@@ -619,27 +790,80 @@ question:
 
 {
     question:
-        "Quando precisa tomar uma decisão difícil, o que costuma pesar mais?",
-
+        "Você descobre um segredo muito poderoso. O que faz?",
     answers: [
         {
-            text: "Fazer o que considero certo, mesmo que seja perigoso.",
+            text: "Uso o segredo para proteger alguém.",
             trait: "bravery"
         },
         {
-            text: "Não abandonar quem confia em mim.",
+            text: "Guardo o segredo de quem confiou em mim.",
             trait: "loyalty"
         },
         {
-            text: "Analisar todas as possibilidades.",
+            text: "Investigo para descobrir toda a verdade.",
             trait: "intelligence"
         },
         {
-            text: "Pensar no futuro e nos meus objetivos.",
+            text: "Penso em como o segredo pode me tornar mais poderoso.",
             trait: "ambition"
         },
         {
-            text: "Considerar os sentimentos das pessoas envolvidas.",
+            text: "Penso primeiro em quem poderia ser prejudicado.",
+            trait: "empathy"
+        }
+    ]
+},
+
+{
+    question:
+        "O que você mais deseja encontrar em Hogwarts?",
+    answers: [
+        {
+            text: "Grandes aventuras.",
+            trait: "bravery"
+        },
+        {
+            text: "Amigos verdadeiros.",
+            trait: "loyalty"
+        },
+        {
+            text: "Conhecimento.",
+            trait: "intelligence"
+        },
+        {
+            text: "Reconhecimento.",
+            trait: "ambition"
+        },
+        {
+            text: "Um lugar onde todos possam se sentir acolhidos.",
+            trait: "empathy"
+        }
+    ]
+},
+
+{
+    question:
+        "Um amigo está em perigo. O que faria?",
+    answers: [
+        {
+            text: "Entraria no perigo para salvá-lo.",
+            trait: "bravery"
+        },
+        {
+            text: "Não o abandonaria por nada.",
+            trait: "loyalty"
+        },
+        {
+            text: "Criaria um plano para salvá-lo.",
+            trait: "intelligence"
+        },
+        {
+            text: "Assumiria o controle da situação.",
+            trait: "ambition"
+        },
+        {
+            text: "Tentaria compreender o que ele está sentindo.",
             trait: "empathy"
         }
     ]
@@ -649,434 +873,866 @@ question:
 ];
 
 /* ============================================================
-CÁLCULO DA CASA
+CÁLCULO DAS CASAS
 ============================================================ */
 
-function calculateHouse(player) {
+function calculateHouse(playerName) {
+var player =
+getPlayer(playerName);
+
+
 var scores = {
-bravery: player.bravery,
-loyalty: player.loyalty + player.empathy,
-intelligence: player.intelligence,
-ambition: player.ambition
+    Gryffindor: player.bravery,
+    Hufflepuff:
+        (player.loyalty +
+            player.empathy) / 2,
+    Ravenclaw: player.intelligence,
+    Slytherin: player.ambition
 };
 
+var houses = [
+    "Gryffindor",
+    "Hufflepuff",
+    "Ravenclaw",
+    "Slytherin"
+];
 
-var house = "Gryffindor";
-var highest = scores.bravery;
+var highest = -1;
+var possibleHouses = [];
 
-if (scores.loyalty > highest) {
-    house = "Hufflepuff";
-    highest = scores.loyalty;
+for (var i = 0; i < houses.length; i++) {
+    var houseName =
+        houses[i];
+
+    var score =
+        scores[houseName];
+
+    if (score > highest) {
+        highest = score;
+        possibleHouses = [
+            houseName
+        ];
+    } else if (score === highest) {
+        possibleHouses.push(
+            houseName
+        );
+    }
 }
 
-if (scores.intelligence > highest) {
-    house = "Ravenclaw";
-    highest = scores.intelligence;
+/*
+   Desempate pelo padrão de respostas.
+*/
+
+var answers =
+    game.houseAnswers[playerName];
+
+if (
+    possibleHouses.length > 1 &&
+    answers &&
+    answers.length > 0
+) {
+    for (
+        var a = answers.length - 1;
+        a >= 0;
+        a--
+    ) {
+        var trait =
+            answers[a];
+
+        var preferredHouse = "";
+
+        if (trait === "bravery") {
+            preferredHouse =
+                "Gryffindor";
+        }
+
+        if (
+            trait === "loyalty" ||
+            trait === "empathy"
+        ) {
+            preferredHouse =
+                "Hufflepuff";
+        }
+
+        if (
+            trait === "intelligence"
+        ) {
+            preferredHouse =
+                "Ravenclaw";
+        }
+
+        if (
+            trait === "ambition"
+        ) {
+            preferredHouse =
+                "Slytherin";
+        }
+
+        if (
+            possibleHouses.indexOf(
+                preferredHouse
+            ) !== -1
+        ) {
+            return preferredHouse;
+        }
+    }
 }
 
-if (scores.ambition > highest) {
-    house = "Slytherin";
+return possibleHouses[0];
+
+
 }
 
-return house;
+function getHouseDescription(house) {
+if (house === "Gryffindor") {
+return (
+"Coragem, ousadia e determinação. " +
+"Você não precisa deixar de sentir medo para ser corajoso."
+);
+}
+
+
+if (house === "Hufflepuff") {
+    return (
+        "Lealdade, companheirismo, paciência e empatia. " +
+        "Você valoriza as pessoas e não abandona facilmente aqueles que ama."
+    );
+}
+
+if (house === "Ravenclaw") {
+    return (
+        "Inteligência, curiosidade, criatividade e conhecimento. " +
+        "Você deseja compreender aquilo que existe além do óbvio."
+    );
+}
+
+if (house === "Slytherin") {
+    return (
+        "Ambição, estratégia, determinação e astúcia. " +
+        "Você sabe que objetivos importantes exigem persistência."
+    );
+}
+
+return "";
+
+
+}
+
+function getHouseEmoji(house) {
+if (house === "Gryffindor") {
+return "🦁";
+}
+
+```
+if (house === "Hufflepuff") {
+    return "🦡";
+}
+
+if (house === "Ravenclaw") {
+    return "🦅";
+}
+
+if (house === "Slytherin") {
+    return "🐍";
+}
+
+return "🎩";
 
 
 }
 
 /* ============================================================
-BOTÕES
+CHAPÉU — PERGUNTA
 ============================================================ */
 
-function clearChoices() {
-if (choicesElement) {
-choicesElement.innerHTML = "";
-}
-}
-
-function createButton(text, callback) {
-var button = document.createElement("button");
-    
-
-button.type = "button";
-button.textContent = text;
-button.className = "choice-button";
-
-button.addEventListener("click", callback);
-
-return button;
+function showHouseQuestion(playerName) {
+var player =
+getPlayer(playerName);
 
 
-}
+var questionIndex =
+    game.houseQuestion;
 
-/* ============================================================
-HISTÓRIA
-============================================================ */
-
-function renderStory(playerName) {
-var story;
-var chapterIndex;
-
-
-if (playerName === "lucas") {
-    story = lucasStory;
-    chapterIndex = game.lucasChapter;
-} else {
-    story = sasahStory;
-    chapterIndex = game.sasahChapter;
-}
-
-if (chapterIndex >= story.length) {
-    showHouseSelection(playerName);
+if (
+    questionIndex >=
+    houseQuestions.length
+) {
+    finishHouse(playerName);
     return;
 }
 
-var currentChapter = story[chapterIndex];
+var currentQuestion =
+    houseQuestions[
+        questionIndex
+    ];
 
-setText(chapterElement, currentChapter.chapter);
-setText(locationElement, currentChapter.location);
-setText(sceneElement, currentChapter.text);
+setText(
+    chapter,
+    "CHAPÉU SELETOR — " +
+        (questionIndex + 1) +
+        " / " +
+        houseQuestions.length
+);
 
-clearChoices();
+setText(
+    locationElement,
+    "Grande Salão de Hogwarts"
+);
 
-for (var i = 0; i < currentChapter.choices.length; i++) {
-    createStoryButton(
+setText(
+    playerTag,
+    player.name
+);
+
+setText(
+    scene,
+    currentQuestion.question
+);
+
+choices.innerHTML = "";
+
+for (
+    var i = 0;
+    i <
+    currentQuestion.answers.length;
+    i++
+) {
+    createHouseButton(
         playerName,
-        currentChapter.choices[i]
+        currentQuestion.answers[i],
+        i
     );
 }
 
 updateUI();
-
-
-}
-
-function createStoryButton(playerName, choice) {
-var button = createButton(
-choice.text,
-function () {
-applyEffects(playerName, choice.effects);
-
-
-        addLog(
-            getPlayer(playerName).name +
-            ": " +
-            choice.text
-        );
-
-        setText(sceneElement, choice.result);
-
-        if (playerName === "sasah") {
-            game.sasahChapter++;
-        } else {
-            game.lucasChapter++;
-        }
-
-        clearChoices();
-
-        var nextButton = createButton(
-            "Continuar",
-            function () {
-                renderStory(playerName);
-            }
-        );
-
-        choicesElement.appendChild(nextButton);
-
-        updateUI();
-        saveGame();
-    }
-);
-
-choicesElement.appendChild(button);
-
-
-}
-
-/* ============================================================
-SELEÇÃO DA CASA
-============================================================ */
-
-function showHouseSelection(playerName) {
-setText(
-chapterElement,
-"O Chapéu Seletor"
-);
-
-
-setText(
-    locationElement,
-    "Grande Salão"
-);
-
-setText(
-    sceneElement,
-    getPlayer(playerName).name +
-    " está diante do Chapéu Seletor."
-);
-
-showHouseQuestion(playerName, 0);
-
-
-}
-
-function showHouseQuestion(playerName, questionIndex) {
-if (questionIndex >= houseQuestions.length) {
-finishHouse(playerName);
-return;
-}
-
-
-var question = houseQuestions[questionIndex];
-
-setText(
-    sceneElement,
-    question.question
-);
-
-clearChoices();
-
-for (var i = 0; i < question.answers.length; i++) {
-    createHouseButton(
-        playerName,
-        questionIndex,
-        question.answers[i]
-    );
-}
 
 
 }
 
 function createHouseButton(
 playerName,
-questionIndex,
-answer
+answer,
+index
 ) {
-var button = createButton(
-answer.text,
-function () {
-var player = getPlayer(playerName);
+var button =
+document.createElement(
+"button"
+);
 
 
-        if (typeof player[answer.trait] !== "number") {
-            player[answer.trait] = 0;
-        }
+button.type = "button";
 
-        player[answer.trait] += 1;
+button.className =
+    "choice-button house-choice";
 
-        addLog(
-            player.name +
-            " respondeu à pergunta " +
-            (questionIndex + 1) +
-            "."
-        );
+button.textContent =
+    String.fromCharCode(
+        65 + index
+    ) +
+    " — " +
+    answer.text;
 
-        showHouseQuestion(
+button.addEventListener(
+    "click",
+    function () {
+        handleHouseAnswer(
             playerName,
-            questionIndex + 1
+            answer.trait,
+            button
         );
-
-        updateUI();
-        saveGame();
     }
 );
 
-choicesElement.appendChild(button);
+choices.appendChild(
+    button
+);
 
 
 }
 
-function finishHouse(playerName) {
-var player = getPlayer(playerName);
-
-
-player.house = calculateHouse(player);
-
-setText(
-    chapterElement,
-    "A Seleção"
+function handleHouseAnswer(
+playerName,
+trait,
+selectedButton
+) {
+var buttons =
+choices.querySelectorAll(
+".choice-button"
 );
 
-setText(
-    locationElement,
-    "Grande Salão"
-);
 
-setText(
-    sceneElement,
-    "O Chapéu Seletor permanece em silêncio por alguns segundos. " +
-    "Então finalmente anuncia: " +
-    player.house +
-    "!"
-);
+for (
+    var i = 0;
+    i < buttons.length;
+    i++
+) {
+    buttons[i].disabled = true;
+}
+
+if (selectedButton) {
+    selectedButton.classList.add(
+        "selected"
+    );
+}
+
+var player =
+    getPlayer(playerName);
+
+if (trait === "bravery") {
+    player.bravery++;
+}
+
+if (trait === "loyalty") {
+    player.loyalty++;
+}
+
+if (trait === "intelligence") {
+    player.intelligence++;
+}
+
+if (trait === "ambition") {
+    player.ambition++;
+}
+
+if (trait === "empathy") {
+    player.empathy++;
+}
+
+game.houseAnswers[
+    playerName
+].push(trait);
 
 addLog(
     player.name +
-    " foi selecionado(a) para " +
-    player.house +
-    "."
+        " respondeu à pergunta " +
+        (game.houseQuestion + 1) +
+        " do Chapéu Seletor."
 );
 
-clearChoices();
+game.houseQuestion++;
 
-var continueButton = createButton(
-    "Continuar a aventura",
+saveGame();
+
+setTimeout(
     function () {
-        if (playerName === "sasah") {
-            startLucas();
+        if (
+            game.houseQuestion >=
+            houseQuestions.length
+        ) {
+            finishHouse(
+                playerName
+            );
         } else {
-            startMeeting();
+            showHouseQuestion(
+                playerName
+            );
         }
-    }
+    },
+    350
 );
 
-choicesElement.appendChild(continueButton);
-
-updateUI();
-saveGame();
-
 
 }
 
 /* ============================================================
-INÍCIO DE SASAH
+RESULTADO DA CASA
 ============================================================ */
 
-function startSasah() {
-game.currentPlayer = "sasah";
+function finishHouse(playerName) {
+var player =
+getPlayer(playerName);
 
 
-addLog("A história de Sasah começou.");
+var house =
+    calculateHouse(
+        playerName
+    );
 
-renderStory("sasah");
-updateUI();
+player.house =
+    house;
+
+game.houseQuestion = 0;
+
+addLog(
+    player.name +
+        " foi selecionado(a) para " +
+        house +
+        "."
+);
+
 saveGame();
+
+showHouseResult(
+    playerName,
+    house
+);
 
 
 }
 
-/* ============================================================
-INÍCIO DE LUCAS
-============================================================ */
-
-function startLucas() {
-game.currentPlayer = "lucas";
-
-
-addLog("A história de Lucas começou.");
-
-renderStory("lucas");
-updateUI();
-saveGame();
-
-
-}
-
-/* ============================================================
-ENCONTRO DE SASAH E LUCAS
-============================================================ */
-
-function startMeeting() {
-game.currentPlayer = "joint";
+function showHouseResult(
+playerName,
+house
+) {
+var player =
+getPlayer(playerName);
 
 
 setText(
-    chapterElement,
-    "Capítulo Especial — O Encontro"
+    chapter,
+    "O CHAPÉU SELETOR DECIDIU"
 );
 
 setText(
     locationElement,
-    "Hogwarts"
+    "Grande Salão de Hogwarts"
 );
 
 setText(
-    sceneElement,
-    "Os caminhos de Sasah e Lucas finalmente se cruzam. " +
-    "Os dois reconhecem o símbolo de quatro caminhos e percebem " +
-    "que suas histórias estão ligadas."
+    playerTag,
+    player.name
 );
 
-clearChoices();
+choices.innerHTML = "";
 
-var options = [
-    {
-        text: "Sasah decide confiar em Lucas.",
-        friendship: 3,
-        trust: 3,
-        affinity: 2,
-        rivalry: 0
-    },
+scene.innerHTML = "";
 
-    {
-        text: "Lucas decide confiar em Sasah.",
-        friendship: 3,
-        trust: 3,
-        affinity: 2,
-        rivalry: 0
-    },
+var result =
+    document.createElement(
+        "div"
+    );
 
-    {
-        text: "Os dois mantêm distância e investigam separadamente.",
-        friendship: 0,
-        trust: 1,
-        affinity: 1,
-        rivalry: 0
-    },
+result.className =
+    "house-result";
 
-    {
-        text: "Os dois discutem e transformam o encontro em uma rivalidade.",
-        friendship: -1,
-        trust: -1,
-        affinity: -1,
-        rivalry: 3
+var icon =
+    document.createElement(
+        "div"
+    );
+
+icon.className =
+    "house-result-icon";
+
+icon.textContent =
+    getHouseEmoji(
+        house
+    );
+
+var title =
+    document.createElement(
+        "h2"
+    );
+
+title.textContent =
+    house;
+
+var description =
+    document.createElement(
+        "p"
+    );
+
+description.textContent =
+    getHouseDescription(
+        house
+    );
+
+var playerText =
+    document.createElement(
+        "p"
+    );
+
+playerText.textContent =
+    player.name +
+    ", sua vida em Hogwarts acaba de começar.";
+
+result.appendChild(icon);
+result.appendChild(title);
+result.appendChild(description);
+result.appendChild(playerText);
+
+scene.appendChild(
+    result
+);
+
+var continueButton =
+    document.createElement(
+        "button"
+    );
+
+continueButton.type =
+    "button";
+
+continueButton.className =
+    "choice-button continue-button";
+
+continueButton.textContent =
+    "Continuar";
+
+continueButton.addEventListener(
+    "click",
+    function () {
+        continueAfterHouse(
+            playerName
+        );
     }
-];
+);
 
-for (var i = 0; i < options.length; i++) {
-    createMeetingButton(options[i]);
+choices.appendChild(
+    continueButton
+);
+
+updateUI();
+
+
+}
+
+/* ============================================================
+CONTINUAR APÓS A CASA
+============================================================ */
+
+function continueAfterHouse(
+playerName
+) {
+if (playerName === "sasah") {
+startLucas();
+return;
+}
+
+
+if (playerName === "lucas") {
+    startMeeting();
+    return;
+}
+
+
+}
+
+/* ============================================================
+RENDERIZAÇÃO DA HISTÓRIA
+============================================================ */
+
+function renderStory(playerName) {
+var player =
+getPlayer(playerName);
+
+
+var story =
+    playerName === "sasah"
+        ? sasahStory
+        : lucasStory;
+
+if (
+    player.chapter >=
+    story.length
+) {
+    showHouseQuestion(
+        playerName
+    );
+
+    return;
+}
+
+var chapterData =
+    story[player.chapter];
+
+setText(
+    chapter,
+    chapterData.title
+);
+
+setText(
+    locationElement,
+    chapterData.location
+);
+
+setText(
+    playerTag,
+    player.name
+);
+
+setText(
+    scene,
+    replaceNames(
+        chapterData.text
+    )
+);
+
+choices.innerHTML = "";
+
+for (
+    var i = 0;
+    i < chapterData.choices.length;
+    i++
+) {
+    createStoryButton(
+        playerName,
+        chapterData.choices[i]
+    );
 }
 
 updateUI();
 
+
 }
 
-function createMeetingButton(option) {
-var button = createButton(
-option.text,
-function () {
-applyRelationship({
-friendship: option.friendship,
-trust: option.trust,
-affinity: option.affinity,
-rivalry: option.rivalry
-});
+/* ============================================================
+SUBSTITUIÇÃO DE NOMES
+============================================================ */
+
+function replaceNames(text) {
+if (!text) {
+return "";
+}
 
 
-        addLog(option.text);
+var result =
+    text.replace(
+        /\bSasah\b/g,
+        game.sasah.name
+    );
 
-        setText(
-            sceneElement,
-            "A decisão foi tomada. A relação entre Sasah e Lucas " +
-            "começará a definir o destino dos dois."
+result =
+    result.replace(
+        /\bLucas\b/g,
+        game.lucas.name
+    );
+
+return result;
+
+
+}
+
+/* ============================================================
+BOTÕES DA HISTÓRIA
+============================================================ */
+
+function createStoryButton(
+playerName,
+choice
+) {
+var button =
+document.createElement(
+"button"
+);
+
+
+button.type =
+    "button";
+
+button.className =
+    "choice-button";
+
+button.textContent =
+    replaceNames(
+        choice.text
+    );
+
+button.addEventListener(
+    "click",
+    function () {
+        applyEffects(
+            playerName,
+            choice.effects
         );
 
-        clearChoices();
+        if (choice.relationship) {
+            applyRelationship(
+                choice.relationship
+            );
+        }
 
-        var nextButton = createButton(
-            "Continuar",
-            function () {
-                startJointMission();
-            }
-        );
+        if (choice.flag) {
+            game.storyFlags[
+                choice.flag
+            ] = true;
+        }
 
-        choicesElement.appendChild(nextButton);
+        if (choice.log) {
+            addLog(
+                replaceNames(
+                    choice.log
+                )
+            );
+        }
 
-        updateUI();
+        var player =
+            getPlayer(
+                playerName
+            );
+
+        player.chapter++;
+
         saveGame();
+
+        renderStory(
+            playerName
+        );
     }
 );
 
-choicesElement.appendChild(button);
+choices.appendChild(
+    button
+);
+
+
+}
+
+/* ============================================================
+INÍCIO — SASAH
+============================================================ */
+
+function startSasah() {
+game.gameStarted = true;
+game.currentPlayer = "sasah";
+
+```
+addLog(
+    game.sasah.name +
+        " iniciou sua jornada."
+);
+
+saveGame();
+
+renderStory(
+    "sasah"
+);
+
+
+}
+
+/* ============================================================
+INÍCIO — LUCAS
+============================================================ */
+
+function startLucas() {
+game.gameStarted = true;
+game.currentPlayer = "lucas";
+
+
+addLog(
+    game.lucas.name +
+        " iniciou sua jornada."
+);
+
+saveGame();
+
+renderStory(
+    "lucas"
+);
+
+
+}
+
+/* ============================================================
+ENCONTRO
+============================================================ */
+
+function startMeeting() {
+game.currentPlayer =
+"joint";
+
+
+game.meetingStarted =
+    true;
+
+setText(
+    chapter,
+    "Capítulo — O Encontro"
+);
+
+setText(
+    locationElement,
+    "Hogwarts — Grande Salão"
+);
+
+setText(
+    playerTag,
+    game.sasah.name +
+        " & " +
+        game.lucas.name
+);
+
+setText(
+    scene,
+    game.sasah.name +
+        " e " +
+        game.lucas.name +
+        " finalmente percebem que as histórias que os trouxeram " +
+        "até Hogwarts estavam conectadas. Ambos carregam objetos " +
+        "marcados pelo mesmo símbolo."
+);
+
+choices.innerHTML = "";
+
+var meetingChoices = [
+    {
+        text:
+            game.sasah.name +
+            " se apresenta e tenta iniciar uma conversa.",
+        relationship: {
+            friendship: 3,
+            trust: 2,
+            affinity: 2
+        },
+        log:
+            game.sasah.name +
+            " decidiu iniciar uma conversa."
+    },
+
+    {
+        text:
+            game.lucas.name +
+            " mostra seu objeto e pergunta sobre o símbolo.",
+        relationship: {
+            friendship: 2,
+            trust: 3,
+            affinity: 1
+        },
+        log:
+            game.lucas.name +
+            " decidiu compartilhar informações."
+    },
+
+    {
+        text:
+            "Os dois permanecem desconfiados um do outro.",
+        relationship: {
+            rivalry: 2,
+            trust: -1
+        },
+        log:
+            "O primeiro encontro foi marcado pela desconfiança."
+    },
+
+    {
+        text:
+            "Os dois percebem que possuem exatamente o mesmo objetivo.",
+        relationship: {
+            friendship: 4,
+            trust: 4,
+            affinity: 3
+        },
+        log:
+            "Os dois perceberam que poderiam trabalhar juntos."
+    }
+];
+
+for (
+    var i = 0;
+    i < meetingChoices.length;
+    i++
+) {
+    createMissionButton(
+        meetingChoices[i],
+        function () {
+            startJointMission();
+        }
+    );
+}
+
+updateUI();
+
+saveGame();
 
 
 }
@@ -1086,97 +1742,140 @@ MISSÃO CONJUNTA
 ============================================================ */
 
 function startJointMission() {
-game.currentPlayer = "joint";
+game.currentPlayer =
+"joint";
 
+
+game.missionStarted =
+    true;
 
 setText(
-    chapterElement,
-    "Capítulo Final — O Símbolo dos Quatro Caminhos"
+    chapter,
+    "Capítulo — O Símbolo Perdido"
 );
 
 setText(
     locationElement,
-    "Passagem secreta de Hogwarts"
+    "Hogwarts — Corredor Proibido"
 );
 
 setText(
-    sceneElement,
-    "Sasah e Lucas encontram uma porta antiga escondida nos corredores " +
-    "de Hogwarts. O mesmo símbolo que apareceu nas histórias dos dois " +
-    "está gravado no centro da porta."
+    playerTag,
+    game.sasah.name +
+        " & " +
+        game.lucas.name
 );
 
-clearChoices();
+setText(
+    scene,
+    "Durante a noite, " +
+        game.sasah.name +
+        " e " +
+        game.lucas.name +
+        " descobrem uma passagem escondida. " +
+        "O símbolo aparece na porta. " +
+        "Do outro lado parece existir algo que alguém tentou esconder " +
+        "há muitos anos."
+);
 
-var options = [
+choices.innerHTML = "";
+
+var missionChoices = [
+
     {
-        text: "Usar magia para abrir a porta.",
-        effects: {
-            magic: 5,
-            bravery: 2,
-            xp: 30
-        },
+        text:
+            "Abrir a porta imediatamente.",
         relationship: {
             friendship: 2,
-            trust: 1,
-            affinity: 2
+            trust: 1
         },
-        result:
-            "Os dois combinam suas habilidades mágicas. A porta se abre " +
-            "e uma luz intensa ilumina a passagem."
-    },
-
-    {
-        text: "Procurar uma solução nos livros.",
-        effects: {
-            intelligence: 5,
-            xp: 30
-        },
-        relationship: {
-            friendship: 1,
-            trust: 2,
-            affinity: 2
-        },
-        result:
-            "Depois de analisar antigos símbolos, Lucas encontra a combinação correta."
-    },
-
-    {
-        text: "Forçar a porta juntos.",
-        effects: {
-            bravery: 4,
-            hp: -10,
+        effectsSasah: {
+            bravery: 1,
+            magic: 1,
             xp: 25
         },
-        relationship: {
-            friendship: 3,
-            trust: 2,
-            affinity: 1
+        effectsLucas: {
+            bravery: 1,
+            magic: 1,
+            xp: 25
         },
-        result:
-            "A porta resiste, mas os dois trabalham juntos até que finalmente conseguem abri-la."
+        log:
+            "Os dois decidiram enfrentar o mistério diretamente."
     },
 
     {
-        text: "Tentar negociar com a magia da porta.",
-        effects: {
-            empathy: 4,
-            intelligence: 2,
-            magic: 2,
-            xp: 30
+        text:
+            "Investigar a porta antes de abri-la.",
+        relationship: {
+            trust: 3,
+            affinity: 1
         },
+        effectsSasah: {
+            intelligence: 1,
+            magic: 1,
+            xp: 25
+        },
+        effectsLucas: {
+            intelligence: 1,
+            magic: 1,
+            xp: 25
+        },
+        log:
+            "Os dois investigaram cuidadosamente a passagem."
+    },
+
+    {
+        text:
+            "Procurar outra entrada.",
         relationship: {
             friendship: 2,
-            trust: 3,
-            affinity: 3
+            trust: 2
         },
-        result:
-            "A porta parece reconhecer a intenção dos dois e se abre lentamente."
+        effectsSasah: {
+            empathy: 1,
+            intelligence: 1,
+            xp: 25
+        },
+        effectsLucas: {
+            empathy: 1,
+            intelligence: 1,
+            xp: 25
+        },
+        log:
+            "Os dois decidiram procurar uma alternativa."
+    },
+
+    {
+        text:
+            "Entrar juntos, preparados para qualquer coisa.",
+        relationship: {
+            friendship: 4,
+            trust: 3,
+            affinity: 2
+        },
+        effectsSasah: {
+            bravery: 1,
+            loyalty: 1,
+            xp: 35
+        },
+        effectsLucas: {
+            bravery: 1,
+            loyalty: 1,
+            xp: 35
+        },
+        log:
+            "Os dois entraram juntos na passagem secreta."
     }
 ];
 
-for (var i = 0; i < options.length; i++) {
-    createMissionButton(options[i]);
+for (
+    var i = 0;
+    i < missionChoices.length;
+    i++
+) {
+    createJointChoice(
+        missionChoices[i]
+    );
 }
 
 updateUI();
@@ -1184,39 +1883,148 @@ updateUI();
 
 }
 
-function createMissionButton(option) {
-var button = createButton(
-option.text,
-function () {
-applyEffects("sasah", option.effects);
-applyEffects("lucas", option.effects);
-applyRelationship(option.relationship);
+function createJointChoice(
+choice
+) {
+var button =
+document.createElement(
+"button"
+);
 
 
-        addLog(option.text);
+button.type =
+    "button";
 
-        setText(
-            sceneElement,
-            option.result
+button.className =
+    "choice-button";
+
+button.textContent =
+    choice.text;
+
+button.addEventListener(
+    "click",
+    function () {
+        disableChoiceButtons(
+            button
         );
 
-        clearChoices();
+        applyRelationship(
+            choice.relationship
+        );
 
-        var endingButton = createButton(
-            "Descobrir o final",
+        applyEffects(
+            "sasah",
+            choice.effectsSasah
+        );
+
+        applyEffects(
+            "lucas",
+            choice.effectsLucas
+        );
+
+        addLog(
+            choice.log
+        );
+
+        saveGame();
+
+        setTimeout(
             function () {
                 showEnding();
-            }
+            },
+            350
         );
-
-        choicesElement.appendChild(endingButton);
-
-        updateUI();
-        saveGame();
     }
 );
 
-choicesElement.appendChild(button);
+choices.appendChild(
+    button
+);
+
+
+}
+
+/* ============================================================
+BOTÃO DE MISSÃO
+============================================================ */
+
+function createMissionButton(
+choice,
+callback
+) {
+var button =
+document.createElement(
+"button"
+);
+
+
+button.type =
+    "button";
+
+button.className =
+    "choice-button";
+
+button.textContent =
+    choice.text;
+
+button.addEventListener(
+    "click",
+    function () {
+        disableChoiceButtons(
+            button
+        );
+
+        applyRelationship(
+            choice.relationship
+        );
+
+        if (choice.log) {
+            addLog(
+                choice.log
+            );
+        }
+
+        saveGame();
+
+        setTimeout(
+            function () {
+                callback();
+            },
+            350
+        );
+    }
+);
+
+choices.appendChild(
+    button
+);
+
+
+}
+
+function disableChoiceButtons(
+selectedButton
+) {
+var buttons =
+choices.querySelectorAll(
+".choice-button"
+);
+
+
+for (
+    var i = 0;
+    i < buttons.length;
+    i++
+) {
+    buttons[i].disabled =
+        true;
+}
+
+if (selectedButton) {
+    selectedButton.classList.add(
+        "selected"
+    );
+}
 
 
 }
@@ -1226,82 +2034,179 @@ FINAL
 ============================================================ */
 
 function showEnding() {
-game.finished = true;
-game.currentPlayer = "joint";
+game.finished =
+true;
 
-
-var relationshipScore =
-    game.friendship +
-    game.trust +
-    game.affinity -
-    game.rivalry;
-
-var endingTitle;
-var endingText;
-
-if (relationshipScore >= 10) {
-    endingTitle = "Final — Aliados Inseparáveis";
-
-    endingText =
-        "Sasah e Lucas descobrem que suas histórias estavam conectadas " +
-        "desde antes de chegarem a Hogwarts. A confiança construída entre " +
-        "os dois permite que enfrentem juntos os mistérios que surgem. " +
-        "A amizade deles se torna uma das histórias mais comentadas do castelo.";
-
-} else if (game.rivalry >= 5) {
-    endingTitle = "Final — Rivais de Hogwarts";
-
-    endingText =
-        "Sasah e Lucas conseguem desvendar parte do mistério, mas suas diferenças " +
-        "fazem com que sigam caminhos distintos. A rivalidade entre os dois se torna " +
-        "lendária dentro de Hogwarts.";
-
-} else if (relationshipScore >= 4) {
-    endingTitle = "Final — Uma Nova Aliança";
-
-    endingText =
-        "Os dois percebem que podem confiar um no outro, embora ainda existam " +
-        "muitos mistérios a serem resolvidos. A aventura deles está apenas começando.";
-
-} else {
-    endingTitle = "Final — Caminhos Separados";
-
-    endingText =
-        "Sasah e Lucas seguem seus próprios caminhos dentro de Hogwarts. " +
-        "Mesmo assim, o símbolo dos quatro caminhos permanece como uma lembrança " +
-        "de que seus destinos ainda podem voltar a se cruzar.";
-}
 
 setText(
-    chapterElement,
-    endingTitle
+    chapter,
+    "Fim do Primeiro Arco"
 );
 
 setText(
     locationElement,
-    "Hogwarts"
+    "Hogwarts — Sala Secreta"
 );
 
 setText(
-    sceneElement,
-    endingText
+    playerTag,
+    game.sasah.name +
+        " & " +
+        game.lucas.name
 );
 
-clearChoices();
+scene.innerHTML = "";
 
-var restartButton = createButton(
-    "Jogar novamente",
-    function () {
-        restartGame();
-    }
+var ending =
+    document.createElement(
+        "div"
+    );
+
+ending.className =
+    "ending-box";
+
+var title =
+    document.createElement(
+        "h2"
+    );
+
+title.textContent =
+    "O segredo foi despertado";
+
+var paragraph =
+    document.createElement(
+        "p"
+    );
+
+paragraph.textContent =
+    getEndingText();
+
+ending.appendChild(
+    title
 );
 
-choicesElement.appendChild(restartButton);
+ending.appendChild(
+    paragraph
+);
 
-addLog("A aventura chegou ao seu final.");
+scene.appendChild(
+    ending
+);
+
+choices.innerHTML = "";
+
+var restartButton =
+    document.createElement(
+        "button"
+    );
+
+restartButton.type =
+    "button";
+
+restartButton.className =
+    "choice-button continue-button";
+
+restartButton.textContent =
+    "Jogar novamente";
+
+restartButton.addEventListener(
+    "click",
+    restartGame
+);
+
+choices.appendChild(
+    restartButton
+);
 
 updateUI();
+
 saveGame();
+
+
+}
+
+function getEndingText() {
+var friendship =
+game.relationship.friendship;
+
+
+var trust =
+    game.relationship.trust;
+
+var rivalry =
+    game.relationship.rivalry;
+
+var affinity =
+    game.relationship.affinity;
+
+var firstName =
+    game.sasah.name;
+
+var secondName =
+    game.lucas.name;
+
+if (
+    rivalry >= 8 &&
+    rivalry > friendship
+) {
+    return (
+        firstName +
+        " e " +
+        secondName +
+        " descobriram o segredo, mas a desconfiança entre os dois " +
+        "continua crescendo. Hogwarts ainda não sabe se está diante " +
+        "de dois futuros aliados ou de dois grandes rivais."
+    );
+}
+
+if (
+    friendship >= 10 &&
+    trust >= 8
+) {
+    return (
+        firstName +
+        " e " +
+        secondName +
+        " deixaram a sala secreta como verdadeiros aliados. " +
+        "A amizade construída entre os dois pode ser justamente " +
+        "o que Hogwarts precisará quando a verdadeira ameaça surgir."
+    );
+}
+
+if (
+    affinity >= 6 &&
+    trust >= 5
+) {
+    return (
+        "Existe uma ligação incomum entre " +
+        firstName +
+        " e " +
+        secondName +
+        ". Eles ainda não compreendem completamente " +
+        "o que os conecta, mas sabem que seus destinos " +
+        "não se cruzaram por acaso."
+    );
+}
+
+if (trust >= 6) {
+    return (
+        firstName +
+        " e " +
+        secondName +
+        " decidiram confiar um no outro. " +
+        "O mistério foi apenas parcialmente revelado, " +
+        "e muitas perguntas continuam sem resposta."
+    );
+}
+
+return (
+    firstName +
+    " e " +
+    secondName +
+    sobreviveram ao primeiro grande mistério de Hogwarts. " +
+    "Entretanto, o símbolo continua brilhando nas sombras. " +
+    "A aventura está apenas começando."
+);
 
 
 }
@@ -1311,60 +2216,153 @@ INTERFACE DOS JOGADORES
 ============================================================ */
 
 function updatePlayerTag() {
-if (!playerTagElement) {
+if (!playerTag) {
 return;
 }
 
 
-if (game.currentPlayer === "lucas") {
-    playerTagElement.textContent = "Jogando como Lucas";
-} else if (game.currentPlayer === "sasah") {
-    playerTagElement.textContent = "Jogando como Sasah";
-} else {
-    playerTagElement.textContent = "Sasah & Lucas";
+if (
+    game.currentPlayer ===
+    "joint"
+) {
+    playerTag.textContent =
+        game.sasah.name +
+        " & " +
+        game.lucas.name;
+
+    return;
+}
+
+var player =
+    getPlayer(
+        game.currentPlayer
+    );
+
+if (player) {
+    playerTag.textContent =
+        player.name;
 }
 
 
 }
 
-function updateAttribute(id, value) {
-var element = document.getElementById(id);
+function updateAttribute(
+id,
+value
+) {
+var element =
+document.getElementById(
+id
+);
 
 
 if (element) {
-    element.textContent = value;
+    element.textContent =
+        String(value);
 }
 
 
 }
 
-function updatePlayerInterface(playerName) {
-var player = getPlayer(playerName);
+function updatePlayerInterface(
+prefix,
+player
+) {
+if (!player) {
+return;
+}
 
 
-var prefix = playerName === "sasah"
-    ? "sasah"
-    : "lucas";
+var houseElement =
+    document.getElementById(
+        prefix + "House"
+    );
 
-updateAttribute(
-    prefix + "House",
-    player.house
-);
+if (houseElement) {
+    houseElement.textContent =
+        player.house ||
+        "Ainda não definida";
+}
 
-updateAttribute(
-    prefix + "HpText",
-    player.hp
-);
+var hpText =
+    document.getElementById(
+        prefix + "HpText"
+    );
 
-updateAttribute(
-    prefix + "ManaText",
-    player.mana
-);
+var hpBar =
+    document.getElementById(
+        prefix + "Hp"
+    );
 
-updateAttribute(
-    prefix + "XpText",
-    player.xp
-);
+if (hpText) {
+    hpText.textContent =
+        player.hp +
+        " / " +
+        player.maxHp;
+}
+
+if (hpBar) {
+    hpBar.style.width =
+        (
+            player.hp /
+            player.maxHp *
+            100
+        ) +
+        "%";
+}
+
+var manaText =
+    document.getElementById(
+        prefix + "ManaText"
+    );
+
+var manaBar =
+    document.getElementById(
+        prefix + "Mana"
+    );
+
+if (manaText) {
+    manaText.textContent =
+        player.mana +
+        " / " +
+        player.maxMana;
+}
+
+if (manaBar) {
+    manaBar.style.width =
+        (
+            player.mana /
+            player.maxMana *
+            100
+        ) +
+        "%";
+}
+
+var xpText =
+    document.getElementById(
+        prefix + "XpText"
+    );
+
+var xpBar =
+    document.getElementById(
+        prefix + "Xp"
+    );
+
+if (xpText) {
+    xpText.textContent =
+        String(
+            player.xp
+        );
+}
+
+if (xpBar) {
+    xpBar.style.width =
+        (
+            player.xp %
+            100
+        ) +
+        "%";
+}
 
 updateAttribute(
     prefix + "Bravery",
@@ -1396,75 +2394,84 @@ updateAttribute(
     player.magic
 );
 
-var hpBar = document.getElementById(
-    prefix + "Hp"
-);
-
-if (hpBar) {
-    hpBar.style.width = player.hp + "%";
-}
-
-var manaBar = document.getElementById(
-    prefix + "Mana"
-);
-
-if (manaBar) {
-    manaBar.style.width = player.mana + "%";
-}
-
-var xpBar = document.getElementById(
-    prefix + "Xp"
-);
-
-if (xpBar) {
-    var xpPercentage = player.xp % 100;
-
-    xpBar.style.width =
-        xpPercentage + "%";
-}
-
 
 }
 
 function updateRelationshipInterface() {
 updateAttribute(
 "friendship",
-game.friendship
+game.relationship.friendship
 );
 
 
 updateAttribute(
     "trust",
-    game.trust
+    game.relationship.trust
 );
 
 updateAttribute(
     "rivalry",
-    game.rivalry
+    game.relationship.rivalry
 );
 
 updateAttribute(
     "affinity",
-    game.affinity
+    game.relationship.affinity
 );
+
+
+}
+
+function updateNamesInInterface() {
+var sasahName =
+document.getElementById(
+"sasahName"
+);
+
+
+var lucasName =
+    document.getElementById(
+        "lucasName"
+    );
+
+if (sasahName) {
+    sasahName.textContent =
+        game.sasah.name;
+}
+
+if (lucasName) {
+    lucasName.textContent =
+        game.lucas.name;
+}
 
 
 }
 
 function updateUI() {
-updatePlayerTag();
+updatePlayerInterface(
+"sasah",
+game.sasah
+);
 
 
-updatePlayerInterface("sasah");
-updatePlayerInterface("lucas");
+updatePlayerInterface(
+    "lucas",
+    game.lucas
+);
 
 updateRelationshipInterface();
+
+updateNamesInInterface();
+
+updatePlayerTag();
+
+updateLog();
 
 
 }
 
 /* ============================================================
-SALVAMENTO
+SALVAR
 ============================================================ */
 
 function saveGame() {
@@ -1474,16 +2481,21 @@ SAVE_KEY,
 JSON.stringify(game)
 );
 } catch (error) {
-console.error(
-"Não foi possível salvar o jogo:",
+console.warn(
+"Não foi possível salvar o jogo.",
 error
 );
 }
 }
 
+/* ============================================================
+CARREGAR
+============================================================ */
+
 function loadGame() {
 try {
-var saved = localStorage.getItem(
+var saved =
+localStorage.getItem(
 SAVE_KEY
 );
 
@@ -1492,27 +2504,65 @@ SAVE_KEY
         return false;
     }
 
-    var loadedGame = JSON.parse(saved);
+    var parsed =
+        JSON.parse(
+            saved
+        );
 
     if (
-        !loadedGame ||
-        !loadedGame.sasah ||
-        !loadedGame.lucas
+        !parsed ||
+        !parsed.sasah ||
+        !parsed.lucas
     ) {
         return false;
     }
 
-    game = loadedGame;
+    game = parsed;
+
+    if (!game.relationship) {
+        game.relationship = {
+            friendship: 0,
+            trust: 0,
+            rivalry: 0,
+            affinity: 0
+        };
+    }
+
+    if (!game.houseAnswers) {
+        game.houseAnswers = {
+            sasah: [],
+            lucas: []
+        };
+    }
+
+    if (!game.storyFlags) {
+        game.storyFlags = {
+            secretDoor: false,
+            mysteriousBook: false,
+            forbiddenForest: false,
+            ancientArtifact: false,
+            discoveredTruth: false
+        };
+    }
+
+    if (
+        typeof game.houseQuestion !==
+        "number"
+    ) {
+        game.houseQuestion = 0;
+    }
+
+    if (!Array.isArray(game.log)) {
+        game.log = [];
+    }
 
     updateUI();
-
-    addLog("Jogo carregado.");
 
     return true;
 
 } catch (error) {
-    console.error(
-        "Não foi possível carregar o jogo:",
+    console.warn(
+        "Erro ao carregar o jogo.",
         error
     );
 
@@ -1523,48 +2573,364 @@ SAVE_KEY
 }
 
 /* ============================================================
-NOVO JOGO
+TELA DE NOMES
 ============================================================ */
 
-function createNewGame() {
-game = createDefaultGame();
+function showNameScreen() {
+setText(
+chapter,
+"Escolha seus protagonistas"
+);
+
+
+setText(
+    locationElement,
+    "Antes da aventura começar"
+);
+
+setText(
+    playerTag,
+    "Novos personagens"
+);
+
+scene.innerHTML = "";
+
+var title =
+    document.createElement(
+        "h2"
+    );
+
+title.textContent =
+    "Quem viverá esta aventura?";
+
+var description =
+    document.createElement(
+        "p"
+    );
+
+description.textContent =
+    "Você pode usar seus próprios nomes ou inventar dois personagens. " +
+    "Os nomes escolhidos serão utilizados durante toda a história.";
+
+var form =
+    document.createElement(
+        "div"
+    );
+
+form.className =
+    "name-selection";
+
+var label1 =
+    document.createElement(
+        "label"
+    );
+
+label1.textContent =
+    "Nome do primeiro protagonista";
+
+var input1 =
+    document.createElement(
+        "input"
+    );
+
+input1.type =
+    "text";
+
+input1.id =
+    "characterName1";
+
+input1.placeholder =
+    "Ex.: Sasah";
+
+input1.maxLength =
+    30;
+
+var label2 =
+    document.createElement(
+        "label"
+    );
+
+label2.textContent =
+    "Nome do segundo protagonista";
+
+var input2 =
+    document.createElement(
+        "input"
+    );
+
+input2.type =
+    "text";
+
+input2.id =
+    "characterName2";
+
+input2.placeholder =
+    "Ex.: Lucas";
+
+input2.maxLength =
+    30;
+
+form.appendChild(
+    label1
+);
+
+form.appendChild(
+    input1
+);
+
+form.appendChild(
+    label2
+);
+
+form.appendChild(
+    input2
+);
+
+scene.appendChild(
+    title
+);
+
+scene.appendChild(
+    description
+);
+
+scene.appendChild(
+    form
+);
+
+choices.innerHTML = "";
+
+var startButton =
+    document.createElement(
+        "button"
+    );
+
+startButton.type =
+    "button";
+
+startButton.className =
+    "choice-button continue-button";
+
+startButton.textContent =
+    "Começar aventura";
+
+startButton.addEventListener(
+    "click",
+    function () {
+        startCustomGame();
+    }
+);
+
+choices.appendChild(
+    startButton
+);
+
+var backButton =
+    document.createElement(
+        "button"
+    );
+
+backButton.type =
+    "button";
+
+backButton.className =
+    "choice-button";
+
+backButton.textContent =
+    "Usar Sasah e Lucas";
+
+backButton.addEventListener(
+    "click",
+    function () {
+        startGameWithNames(
+            "Sasah",
+            "Lucas"
+        );
+    }
+);
+
+choices.appendChild(
+    backButton
+);
+
+
+}
+
+function startCustomGame() {
+var input1 =
+document.getElementById(
+"characterName1"
+);
+
+
+var input2 =
+    document.getElementById(
+        "characterName2"
+    );
+
+var name1 =
+    input1
+        ? input1.value.trim()
+        : "";
+
+var name2 =
+    input2
+        ? input2.value.trim()
+        : "";
+
+if (!name1) {
+    name1 = "Sasah";
+}
+
+if (!name2) {
+    name2 = "Lucas";
+}
+
+startGameWithNames(
+    name1,
+    name2
+);
+
+
+}
+
+function startGameWithNames(
+name1,
+name2
+) {
+game =
+createDefaultGame();
+
+
+game.sasah.name =
+    name1;
+
+game.lucas.name =
+    name2;
+
+game.gameStarted =
+    true;
+
+addLog(
+    "A aventura de " +
+        name1 +
+        " e " +
+        name2 +
+        " começou."
+);
+
+saveGame();
+
+startSasah();
+
+
 }
 
 /* ============================================================
-CONTINUAR JOGO
+CONTINUAR SALVAMENTO
 ============================================================ */
 
 function continueFromSave() {
-var loaded = loadGame();
+var loaded =
+loadGame();
 
 
 if (!loaded) {
-    addLog(
-        "Nenhum jogo salvo foi encontrado."
-    );
-
-    showStartScreen();
-
+    showNameScreen();
     return;
 }
+
+game.gameStarted =
+    true;
 
 if (game.finished) {
     showEnding();
     return;
 }
 
-if (game.currentPlayer === "lucas") {
-    renderStory("lucas");
+if (
+    game.currentPlayer ===
+    "sasah"
+) {
+    if (
+        game.sasah.chapter >=
+        sasahStory.length
+    ) {
+        showHouseQuestion(
+            "sasah"
+        );
+    } else {
+        renderStory(
+            "sasah"
+        );
+    }
 
-} else if (game.currentPlayer === "sasah") {
-    renderStory("sasah");
-
-} else {
-    startMeeting();
+    return;
 }
+
+if (
+    game.currentPlayer ===
+    "lucas"
+) {
+    if (
+        game.lucas.chapter >=
+        lucasStory.length
+    ) {
+        showHouseQuestion(
+            "lucas"
+        );
+    } else {
+        renderStory(
+            "lucas"
+        );
+    }
+
+    return;
+}
+
+if (
+    game.currentPlayer ===
+    "joint"
+) {
+    if (
+        game.missionStarted
+    ) {
+        startJointMission();
+    } else {
+        startMeeting();
+    }
+
+    return;
+}
+
+startSasah();
+
+
+}
+
+/* ============================================================
+NOVA AVENTURA
+============================================================ */
+
+function createNewGame() {
+try {
+localStorage.removeItem(
+SAVE_KEY
+);
+} catch (error) {
+console.warn(
+"Não foi possível limpar o salvamento.",
+error
+);
+}
+
+
+game =
+    createDefaultGame();
 
 updateUI();
 
+showNameScreen();
 
 }
 
@@ -1573,9 +2939,9 @@ REINICIAR
 ============================================================ */
 
 function restartGame() {
-var confirmed = window.confirm(
-"Tem certeza de que deseja começar uma nova aventura? " +
-"O progresso atual será apagado."
+var confirmed =
+window.confirm(
+"Deseja realmente apagar o progresso e começar uma nova aventura?"
 );
 
 
@@ -1583,15 +2949,7 @@ if (!confirmed) {
     return;
 }
 
-try {
-    localStorage.removeItem(SAVE_KEY);
-} catch (error) {
-    console.error(error);
-}
-
 createNewGame();
-
-showStartScreen();
 
 
 }
@@ -1601,47 +2959,117 @@ TELA INICIAL
 ============================================================ */
 
 function showStartScreen() {
-game.currentPlayer = "sasah";
+if (!pageIsReady()) {
+return;
+}
 
 
 setText(
-    chapterElement,
-    "As Crônicas de Hogwarts"
+    chapter,
+    "Hogwarts RPG"
 );
 
 setText(
     locationElement,
-    "O início da aventura"
+    "Uma nova aventura mágica"
 );
 
 setText(
-    sceneElement,
-    "Duas histórias diferentes estão prestes a começar. " +
-    "Sasah e Lucas receberão cartas que mudarão suas vidas para sempre. " +
-    "Suas escolhas determinarão suas características, suas casas e " +
-    "o relacionamento entre os dois."
+    playerTag,
+    "Dois destinos"
 );
 
-clearChoices();
+scene.innerHTML = "";
 
-var startButton = createButton(
-    "Começar a história de Sasah",
+var title =
+    document.createElement(
+        "h2"
+    );
+
+title.textContent =
+    "Bem-vindo a Hogwarts";
+
+var description =
+    document.createElement(
+        "p"
+    );
+
+description.textContent =
+    "Duas pessoas receberão cartas para Hogwarts. " +
+    "Suas histórias começarão separadas, mas seus destinos " +
+    "estarão ligados por um antigo mistério.";
+
+scene.appendChild(
+    title
+);
+
+scene.appendChild(
+    description
+);
+
+choices.innerHTML = "";
+
+var newButton =
+    document.createElement(
+        "button"
+    );
+
+newButton.type =
+    "button";
+
+newButton.className =
+    "choice-button continue-button";
+
+newButton.textContent =
+    "Criar personagens";
+
+newButton.addEventListener(
+    "click",
     function () {
         createNewGame();
-        startSasah();
     }
 );
 
-choicesElement.appendChild(startButton);
-
-var continueButton = createButton(
-    "Continuar jogo salvo",
-    function () {
-        continueFromSave();
-    }
+choices.appendChild(
+    newButton
 );
 
-choicesElement.appendChild(continueButton);
+var hasSave =
+    false;
+
+try {
+    hasSave =
+        localStorage.getItem(
+            SAVE_KEY
+        ) !== null;
+} catch (error) {
+    hasSave = false;
+}
+
+if (hasSave) {
+    var continueButton =
+        document.createElement(
+            "button"
+        );
+
+    continueButton.type =
+        "button";
+
+    continueButton.className =
+        "choice-button";
+
+    continueButton.textContent =
+        "Continuar jogo salvo";
+
+    continueButton.addEventListener(
+        "click",
+        continueFromSave
+    );
+
+    choices.appendChild(
+        continueButton
+    );
+}
 
 updateUI();
 
@@ -1649,36 +3077,59 @@ updateUI();
 }
 
 /* ============================================================
-BOTÕES FIXOS DA PÁGINA
+BOTÕES FIXOS
 ============================================================ */
 
 function setupButtons() {
-var saveButton = document.getElementById(
+var saveButton =
+document.getElementById(
 "saveButton"
 );
 
 
+var loadButton =
+    document.getElementById(
+        "loadButton"
+    );
+
+var restartButton =
+    document.getElementById(
+        "restartButton"
+    );
+
 if (saveButton) {
     saveButton.addEventListener(
         "click",
-        saveGame
+        function () {
+            saveGame();
+
+            addLog(
+                "Jogo salvo."
+            );
+        }
     );
 }
-
-var loadButton = document.getElementById(
-    "loadButton"
-);
 
 if (loadButton) {
     loadButton.addEventListener(
         "click",
-        continueFromSave
+        function () {
+            if (
+                loadGame()
+            ) {
+                addLog(
+                    "Jogo carregado."
+                );
+
+                continueFromSave();
+            } else {
+                addLog(
+                    "Nenhum jogo salvo foi encontrado."
+                );
+            }
+        }
     );
 }
-
-var restartButton = document.getElementById(
-    "restartButton"
-);
 
 if (restartButton) {
     restartButton.addEventListener(
@@ -1700,7 +3151,7 @@ getElements();
 
 if (!pageIsReady()) {
     console.error(
-        "Erro: elementos principais do jogo não foram encontrados."
+        "O RPG não encontrou todos os elementos necessários do HTML."
     );
 
     return;
@@ -1710,12 +3161,6 @@ setupButtons();
 
 showStartScreen();
 
-updateUI();
-
-console.log(
-    "As Crônicas de Hogwarts carregadas com sucesso."
-);
-
 
 }
 
@@ -1723,7 +3168,14 @@ console.log(
 DOM READY
 ============================================================ */
 
+if (
+document.readyState ===
+"loading"
+) {
 document.addEventListener(
 "DOMContentLoaded",
 startApplication
 );
+} else {
+startApplication();
+}
