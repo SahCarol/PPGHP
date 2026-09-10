@@ -213,17 +213,17 @@ HISTÓRIA DE SASAH
 ============================================================ */
 
 var sasahStory = [
+{
+chapter: "Prólogo — A carta",
+location: "Casa de Sasah",
+text:
+"A noite parecia completamente comum.\n\n" +
+"Sasah estava em seu quarto quando ouviu uma batida na janela.\n\n" +
+"Uma coruja pousou no parapeito e deixou um envelope sobre a mesa.\n\n" +
+"O envelope era antigo e tinha um estranho selo vermelho.\n\n" +
+"Por algum motivo, Sasah sentiu que aquela carta mudaria sua vida.",
 
 ```
-{
-    chapter: "Prólogo — A carta",
-    location: "Casa de Sasah",
-    text:
-        "A noite parecia completamente comum.\n\n" +
-        "Sasah estava em seu quarto quando ouviu uma batida na janela.\n\n" +
-        "Uma coruja pousou no parapeito e deixou um envelope sobre a mesa.\n\n" +
-        "O envelope era antigo e tinha um estranho selo vermelho.\n\n" +
-        "Por algum motivo, Sasah sentiu que aquela carta mudaria sua vida.",
     choices: [
         {
             text: "Abrir a carta imediatamente.",
@@ -267,6 +267,7 @@ var sasahStory = [
         "Na janela aparece o mesmo símbolo que estava no selo.\n\n" +
         "O desenho começa a brilhar lentamente.\n\n" +
         "Sasah sente uma energia mágica atravessar o quarto.",
+
     choices: [
         {
             text: "Tocar no símbolo.",
@@ -308,6 +309,7 @@ var sasahStory = [
         "Entre lojas, criaturas mágicas e bruxos apressados, ela percebe uma figura encapuzada.\n\n" +
         "A pessoa está segurando um objeto com exatamente o mesmo símbolo da carta.\n\n" +
         "Quando Sasah se aproxima, a figura desaparece em uma viela.",
+
     choices: [
         {
             text: "Seguir a figura.",
@@ -349,17 +351,17 @@ HISTÓRIA DE LUCAS
 ============================================================ */
 
 var lucasStory = [
+{
+chapter: "Prólogo — O livro",
+location: "Casa de Lucas",
+text:
+"Na mesma noite, Lucas teve um sonho estranho.\n\n" +
+"No sonho, ele estava diante de um enorme castelo cercado por montanhas.\n\n" +
+"Uma voz distante pronunciava seu nome.\n\n" +
+"Quando Lucas acordou, encontrou um livro antigo sobre sua mesa.\n\n" +
+"Ele tinha certeza de que aquele livro não estava ali antes.",
 
 ```
-{
-    chapter: "Prólogo — O livro",
-    location: "Casa de Lucas",
-    text:
-        "Na mesma noite, Lucas teve um sonho estranho.\n\n" +
-        "No sonho, ele estava diante de um enorme castelo cercado por montanhas.\n\n" +
-        "Uma voz distante pronunciava seu nome.\n\n" +
-        "Quando Lucas acordou, encontrou um livro antigo sobre sua mesa.\n\n" +
-        "Ele tinha certeza de que aquele livro não estava ali antes.",
     choices: [
         {
             text: "Abrir o livro.",
@@ -402,6 +404,7 @@ var lucasStory = [
         "Ela fala sobre Hogwarts e sobre uma antiga ameaça que estaria despertando.\n\n" +
         "No final da página existe um símbolo.\n\n" +
         "Lucas percebe que é exatamente o mesmo símbolo que apareceu na carta de Hogwarts.",
+
     choices: [
         {
             text: "Investigar imediatamente.",
@@ -443,6 +446,7 @@ var lucasStory = [
         "Entre as vielas, ele vê uma pessoa encapuzada segurando um objeto estranho.\n\n" +
         "O objeto possui o mesmo símbolo encontrado no livro.\n\n" +
         "A figura percebe que Lucas está observando e começa a fugir.",
+
     choices: [
         {
             text: "Correr atrás da figura.",
@@ -483,11 +487,11 @@ SELEÇÃO DAS CASAS
 ============================================================ */
 
 var houseQuestions = [
+{
+question:
+"Uma criatura perigosa bloqueia seu caminho. O que você faz?",
 
 ```
-{
-    question:
-        "Uma criatura perigosa bloqueia seu caminho. O que você faz?",
     answers: [
         {
             text: "Enfrento a criatura sem recuar.",
@@ -515,6 +519,7 @@ var houseQuestions = [
 {
     question:
         "Qual característica você mais admira?",
+
     answers: [
         {
             text: "Coragem.",
@@ -542,6 +547,7 @@ var houseQuestions = [
 {
     question:
         "Você encontra uma passagem proibida em Hogwarts.",
+
     answers: [
         {
             text: "Entro, mesmo sabendo que é proibido.",
@@ -569,6 +575,7 @@ var houseQuestions = [
 {
     question:
         "Um colega confia a você um segredo.",
+
     answers: [
         {
             text: "Protejo o segredo mesmo que isso me coloque em perigo.",
@@ -596,6 +603,7 @@ var houseQuestions = [
 {
     question:
         "Seu feitiço falha diante da turma. Como você reage?",
+
     answers: [
         {
             text: "Tento novamente sem medo.",
@@ -673,15 +681,8 @@ if (!question) {
 
 game.currentPlayer = playerName;
 
-setText(
-    chapterElement,
-    "Seleção para a Casa"
-);
-
-setText(
-    locationElement,
-    "Hogwarts — Salão Principal"
-);
+setText(chapterElement, "Seleção para a Casa");
+setText(locationElement, "Hogwarts — Salão Principal");
 
 setText(
     sceneElement,
@@ -1562,9 +1563,7 @@ return;
 }
 
 ```
-if (
-    game.currentPlayer === "sasah"
-) {
+if (game.currentPlayer === "sasah") {
     if (
         game.sasahChapter >=
         sasahStory.length
@@ -1584,9 +1583,7 @@ if (
     return;
 }
 
-if (
-    game.currentPlayer === "lucas"
-) {
+if (game.currentPlayer === "lucas") {
     if (
         game.lucasChapter >=
         lucasStory.length
@@ -1779,3 +1776,4 @@ startApplication
 } else {
 startApplication();
 }
+
