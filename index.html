@@ -1,41 +1,58 @@
-
 <!DOCTYPE html>
+
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Crônicas de Hogwarts — Sasah & Lucas</title>
 
-    <link rel="stylesheet" href="style.css">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="description"
+    content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade."
+>
+
+<title>Hogwarts RPG</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+
 </head>
 
 <body>
 
-<header class="topo">
 
-    <div>
-        <h1>⚡ Crônicas de Hogwarts</h1>
-        <p>As histórias de Sasah e Lucas</p>
-    </div>
-
-    <div class="player-tag" id="playerTag">
-        Jogando como Sasah
-    </div>
-
-</header>
-
+<div class="page-background"></div>
 
 <main class="game-container">
 
-    <!-- HISTÓRIA -->
-    <section class="story-card">
+    <!-- ==================================================
+         CABEÇALHO
+         ================================================== -->
 
-        <div class="story-header">
+    <header class="game-header">
+
+        <div class="header-content">
+
+            <div class="magic-symbol">
+                ✦
+            </div>
 
             <div>
-                <span id="chapter">Prólogo</span>
-                <h2 id="location">O início da história</h2>
+                <h1>
+                    Hogwarts RPG
+                </h1>
+
+                <p>
+                    Dois destinos. Um antigo mistério.
+                </p>
             </div>
 
             <div class="magic-symbol">
@@ -44,281 +61,539 @@
 
         </div>
 
-
-        <div class="story-content">
-
-            <p id="scene">
-                Carregando a aventura...
-            </p>
-
-        </div>
+    </header>
 
 
-        <div class="choices" id="choices"></div>
+    <!-- ==================================================
+         ÁREA PRINCIPAL
+         ================================================== -->
 
-    </section>
-
-
-    <!-- STATUS -->
-    <section class="status-section">
+    <section class="game-layout">
 
 
-        <!-- SASAH -->
-        <div class="character-card">
+        <!-- ==================================================
+             HISTÓRIA
+             ================================================== -->
 
-            <div class="character-header">
+        <section class="story-panel">
 
-                <div class="character-avatar sasah-avatar">
-                    S
-                </div>
+            <div class="story-top">
 
-                <div>
-                    <h3>Sasah</h3>
-                    <span id="sasahHouse">
-                        Casa ainda não escolhida
+                <div class="story-info">
+
+                    <span
+                        id="chapter"
+                        class="chapter"
+                    >
+                        Hogwarts RPG
                     </span>
-                </div>
 
-            </div>
-
-
-            <div class="bar-info">
-                <span>❤️ Vida</span>
-                <span id="sasahHpText">100 / 100</span>
-            </div>
-
-            <div class="bar">
-                <div class="bar-fill hp" id="sasahHp"></div>
-            </div>
-
-
-            <div class="bar-info">
-                <span>🔮 Magia</span>
-                <span id="sasahManaText">100 / 100</span>
-            </div>
-
-            <div class="bar">
-                <div class="bar-fill mana" id="sasahMana"></div>
-            </div>
-
-
-            <div class="bar-info">
-                <span>⭐ Experiência</span>
-                <span id="sasahXpText">0 XP</span>
-            </div>
-
-            <div class="bar">
-                <div class="bar-fill xp" id="sasahXp"></div>
-            </div>
-
-
-            <div class="attributes">
-
-                <div>
-                    <strong id="sasahBravery">0</strong>
-                    <small>Coragem</small>
-                </div>
-
-                <div>
-                    <strong id="sasahLoyalty">0</strong>
-                    <small>Lealdade</small>
-                </div>
-
-                <div>
-                    <strong id="sasahIntelligence">0</strong>
-                    <small>Inteligência</small>
-                </div>
-
-                <div>
-                    <strong id="sasahAmbition">0</strong>
-                    <small>Ambição</small>
-                </div>
-
-                <div>
-                    <strong id="sasahEmpathy">0</strong>
-                    <small>Empatia</small>
-                </div>
-
-                <div>
-                    <strong id="sasahMagic">0</strong>
-                    <small>Magia</small>
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- LUCAS -->
-        <div class="character-card">
-
-            <div class="character-header">
-
-                <div class="character-avatar lucas-avatar">
-                    L
-                </div>
-
-                <div>
-                    <h3>Lucas</h3>
-
-                    <span id="lucasHouse">
-                        Casa ainda não escolhida
+                    <span
+                        id="location"
+                        class="location"
+                    >
+                        Uma nova aventura mágica
                     </span>
+
                 </div>
 
+                <span
+                    id="playerTag"
+                    class="player-tag"
+                >
+                    Dois destinos
+                </span>
+
             </div>
 
 
-            <div class="bar-info">
-                <span>❤️ Vida</span>
-                <span id="lucasHpText">100 / 100</span>
+            <!-- CENA -->
+
+            <article
+                id="scene"
+                class="scene"
+            >
+
+                <h2>
+                    Bem-vindo a Hogwarts
+                </h2>
+
+                <p>
+                    Duas pessoas receberão cartas para Hogwarts.
+                    Suas histórias começarão separadas,
+                    mas seus destinos estarão ligados por
+                    um antigo mistério.
+                </p>
+
+            </article>
+
+
+            <!-- ESCOLHAS -->
+
+            <div
+                id="choices"
+                class="choices"
+            >
             </div>
 
-            <div class="bar">
-                <div class="bar-fill hp" id="lucasHp"></div>
-            </div>
+        </section>
 
 
-            <div class="bar-info">
-                <span>🔮 Magia</span>
-                <span id="lucasManaText">100 / 100</span>
-            </div>
+        <!-- ==================================================
+             PAINEL LATERAL
+             ================================================== -->
 
-            <div class="bar">
-                <div class="bar-fill mana" id="lucasMana"></div>
-            </div>
+        <aside class="sidebar">
 
 
-            <div class="bar-info">
-                <span>⭐ Experiência</span>
-                <span id="lucasXpText">0 XP</span>
-            </div>
+            <!-- ==================================================
+                 PERSONAGEM 1
+                 ================================================== -->
 
-            <div class="bar">
-                <div class="bar-fill xp" id="lucasXp"></div>
-            </div>
+            <section class="status-card">
 
+                <div class="status-header">
 
-            <div class="attributes">
+                    <div>
 
-                <div>
-                    <strong id="lucasBravery">0</strong>
-                    <small>Coragem</small>
+                        <h2 id="sasahName">
+                            Sasah
+                        </h2>
+
+                        <span
+                            id="sasahHouse"
+                            class="house-name"
+                        >
+                            Ainda não definida
+                        </span>
+
+                    </div>
+
+                    <span class="character-icon">
+                        🧙
+                    </span>
+
                 </div>
 
-                <div>
-                    <strong id="lucasLoyalty">0</strong>
-                    <small>Lealdade</small>
+
+                <!-- VIDA -->
+
+                <div class="status-row">
+
+                    <div class="status-label">
+                        <span>❤️ Vida</span>
+
+                        <span id="sasahHpText">
+                            100 / 100
+                        </span>
+                    </div>
+
+                    <div class="status-bar">
+
+                        <div
+                            id="sasahHp"
+                            class="status-fill hp-fill"
+                            style="width: 100%;"
+                        ></div>
+
+                    </div>
+
                 </div>
 
-                <div>
-                    <strong id="lucasIntelligence">0</strong>
-                    <small>Inteligência</small>
+
+                <!-- MAGIA -->
+
+                <div class="status-row">
+
+                    <div class="status-label">
+                        <span>✨ Mana</span>
+
+                        <span id="sasahManaText">
+                            100 / 100
+                        </span>
+                    </div>
+
+                    <div class="status-bar">
+
+                        <div
+                            id="sasahMana"
+                            class="status-fill mana-fill"
+                            style="width: 100%;"
+                        ></div>
+
+                    </div>
+
                 </div>
 
-                <div>
-                    <strong id="lucasAmbition">0</strong>
-                    <small>Ambição</small>
+
+                <!-- XP -->
+
+                <div class="status-row">
+
+                    <div class="status-label">
+                        <span>⭐ XP</span>
+
+                        <span id="sasahXpText">
+                            0
+                        </span>
+                    </div>
+
+                    <div class="status-bar">
+
+                        <div
+                            id="sasahXp"
+                            class="status-fill xp-fill"
+                            style="width: 0%;"
+                        ></div>
+
+                    </div>
+
                 </div>
 
-                <div>
-                    <strong id="lucasEmpathy">0</strong>
-                    <small>Empatia</small>
+
+                <!-- ATRIBUTOS -->
+
+                <div class="attributes">
+
+                    <div>
+                        🦁 Coragem:
+                        <strong id="sasahBravery">0</strong>
+                    </div>
+
+                    <div>
+                        🤝 Lealdade:
+                        <strong id="sasahLoyalty">0</strong>
+                    </div>
+
+                    <div>
+                        🧠 Inteligência:
+                        <strong id="sasahIntelligence">0</strong>
+                    </div>
+
+                    <div>
+                        👑 Ambição:
+                        <strong id="sasahAmbition">0</strong>
+                    </div>
+
+                    <div>
+                        💛 Empatia:
+                        <strong id="sasahEmpathy">0</strong>
+                    </div>
+
+                    <div>
+                        🔮 Magia:
+                        <strong id="sasahMagic">0</strong>
+                    </div>
+
                 </div>
 
-                <div>
-                    <strong id="lucasMagic">0</strong>
-                    <small>Magia</small>
+            </section>
+
+
+            <!-- ==================================================
+                 PERSONAGEM 2
+                 ================================================== -->
+
+            <section class="status-card">
+
+                <div class="status-header">
+
+                    <div>
+
+                        <h2 id="lucasName">
+                            Lucas
+                        </h2>
+
+                        <span
+                            id="lucasHouse"
+                            class="house-name"
+                        >
+                            Ainda não definida
+                        </span>
+
+                    </div>
+
+                    <span class="character-icon">
+                        🧙‍♂️
+                    </span>
+
                 </div>
 
-            </div>
 
-        </div>
+                <!-- VIDA -->
+
+                <div class="status-row">
+
+                    <div class="status-label">
+                        <span>❤️ Vida</span>
+
+                        <span id="lucasHpText">
+                            100 / 100
+                        </span>
+                    </div>
+
+                    <div class="status-bar">
+
+                        <div
+                            id="lucasHp"
+                            class="status-fill hp-fill"
+                            style="width: 100%;"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAGIA -->
+
+                <div class="status-row">
+
+                    <div class="status-label">
+                        <span>✨ Mana</span>
+
+                        <span id="lucasManaText">
+                            100 / 100
+                        </span>
+                    </div>
+
+                    <div class="status-bar">
+
+                        <div
+                            id="lucasMana"
+                            class="status-fill mana-fill"
+                            style="width: 100%;"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- XP -->
+
+                <div class="status-row">
+
+                    <div class="status-label">
+                        <span>⭐ XP</span>
+
+                        <span id="lucasXpText">
+                            0
+                        </span>
+                    </div>
+
+                    <div class="status-bar">
+
+                        <div
+                            id="lucasXp"
+                            class="status-fill xp-fill"
+                            style="width: 0%;"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ATRIBUTOS -->
+
+                <div class="attributes">
+
+                    <div>
+                        🦁 Coragem:
+                        <strong id="lucasBravery">0</strong>
+                    </div>
+
+                    <div>
+                        🤝 Lealdade:
+                        <strong id="lucasLoyalty">0</strong>
+                    </div>
+
+                    <div>
+                        🧠 Inteligência:
+                        <strong id="lucasIntelligence">0</strong>
+                    </div>
+
+                    <div>
+                        👑 Ambição:
+                        <strong id="lucasAmbition">0</strong>
+                    </div>
+
+                    <div>
+                        💛 Empatia:
+                        <strong id="lucasEmpathy">0</strong>
+                    </div>
+
+                    <div>
+                        🔮 Magia:
+                        <strong id="lucasMagic">0</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 RELACIONAMENTO
+                 ================================================== -->
+
+            <section class="relationship-card">
+
+                <div class="status-header">
+
+                    <div>
+
+                        <h2>
+                            Relação
+                        </h2>
+
+                        <p>
+                            Os destinos dos protagonistas
+                        </p>
+
+                    </div>
+
+                    <span class="character-icon">
+                        💫
+                    </span>
+
+                </div>
+
+
+                <div class="relationship-grid">
+
+                    <div>
+                        <span>💙 Amizade</span>
+                        <strong id="friendship">0</strong>
+                    </div>
+
+                    <div>
+                        <span>🤝 Confiança</span>
+                        <strong id="trust">0</strong>
+                    </div>
+
+                    <div>
+                        <span>⚔️ Rivalidade</span>
+                        <strong id="rivalry">0</strong>
+                    </div>
+
+                    <div>
+                        <span>💜 Afinidade</span>
+                        <strong id="affinity">0</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 DIÁRIO
+                 ================================================== -->
+
+            <section class="log-card">
+
+                <div class="status-header">
+
+                    <div>
+
+                        <h2>
+                            Diário da aventura
+                        </h2>
+
+                        <p>
+                            Acontecimentos recentes
+                        </p>
+
+                    </div>
+
+                    <span class="character-icon">
+                        📜
+                    </span>
+
+                </div>
+
+                <div
+                    id="log"
+                    class="log"
+                >
+
+                    <div class="log-empty">
+                        A aventura ainda está começando...
+                    </div>
+
+                </div>
+
+            </section>
+
+        </aside>
 
     </section>
 
 
+    <!-- ==================================================
+         CONTROLES
+         ================================================== -->
 
-    <!-- RELACIONAMENTO -->
-    <section class="relationship-card">
+    <nav
+        class="game-controls"
+        aria-label="Controles do jogo"
+    >
 
-        <h3>🪄 Relação entre Sasah e Lucas</h3>
-
-        <div class="relationship-grid">
-
-            <div>
-                <span>🤝 Amizade</span>
-                <strong id="friendship">0</strong>
-            </div>
-
-            <div>
-                <span>🔐 Confiança</span>
-                <strong id="trust">0</strong>
-            </div>
-
-            <div>
-                <span>⚔️ Rivalidade</span>
-                <strong id="rivalry">0</strong>
-            </div>
-
-            <div>
-                <span>💫 Afinidade</span>
-                <strong id="affinity">0</strong>
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- DIÁRIO -->
-    <section class="log-card">
-
-        <h3>📜 Diário da aventura</h3>
-
-        <div id="log"></div>
-
-    </section>
-
-
-
-    <!-- BOTÕES -->
-    <section class="controls">
-
-        <button id="saveButton">
+        <button
+            id="saveButton"
+            type="button"
+            class="control-button"
+        >
             💾 Salvar
         </button>
 
-        <button id="loadButton">
+        <button
+            id="loadButton"
+            type="button"
+            class="control-button"
+        >
             📂 Carregar
         </button>
 
-        <button id="restartButton">
+        <button
+            id="restartButton"
+            type="button"
+            class="control-button danger-button"
+        >
             🔄 Reiniciar
         </button>
 
-    </section>
+    </nav>
+
+
+    <!-- ==================================================
+         RODAPÉ
+         ================================================== -->
+
+    <footer class="game-footer">
+
+        <p>
+            Hogwarts RPG
+        </p>
+
+        <span>
+            Uma aventura de magia, escolhas e mistério.
+        </span>
+
+    </footer>
 
 </main>
 
 
-
-<footer>
-
-    <p>
-        Crônicas de Hogwarts — RPG de Sasah & Lucas
-    </p>
-
-</footer>
-
-
+<!-- ======================================================
+     JAVASCRIPT
+     ====================================================== -->
 
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
-
-
-
