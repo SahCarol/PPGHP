@@ -16,7 +16,7 @@ ESTADO DO JOGO
 var game = {
 currentPlayer: "sasah",
 
-```
+
 sasah: {
     name: "Sasah",
     house: "Não definida",
@@ -54,7 +54,6 @@ sasahChapter: 0,
 lucasChapter: 0,
 
 finished: false
-```
 
 };
 
@@ -106,7 +105,6 @@ if (!logElement) {
 return;
 }
 
-```
 var entry = document.createElement("p");
 entry.textContent = text;
 
@@ -117,7 +115,7 @@ while (logElement.children.length > 12) {
 }
 
 logElement.scrollTop = logElement.scrollHeight;
-```
+
 
 }
 
@@ -126,9 +124,8 @@ if (playerName === "lucas") {
 return game.lucas;
 }
 
-```
+
 return game.sasah;
-```
 
 }
 
@@ -141,7 +138,7 @@ if (!effects) {
 return;
 }
 
-```
+
 var player = getPlayer(playerName);
 var keys = [
     "bravery",
@@ -166,7 +163,7 @@ for (var i = 0; i < keys.length; i++) {
 player.hp = clamp(player.hp, 0, 100);
 player.mana = clamp(player.mana, 0, 100);
 player.xp = Math.max(0, player.xp);
-```
+
 
 }
 
@@ -175,7 +172,7 @@ if (!effects) {
 return;
 }
 
-```
+
 if (typeof effects.friendship === "number") {
     game.friendship += effects.friendship;
 }
