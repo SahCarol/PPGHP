@@ -6,70 +6,8 @@
 <meta name="description" content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade.">
 <title>Hogwarts RPG</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 <style>
-
-   /* =========================================================
-   ESPAÇAMENTO DE TEXTO E ESCOLHAS (CORRIGIDO)
-========================================================= */
-
-/* Texto narrativo das cenas */
-#scene p {
-    line-height: 1.6;
-    margin-bottom: 18px;
-}
-
-/* Título da cena */
-#scene h2,
-#scene .story-title {
-    line-height: 1.3;
-    margin-bottom: 24px;
-    padding-bottom: 14px;
-}
-
-/* Área das escolhas — espaço em relação ao texto */
-#choices {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* Título "O que acontece agora?" etc */
-#choices h3,
-#choices .choice-title {
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
-
-/* Botões de escolha */
-.choice-button {
-    line-height: 1.5;
-    padding: 16px 18px;
-    margin: 0;
-}
-
-/* Pergunta do quiz */
-#scene .quiz-question {
-    line-height: 1.5;
-    margin: 20px 0 24px;
-    padding: 12px 0;
-}
-
-/* Área de nomes (tela inicial) */
-.name-selection {
-    margin-top: 28px;
-    margin-bottom: 28px;
-}
-
-.name-group {
-    margin-bottom: 18px;
-}
-
-.name-group input {
-    margin-top: 6px;
-}
-   
 /* =========================================================
    CORREÇÃO — BARRAS DE HP, MANA E XP
 ========================================================= */
@@ -94,7 +32,32 @@
 .status-fill.xp-fill { background: #c99a3e; }
 
 /* =========================================================
-   CARD DE RELAÇÃO — rótulo e valor separados
+   ESPAÇAMENTO ENTRE TEXTO E ESCOLHAS
+========================================================= */
+#choices {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+#choices h3,
+#choices .choice-title {
+    margin-bottom: 10px;
+}
+.choice-button {
+    margin: 0;
+    padding: 16px 18px;
+}
+.name-selection {
+    margin-top: 28px;
+    margin-bottom: 28px;
+}
+.name-group {
+    margin-bottom: 16px;
+}
+
+/* =========================================================
+   CARD DE RELAÇÃO
 ========================================================= */
 .relationship-grid {
     display: flex;
@@ -122,6 +85,85 @@
     font-weight: bold;
     min-width: 24px;
     text-align: right;
+}
+
+/* =========================================================
+   AVATARES DOS PERSONAGENS (em vez de emoji)
+========================================================= */
+.character-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(190, 158, 96, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+    background: #1a1614;
+    display: block;
+}
+
+/* Fallback: se a imagem falhar, mostra o emoji */
+.character-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px solid rgba(190, 158, 96, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    background: #1a1614;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   SELEÇÃO DE GÊNERO (tela inicial)
+========================================================= */
+.gender-selection {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+.gender-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 14px;
+    border: 2px solid rgba(190, 158, 96, 0.25);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    color: #b8b0a4;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+.gender-option:hover {
+    border-color: rgba(190, 158, 96, 0.55);
+    background: rgba(255, 255, 255, 0.05);
+    color: #e7d6b3;
+}
+.gender-option.selected {
+    border-color: #c99a3e;
+    background: rgba(201, 154, 62, 0.12);
+    color: #e7d6b3;
+    box-shadow: 0 0 12px rgba(201, 154, 62, 0.25);
+}
+.gender-option img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(190, 158, 96, 0.4);
+}
+.gender-option .gender-emoji {
+    font-size: 1.3rem;
+}
+.gender-option input {
+    display: none;
 }
 
 /* =========================================================
@@ -225,7 +267,6 @@
     padding: 12px 8px;
     font-size: 0.82rem;
 }
-   
 </style>
 </head>
 <body>
@@ -273,7 +314,14 @@
                         <h2 id="sasahName">Sasah</h2>
                         <span id="sasahHouse" class="house-name">Ainda não definida</span>
                     </div>
-                    <span class="character-icon">🧙</span>
+                    <img
+                        id="sasahAvatar"
+                        class="character-avatar"
+                        src="https://i.imgur.com/Duuchxo.png"
+                        alt="Avatar"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
+                    <span id="sasahFallback" class="character-icon" style="display:none;">🧙</span>
                 </div>
                 <div class="status-row">
                     <div class="status-label"><span>❤️ Vida</span><span id="sasahHpText">100 / 100</span></div>
@@ -304,7 +352,14 @@
                         <h2 id="lucasName">Lucas</h2>
                         <span id="lucasHouse" class="house-name">Ainda não definida</span>
                     </div>
-                    <span class="character-icon">🧙‍♂️</span>
+                    <img
+                        id="lucasAvatar"
+                        class="character-avatar"
+                        src="https://i.imgur.com/MFjpE6J.png"
+                        alt="Avatar"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
+                    <span id="lucasFallback" class="character-icon" style="display:none;">🧙‍♂️</span>
                 </div>
                 <div class="status-row">
                     <div class="status-label"><span>❤️ Vida</span><span id="lucasHpText">100 / 100</span></div>
@@ -420,14 +475,20 @@
 <!-- ============================================================
      SCRIPT PRINCIPAL DO JOGO (script.js)
 ============================================================ -->
-<script src="script.js?v=8"></script>
+<script src="script.js?v=9"></script>
 
 <!-- ============================================================
-     SCRIPT DE CONTROLE — TELA DE NOMES + PRÓLOGO + QUIZ + PATCHES
+     SCRIPT DE CONTROLE — TELA DE NOMES + GÊNERO + PRÓLOGO + QUIZ + PATCHES
 ============================================================ -->
 <script>
 (function () {
     "use strict";
+
+    // ============================================================
+    // AVATARES
+    // ============================================================
+    var AVATAR_FEMININO = "https://i.imgur.com/Duuchxo.png";
+    var AVATAR_MASCULINO = "https://i.imgur.com/MFjpE6J.png";
 
     // ============================================================
     // QUIZ DAS CASAS
@@ -500,31 +561,11 @@
                 "Hogwarts.\n\n" +
                 "{P1} sentiu o coração bater mais forte.",
             choices: [
-                {
-                    text: "Abrir a carta imediatamente.",
-                    effects: {
-                        sasah: { bravery: 1, xp: 10 },
-                        relationship: { affinity: 1 }
-                    },
-                    next: "pre_story_2"
-                },
-                {
-                    text: "Examinar o envelope antes de abrir.",
-                    effects: {
-                        sasah: { intelligence: 1, xp: 10 }
-                    },
-                    next: "pre_story_2"
-                },
-                {
-                    text: "Chamar alguém da família para abrir junto.",
-                    effects: {
-                        sasah: { loyalty: 1, xp: 10 }
-                    },
-                    next: "pre_story_2"
-                }
+                { text: "Abrir a carta imediatamente.", effects: { sasah: { bravery: 1, xp: 10 }, relationship: { affinity: 1 } }, next: "pre_story_2" },
+                { text: "Examinar o envelope antes de abrir.", effects: { sasah: { intelligence: 1, xp: 10 } }, next: "pre_story_2" },
+                { text: "Chamar alguém da família para abrir junto.", effects: { sasah: { loyalty: 1, xp: 10 } }, next: "pre_story_2" }
             ]
         },
-
         pre_story_2: {
             chapter: "PRÓLOGO",
             location: "Estação King's Cross — manhã seguinte",
@@ -546,31 +587,11 @@
                 "Foi quando viu, alguns metros à frente, outra pessoa da mesma idade — " +
                 "também com um envelope na mão, também com o mesmo olhar confuso.",
             choices: [
-                {
-                    text: "Aproximar-se e perguntar se a pessoa também está perdida.",
-                    effects: {
-                        sasah: { empathy: 1, xp: 15 },
-                        relationship: { friendship: 2, trust: 1 }
-                    },
-                    next: "pre_story_3"
-                },
-                {
-                    text: "Observar de longe antes de agir.",
-                    effects: {
-                        sasah: { intelligence: 1, xp: 15 }
-                    },
-                    next: "pre_story_3"
-                },
-                {
-                    text: "Tentar encontrar a plataforma sozinho(a).",
-                    effects: {
-                        sasah: { bravery: 1, xp: 15 }
-                    },
-                    next: "pre_story_3"
-                }
+                { text: "Aproximar-se e perguntar se a pessoa também está perdida.", effects: { sasah: { empathy: 1, xp: 15 }, relationship: { friendship: 2, trust: 1 } }, next: "pre_story_3" },
+                { text: "Observar de longe antes de agir.", effects: { sasah: { intelligence: 1, xp: 15 } }, next: "pre_story_3" },
+                { text: "Tentar encontrar a plataforma sozinho(a).", effects: { sasah: { bravery: 1, xp: 15 } }, next: "pre_story_3" }
             ]
         },
-
         pre_story_3: {
             chapter: "PRÓLOGO",
             location: "Plataforma 9¾",
@@ -594,36 +615,11 @@
                 "Alguma coisa naquele momento — talvez o cheiro de carvão, talvez o som do apito — " +
                 "fez os dois sentirem que aquela não seria uma viagem comum.",
             choices: [
-                {
-                    text: "Sugerir que embarquem juntos.",
-                    effects: {
-                        sasah: { loyalty: 1, empathy: 1, xp: 20 },
-                        lucas: { loyalty: 1, empathy: 1, xp: 20 },
-                        relationship: { friendship: 3, trust: 2 }
-                    },
-                    next: "pre_story_4"
-                },
-                {
-                    text: "Agradecer e seguir cada um para o seu lado.",
-                    effects: {
-                        sasah: { intelligence: 1, xp: 15 },
-                        lucas: { intelligence: 1, xp: 15 },
-                        relationship: { rivalry: 1 }
-                    },
-                    next: "pre_story_4"
-                },
-                {
-                    text: "Perguntar o nome um do outro antes de embarcar.",
-                    effects: {
-                        sasah: { empathy: 1, xp: 20 },
-                        lucas: { empathy: 1, xp: 20 },
-                        relationship: { friendship: 2, affinity: 2 }
-                    },
-                    next: "pre_story_4"
-                }
+                { text: "Sugerir que embarquem juntos.", effects: { sasah: { loyalty: 1, empathy: 1, xp: 20 }, lucas: { loyalty: 1, empathy: 1, xp: 20 }, relationship: { friendship: 3, trust: 2 } }, next: "pre_story_4" },
+                { text: "Agradecer e seguir cada um para o seu lado.", effects: { sasah: { intelligence: 1, xp: 15 }, lucas: { intelligence: 1, xp: 15 }, relationship: { rivalry: 1 } }, next: "pre_story_4" },
+                { text: "Perguntar o nome um do outro antes de embarcar.", effects: { sasah: { empathy: 1, xp: 20 }, lucas: { empathy: 1, xp: 20 }, relationship: { friendship: 2, affinity: 2 } }, next: "pre_story_4" }
             ]
         },
-
         pre_story_4: {
             chapter: "PRÓLOGO",
             location: "Expresso de Hogwarts — compartimento",
@@ -642,32 +638,9 @@
                 "Foi também quando {P1} percebeu: pela primeira vez, " +
                 "não estava sozinho(a) diante do desconhecido.",
             choices: [
-                {
-                    text: "Perguntar sobre a família e a vida antes de Hogwarts.",
-                    effects: {
-                        sasah: { empathy: 1, xp: 25 },
-                        lucas: { empathy: 1, xp: 25 },
-                        relationship: { friendship: 3, trust: 2, affinity: 1 }
-                    },
-                    next: "__INICIAR_QUIZ__"
-                },
-                {
-                    text: "Falar sobre o que espera de Hogwarts.",
-                    effects: {
-                        sasah: { ambition: 1, xp: 25 },
-                        lucas: { ambition: 1, xp: 25 },
-                        relationship: { affinity: 2 }
-                    },
-                    next: "__INICIAR_QUIZ__"
-                },
-                {
-                    text: "Ficar em silêncio, apenas observando a paisagem.",
-                    effects: {
-                        sasah: { intelligence: 1, xp: 20 },
-                        lucas: { intelligence: 1, xp: 20 }
-                    },
-                    next: "__INICIAR_QUIZ__"
-                }
+                { text: "Perguntar sobre a família e a vida antes de Hogwarts.", effects: { sasah: { empathy: 1, xp: 25 }, lucas: { empathy: 1, xp: 25 }, relationship: { friendship: 3, trust: 2, affinity: 1 } }, next: "__INICIAR_QUIZ__" },
+                { text: "Falar sobre o que espera de Hogwarts.", effects: { sasah: { ambition: 1, xp: 25 }, lucas: { ambition: 1, xp: 25 }, relationship: { affinity: 2 } }, next: "__INICIAR_QUIZ__" },
+                { text: "Ficar em silêncio, apenas observando a paisagem.", effects: { sasah: { intelligence: 1, xp: 20 }, lucas: { intelligence: 1, xp: 20 } }, next: "__INICIAR_QUIZ__" }
             ]
         }
     };
@@ -677,13 +650,38 @@
     // ============================================================
     function ensureGame() {
         if (!window.game || typeof window.game !== "object") window.game = {};
-        if (!window.game.sasah) window.game.sasah = { name: "Sasah", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0 };
-        if (!window.game.lucas) window.game.lucas = { name: "Lucas", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0 };
+        if (!window.game.sasah) window.game.sasah = { name: "Sasah", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0, gender: "feminino" };
+        if (!window.game.lucas) window.game.lucas = { name: "Lucas", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0, gender: "masculino" };
         if (!window.game.houseAnswers) window.game.houseAnswers = { sasah: [], lucas: [] };
         if (!window.game.relationship) window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
         if (!window.game.kiwi) window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
         if (!window.game.flags) window.game.flags = {};
         if (!window.game.log) window.game.log = [];
+    }
+
+    // ============================================================
+    // APLICA AVATAR CONFORME GÊNERO
+    // ============================================================
+    function aplicarAvatar(characterKey) {
+        var p = window.game && window.game[characterKey];
+        if (!p) return;
+
+        var imgEl = document.getElementById(characterKey + "Avatar");
+        var fallbackEl = document.getElementById(characterKey + "Fallback");
+
+        if (!imgEl) return;
+
+        var url = (p.gender === "feminino") ? AVATAR_FEMININO : AVATAR_MASCULINO;
+
+        // Reseta fallback
+        if (fallbackEl) fallbackEl.style.display = "none";
+        imgEl.style.display = "block";
+
+        // Só atualiza se mudou (evita piscar)
+        if (imgEl.getAttribute("data-gender") !== p.gender) {
+            imgEl.src = url;
+            imgEl.setAttribute("data-gender", p.gender);
+        }
     }
 
     // ============================================================
@@ -775,6 +773,10 @@
         setTxt("trust", window.game.relationship.trust || 0);
         setTxt("rivalry", window.game.relationship.rivalry || 0);
         setTxt("affinity", window.game.relationship.affinity || 0);
+
+        // Aplica avatares
+        aplicarAvatar("sasah");
+        aplicarAvatar("lucas");
 
         mostrarKiwi();
     }
@@ -892,12 +894,9 @@
                 if (choice.effects) {
                     aplicarEfeitosPreStory(choice.effects);
                 }
-
-                // Salva progresso
                 try {
                     localStorage.setItem("hogwarts_rpg_final_v10", JSON.stringify(window.game));
                 } catch (e) {}
-
                 if (choice.next === "__INICIAR_QUIZ__") {
                     iniciarQuiz("sasah");
                 } else if (choice.next) {
@@ -962,7 +961,7 @@
     }
 
     // ============================================================
-    // QUIZ — CÁLCULO E RENDERIZAÇÃO
+    // QUIZ
     // ============================================================
     function calcularCasa(characterKey) {
         var answers = quizAnswers[characterKey] || [];
@@ -1057,7 +1056,6 @@
                 quizIndex = 0;
                 renderPergunta();
             } else {
-                // Reset final antes da história
                 window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
                 window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
                 window.game.log = [];
@@ -1122,6 +1120,59 @@
     }
 
     // ============================================================
+    // SELETOR DE GÊNERO (componente reutilizável)
+    // ============================================================
+    function criarSeletorGenero(id, defaultGender) {
+        var wrap = document.createElement("div");
+        wrap.className = "gender-selection";
+        wrap.id = id;
+
+        function criarOpcao(valor, label, imgUrl, emoji) {
+            var opt = document.createElement("div");
+            opt.className = "gender-option" + (valor === defaultGender ? " selected" : "");
+            opt.setAttribute("data-value", valor);
+
+            var img = document.createElement("img");
+            img.src = imgUrl;
+            img.alt = label;
+            img.onerror = function () {
+                img.style.display = "none";
+                var span = document.createElement("span");
+                span.className = "gender-emoji";
+                span.textContent = emoji;
+                opt.insertBefore(span, opt.firstChild);
+            };
+
+            var spanTxt = document.createElement("span");
+            spanTxt.textContent = label;
+
+            opt.appendChild(img);
+            opt.appendChild(spanTxt);
+
+            opt.addEventListener("click", function () {
+                wrap.querySelectorAll(".gender-option").forEach(function (o) {
+                    o.classList.remove("selected");
+                });
+                opt.classList.add("selected");
+            });
+
+            return opt;
+        }
+
+        wrap.appendChild(criarOpcao("feminino", "Feminino", AVATAR_FEMININO, "👩"));
+        wrap.appendChild(criarOpcao("masculino", "Masculino", AVATAR_MASCULINO, "👨"));
+
+        return wrap;
+    }
+
+    function lerGeneroSelecionado(id) {
+        var wrap = document.getElementById(id);
+        if (!wrap) return "feminino";
+        var sel = wrap.querySelector(".gender-option.selected");
+        return sel ? sel.getAttribute("data-value") : "feminino";
+    }
+
+    // ============================================================
     // TELA DE NOMES
     // ============================================================
     function iniciarTelaDeNomes() {
@@ -1145,33 +1196,88 @@
 
         sceneEl.innerHTML =
             '<h2 class="story-title">Antes de Hogwarts</h2>' +
-            '<p>Duas pessoas estão prestes a descobrir que suas vidas estão ligadas a um dos maiores mistérios mágicos de Hogwarts. Antes que a aventura comece, escolha o nome dos dois personagens que viverão esta história.</p>' +
-            '<div class="name-selection" style="margin-top: 24px;">' +
-                '<div class="name-group">' +
-                    '<label for="nameInput1">Nome do personagem 1</label>' +
-                    '<input type="text" id="nameInput1" placeholder="Digite o primeiro nome" maxlength="30" autocomplete="off" value="Sasah">' +
-                '</div>' +
-                '<div class="name-group">' +
-                    '<label for="nameInput2">Nome do personagem 2</label>' +
-                    '<input type="text" id="nameInput2" placeholder="Digite o segundo nome" maxlength="30" autocomplete="off" value="Lucas">' +
-                '</div>' +
-            '</div>';
+            '<p>Duas pessoas estão prestes a descobrir que suas vidas estão ligadas a um dos maiores mistérios mágicos de Hogwarts. Antes que a aventura comece, escolha o nome e o gênero dos dois personagens.</p>';
 
-        choicesEl.innerHTML = '<button type="button" id="startGameButton" class="choice-button continue-button">Começar aventura</button>';
+        choicesEl.innerHTML = "";
 
-        var btn = document.getElementById("startGameButton");
+        var box = document.createElement("div");
+        box.className = "name-selection";
+
+        // --- PERSONAGEM 1 ---
+        var g1 = document.createElement("div");
+        g1.className = "name-group";
+        var l1 = document.createElement("label");
+        l1.textContent = "Personagem 1 — Nome";
+        l1.setAttribute("for", "nameInput1");
+        var i1 = document.createElement("input");
+        i1.type = "text";
+        i1.id = "nameInput1";
+        i1.placeholder = "Digite o primeiro nome";
+        i1.maxLength = 30;
+        i1.autocomplete = "off";
+        i1.value = "Sasah";
+
+        var l1b = document.createElement("label");
+        l1b.textContent = "Gênero do personagem 1";
+        l1b.style.marginTop = "12px";
+
+        var sel1 = criarSeletorGenero("gender1", "feminino");
+
+        g1.appendChild(l1);
+        g1.appendChild(i1);
+        g1.appendChild(l1b);
+        g1.appendChild(sel1);
+        box.appendChild(g1);
+
+        // --- PERSONAGEM 2 ---
+        var g2 = document.createElement("div");
+        g2.className = "name-group";
+        var l2 = document.createElement("label");
+        l2.textContent = "Personagem 2 — Nome";
+        l2.setAttribute("for", "nameInput2");
+        var i2 = document.createElement("input");
+        i2.type = "text";
+        i2.id = "nameInput2";
+        i2.placeholder = "Digite o segundo nome";
+        i2.maxLength = 30;
+        i2.autocomplete = "off";
+        i2.value = "Lucas";
+
+        var l2b = document.createElement("label");
+        l2b.textContent = "Gênero do personagem 2";
+        l2b.style.marginTop = "12px";
+
+        var sel2 = criarSeletorGenero("gender2", "masculino");
+
+        g2.appendChild(l2);
+        g2.appendChild(i2);
+        g2.appendChild(l2b);
+        g2.appendChild(sel2);
+        box.appendChild(g2);
+
+        choicesEl.appendChild(box);
+
+        // --- BOTÃO ---
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.id = "startGameButton";
+        btn.className = "choice-button continue-button";
+        btn.textContent = "Começar aventura";
+        btn.style.marginTop = "20px";
+
         btn.addEventListener("click", function () {
-            var n1El = document.getElementById("nameInput1");
-            var n2El = document.getElementById("nameInput2");
-            var n1 = (n1El && n1El.value.trim()) || "Sasah";
-            var n2 = (n2El && n2El.value.trim()) || "Lucas";
+            var n1 = (document.getElementById("nameInput1").value || "").trim() || "Sasah";
+            var n2 = (document.getElementById("nameInput2").value || "").trim() || "Lucas";
+            var gen1 = lerGeneroSelecionado("gender1");
+            var gen2 = lerGeneroSelecionado("gender2");
 
             ensureGame();
             window.game.sasah.name = n1;
+            window.game.sasah.gender = gen1;
             window.game.lucas.name = n2;
+            window.game.lucas.gender = gen2;
             window.game.phase = "prologue";
 
-            // Reset completo
             window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
             window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
             window.game.log = [];
@@ -1179,9 +1285,10 @@
             renderCardsCorrigidos();
             renderLog();
 
-            // 🔧 Começa pelo PRÓLOGO
             renderPreStory("pre_story_1");
         });
+
+        choicesEl.appendChild(btn);
 
         renderCardsCorrigidos();
         renderLog();
