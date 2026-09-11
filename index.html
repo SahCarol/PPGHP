@@ -6,7 +6,7 @@
 <meta name="description" content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade.">
 <title>Hogwarts RPG</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 <style>
 /* =========================================================
    CORREÇÃO — BARRAS DE HP, MANA E XP
@@ -357,10 +357,10 @@
 <!-- ============================================================
      SCRIPT PRINCIPAL DO JOGO (script.js)
 ============================================================ -->
-<script src="script.js?v=7"></script>
+<script src="script.js?v=8"></script>
 
 <!-- ============================================================
-     SCRIPT DE CONTROLE — TELA DE NOMES + QUIZ + PATCHES
+     SCRIPT DE CONTROLE — TELA DE NOMES + PRÓLOGO + QUIZ + PATCHES
 ============================================================ -->
 <script>
 (function () {
@@ -417,6 +417,199 @@
     var quizAnswers = { sasah: [], lucas: [] };
 
     // ============================================================
+    // CENAS DE PRÓLOGO
+    // ============================================================
+    var cenasPreStory = {
+        pre_story_1: {
+            chapter: "PRÓLOGO",
+            location: "Casa de {P1} — noite",
+            title: "A carta que mudou tudo",
+            text:
+                "A noite estava silenciosa demais.\n\n" +
+                "{P1} tentava dormir, mas alguma coisa no ar parecia diferente. " +
+                "Um cheiro leve de madeira queimada, talvez. Ou talvez fosse apenas imaginação.\n\n" +
+                "Então veio o som.\n\n" +
+                "Três batidas secas no vidro da janela.\n\n" +
+                "Quando {P1} olhou, não havia ninguém. Apenas a rua vazia e as estrelas piscando atrás das nuvens.\n\n" +
+                "Mas sobre a escrivaninha — que estava vazia minutos antes — havia um envelope.\n\n" +
+                "Papel grosso, cor de pergaminho, selado com cera vermelha.\n\n" +
+                "No centro do selo, um brasão: um leão, uma águia, um texugo e uma serpente entrelaçados ao redor de uma letra 'H'.\n\n" +
+                "Hogwarts.\n\n" +
+                "{P1} sentiu o coração bater mais forte.",
+            choices: [
+                {
+                    text: "Abrir a carta imediatamente.",
+                    effects: {
+                        sasah: { bravery: 1, xp: 10 },
+                        relationship: { affinity: 1 }
+                    },
+                    next: "pre_story_2"
+                },
+                {
+                    text: "Examinar o envelope antes de abrir.",
+                    effects: {
+                        sasah: { intelligence: 1, xp: 10 }
+                    },
+                    next: "pre_story_2"
+                },
+                {
+                    text: "Chamar alguém da família para abrir junto.",
+                    effects: {
+                        sasah: { loyalty: 1, xp: 10 }
+                    },
+                    next: "pre_story_2"
+                }
+            ]
+        },
+
+        pre_story_2: {
+            chapter: "PRÓLOGO",
+            location: "Estação King's Cross — manhã seguinte",
+            title: "O bilhete para Hogwarts",
+            text:
+                "Dentro do envelope, uma única folha.\n\n" +
+                "A caligrafia era elegante, quase antiga:\n\n" +
+                "\"Prezado(a) {P1},\n\n" +
+                "Temos o prazer de informar que você foi aceito(a) na Escola de Magia e Bruxaria de Hogwarts. " +
+                "O Expresso de Hogwarts partirá da Plataforma 9¾, na Estação King's Cross, no dia 1º de setembro, às 11h.\n\n" +
+                "A passagem segue anexa.\n\n" +
+                "Atenciosamente,\n" +
+                "Minerva McGonagall\n" +
+                "Diretora Adjunta\"\n\n" +
+                "No dia seguinte, {P1} estava na estação.\n\n" +
+                "Gente correndo. Malas. Anúncios metálicos ecoando pelo teto.\n\n" +
+                "Mas nenhuma placa dizia \"Plataforma 9¾\".\n\n" +
+                "{P1} olhou ao redor, perdido(a).\n\n" +
+                "Foi quando viu, alguns metros à frente, outra pessoa da mesma idade — " +
+                "também com um envelope na mão, também com o mesmo olhar confuso.",
+            choices: [
+                {
+                    text: "Aproximar-se e perguntar se a pessoa também está perdida.",
+                    effects: {
+                        sasah: { empathy: 1, xp: 15 },
+                        relationship: { friendship: 2, trust: 1 }
+                    },
+                    next: "pre_story_3"
+                },
+                {
+                    text: "Observar de longe antes de agir.",
+                    effects: {
+                        sasah: { intelligence: 1, xp: 15 }
+                    },
+                    next: "pre_story_3"
+                },
+                {
+                    text: "Tentar encontrar a plataforma sozinho(a).",
+                    effects: {
+                        sasah: { bravery: 1, xp: 15 }
+                    },
+                    next: "pre_story_3"
+                }
+            ]
+        },
+
+        pre_story_3: {
+            chapter: "PRÓLOGO",
+            location: "Plataforma 9¾",
+            title: "Dois estranhos, um destino",
+            text:
+                "Os dois se entreolharam.\n\n" +
+                "Foi {P2} quem falou primeiro:\n\n" +
+                "\"Você também está procurando a plataforma 9¾?\"\n\n" +
+                "{P1} assentiu.\n\n" +
+                "\"Eu vi uma família atravessando aquela parede\", continuou {P2}, apontando para a coluna entre as plataformas 9 e 10. " +
+                "\"Achei que fosse coisa da minha cabeça, mas...\"\n\n" +
+                "Os dois ficaram em silêncio por um momento.\n\n" +
+                "Então, sem combinar, caminharam juntos até a parede.\n\n" +
+                "Fecharam os olhos.\n\n" +
+                "E atravessaram.\n\n" +
+                "Do outro lado, o mundo havia mudado.\n\n" +
+                "Um trem vermelho e fumegante esperava na plataforma. " +
+                "Famílias se despediam. Corujas piavam em gaiolas. Crianças corriam.\n\n" +
+                "O Expresso de Hogwarts.\n\n" +
+                "{P1} e {P2} se olharam.\n\n" +
+                "Alguma coisa naquele momento — talvez o cheiro de carvão, talvez o som do apito — " +
+                "fez os dois sentirem que aquela não seria uma viagem comum.",
+            choices: [
+                {
+                    text: "Sugerir que embarquem juntos.",
+                    effects: {
+                        sasah: { loyalty: 1, empathy: 1, xp: 20 },
+                        lucas: { loyalty: 1, empathy: 1, xp: 20 },
+                        relationship: { friendship: 3, trust: 2 }
+                    },
+                    next: "pre_story_4"
+                },
+                {
+                    text: "Agradecer e seguir cada um para o seu lado.",
+                    effects: {
+                        sasah: { intelligence: 1, xp: 15 },
+                        lucas: { intelligence: 1, xp: 15 },
+                        relationship: { rivalry: 1 }
+                    },
+                    next: "pre_story_4"
+                },
+                {
+                    text: "Perguntar o nome um do outro antes de embarcar.",
+                    effects: {
+                        sasah: { empathy: 1, xp: 20 },
+                        lucas: { empathy: 1, xp: 20 },
+                        relationship: { friendship: 2, affinity: 2 }
+                    },
+                    next: "pre_story_4"
+                }
+            ]
+        },
+
+        pre_story_4: {
+            chapter: "PRÓLOGO",
+            location: "Expresso de Hogwarts — compartimento",
+            title: "A primeira conversa",
+            text:
+                "O trem começou a andar.\n\n" +
+                "Pela janela, Londres desaparecia aos poucos, dando lugar a campos verdes e céu aberto.\n\n" +
+                "{P1} e {P2} sentaram-se frente a frente no mesmo compartimento. " +
+                "Por alguns minutos, nenhum dos dois falou.\n\n" +
+                "Então {P2} quebrou o silêncio:\n\n" +
+                "\"Você acha que a gente vai mesmo virar bruxo(a)?\"\n\n" +
+                "{P1} riu, sem saber direito o que responder.\n\n" +
+                "\"Acho que sim\", disse. \"Ou então essa carta é a maior pegadinha da história.\"\n\n" +
+                "Os dois riram.\n\n" +
+                "Foi o primeiro riso compartilhado. Pequeno, mas real.\n\n" +
+                "Foi também quando {P1} percebeu: pela primeira vez, " +
+                "não estava sozinho(a) diante do desconhecido.",
+            choices: [
+                {
+                    text: "Perguntar sobre a família e a vida antes de Hogwarts.",
+                    effects: {
+                        sasah: { empathy: 1, xp: 25 },
+                        lucas: { empathy: 1, xp: 25 },
+                        relationship: { friendship: 3, trust: 2, affinity: 1 }
+                    },
+                    next: "__INICIAR_QUIZ__"
+                },
+                {
+                    text: "Falar sobre o que espera de Hogwarts.",
+                    effects: {
+                        sasah: { ambition: 1, xp: 25 },
+                        lucas: { ambition: 1, xp: 25 },
+                        relationship: { affinity: 2 }
+                    },
+                    next: "__INICIAR_QUIZ__"
+                },
+                {
+                    text: "Ficar em silêncio, apenas observando a paisagem.",
+                    effects: {
+                        sasah: { intelligence: 1, xp: 20 },
+                        lucas: { intelligence: 1, xp: 20 }
+                    },
+                    next: "__INICIAR_QUIZ__"
+                }
+            ]
+        }
+    };
+
+    // ============================================================
     // GARANTE ESTRUTURA DO GAME
     // ============================================================
     function ensureGame() {
@@ -465,7 +658,7 @@
     }
 
     // ============================================================
-    // RENDERIZA CARDS (VERSÃO CORRIGIDA)
+    // RENDERIZA CARDS
     // ============================================================
     function renderCardsCorrigidos() {
         if (!window.game) return;
@@ -485,7 +678,6 @@
 
         var s = window.game.sasah, l = window.game.lucas;
 
-        // Sasah
         setTxt("sasahName", s.name);
         setTxt("sasahHouse", s.house || "Sem casa");
         setTxt("sasahHpText", s.hp + " / " + s.maxHp);
@@ -501,7 +693,6 @@
         setTxt("sasahEmpathy", s.empathy);
         setTxt("sasahMagic", s.magic);
 
-        // Lucas
         setTxt("lucasName", l.name);
         setTxt("lucasHouse", l.house || "Sem casa");
         setTxt("lucasHpText", l.hp + " / " + l.maxHp);
@@ -517,7 +708,6 @@
         setTxt("lucasEmpathy", l.empathy);
         setTxt("lucasMagic", l.magic);
 
-        // Relação (só os valores — o rótulo já está no HTML)
         setTxt("friendship", window.game.relationship.friendship || 0);
         setTxt("trust", window.game.relationship.trust || 0);
         setTxt("rivalry", window.game.relationship.rivalry || 0);
@@ -581,6 +771,130 @@
             }
         } else {
             kiwiCard.style.display = "none";
+        }
+    }
+
+    // ============================================================
+    // RENDERIZA CENA DE PRÓLOGO
+    // ============================================================
+    function renderPreStory(sceneId) {
+        var cena = cenasPreStory[sceneId];
+        if (!cena) {
+            console.error("Cena não encontrada:", sceneId);
+            iniciarQuiz("sasah");
+            return;
+        }
+
+        var sceneEl = document.getElementById("scene");
+        var choicesEl = document.getElementById("choices");
+        if (!sceneEl || !choicesEl) return;
+
+        var chapterEl = document.getElementById("chapter");
+        var locationEl = document.getElementById("location");
+        var tagEl = document.getElementById("playerTag");
+
+        function substituirNomes(txt) {
+            return String(txt)
+                .replace(/\{P1\}/g, (window.game.sasah && window.game.sasah.name) || "Sasah")
+                .replace(/\{P2\}/g, (window.game.lucas && window.game.lucas.name) || "Lucas");
+        }
+
+        if (chapterEl) chapterEl.textContent = cena.chapter || "PRÓLOGO";
+        if (locationEl) locationEl.textContent = substituirNomes(cena.location || "");
+        if (tagEl) tagEl.textContent = "Prólogo — antes do Chapéu Seletor";
+
+        sceneEl.innerHTML = "";
+        choicesEl.innerHTML = "";
+
+        var title = document.createElement("h2");
+        title.className = "story-title";
+        title.textContent = substituirNomes(cena.title || "");
+        sceneEl.appendChild(title);
+
+        var paragrafos = String(cena.text || "").split(/\n\s*\n/);
+        paragrafos.forEach(function (p) {
+            var t = p.trim();
+            if (!t) return;
+            var el = document.createElement("p");
+            el.textContent = substituirNomes(t);
+            sceneEl.appendChild(el);
+        });
+
+        cena.choices.forEach(function (choice, idx) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "choice-button";
+            btn.textContent = (idx + 1) + ". " + substituirNomes(choice.text);
+            btn.addEventListener("click", function () {
+                if (choice.effects) {
+                    aplicarEfeitosPreStory(choice.effects);
+                }
+
+                // Salva progresso
+                try {
+                    localStorage.setItem("hogwarts_rpg_final_v10", JSON.stringify(window.game));
+                } catch (e) {}
+
+                if (choice.next === "__INICIAR_QUIZ__") {
+                    iniciarQuiz("sasah");
+                } else if (choice.next) {
+                    renderPreStory(choice.next);
+                }
+                renderCardsCorrigidos();
+            });
+            choicesEl.appendChild(btn);
+        });
+
+        renderCardsCorrigidos();
+    }
+
+    // ============================================================
+    // APLICA EFEITOS DAS CENAS DE PRÓLOGO
+    // ============================================================
+    function aplicarEfeitosPreStory(effects) {
+        if (!effects) return;
+
+        function aplicarPersonagem(key, vals) {
+            var p = window.game[key];
+            if (!p || !vals) return;
+            Object.keys(vals).forEach(function (k) {
+                if (k === "xp") {
+                    p.xp = (p.xp || 0) + vals[k];
+                    var req = (p.level || 1) * 100;
+                    while (p.xp >= req && req > 0) {
+                        p.xp -= req;
+                        p.level = (p.level || 1) + 1;
+                        p.maxHp = (p.maxHp || 100) + 10;
+                        p.maxMana = (p.maxMana || 100) + 10;
+                        p.hp = p.maxHp;
+                        p.mana = p.maxMana;
+                        p.magic = (p.magic || 0) + 2;
+                        req = p.level * 100;
+                    }
+                } else if (typeof p[k] === "number" && typeof vals[k] === "number") {
+                    p[k] += vals[k];
+                    if (p[k] < 0) p[k] = 0;
+                }
+            });
+        }
+
+        if (effects.sasah) aplicarPersonagem("sasah", effects.sasah);
+        if (effects.lucas) aplicarPersonagem("lucas", effects.lucas);
+
+        if (effects.relationship && window.game.relationship) {
+            Object.keys(effects.relationship).forEach(function (k) {
+                if (typeof window.game.relationship[k] === "number") {
+                    window.game.relationship[k] += effects.relationship[k];
+                    if (window.game.relationship[k] < 0) window.game.relationship[k] = 0;
+                    if (window.game.relationship[k] > 100) window.game.relationship[k] = 100;
+                }
+            });
+        }
+
+        if (effects.flags && window.game.flags) {
+            Object.keys(effects.flags).forEach(function (k) {
+                window.game.flags[k] = effects.flags[k];
+            });
         }
     }
 
@@ -680,7 +994,7 @@
                 quizIndex = 0;
                 renderPergunta();
             } else {
-                // 🔧 Reset completo antes de começar a história
+                // Reset final antes da história
                 window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
                 window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
                 window.game.log = [];
@@ -713,7 +1027,7 @@
     }
 
     // ============================================================
-    // RENDERIZA LOG (corrigido — mostra vazio quando não há entradas)
+    // RENDERIZA LOG
     // ============================================================
     function renderLog() {
         var logEl = document.getElementById("log");
@@ -792,16 +1106,18 @@
             ensureGame();
             window.game.sasah.name = n1;
             window.game.lucas.name = n2;
-            window.game.phase = "quiz_sasah";
+            window.game.phase = "prologue";
 
-            // 🔧 Reset completo ao começar nova aventura
+            // Reset completo
             window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
             window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
             window.game.log = [];
 
             renderCardsCorrigidos();
             renderLog();
-            iniciarQuiz("sasah");
+
+            // 🔧 Começa pelo PRÓLOGO
+            renderPreStory("pre_story_1");
         });
 
         renderCardsCorrigidos();
@@ -835,13 +1151,12 @@
             window.updateFinalInterface.__patch = true;
         }
 
-        // 🔧 Bloqueia addLogEntry antes da história começar
         if (typeof window.addLogEntry === "function" && !window.addLogEntry.__patch) {
             var orig3 = window.addLogEntry;
             window.addLogEntry = function (text) {
                 var fase = window.game && window.game.phase;
-                if (fase === "names" || fase === "quiz_sasah" || fase === "quiz_lucas" || fase === "sorting") {
-                    return; // ignora logs durante as fases de preparação
+                if (fase === "names" || fase === "prologue" || fase === "quiz_sasah" || fase === "quiz_lucas" || fase === "sorting") {
+                    return;
                 }
                 return orig3.apply(this, arguments);
             };
