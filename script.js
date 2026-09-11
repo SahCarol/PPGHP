@@ -2723,7 +2723,7 @@ scenes.sorting_result = {
                 "castle_1"
         },
 
-        {
+               {
             text:
                 "Guardar o segredo e esperar uma oportunidade melhor.",
             effects: {
@@ -2737,12 +2737,12 @@ scenes.sorting_result = {
                 },
                 relationship: {
                     trust: -1
-                },
-                next:
-                    "castle_1"
+                }
+            },
+            next:
+                "castle_1"
         }
     ]
-}
 };
 
 
