@@ -1236,64 +1236,105 @@ function goToScene(sceneId) {
    ========================================================= */
 
 function startNameScreen() {
-    game.phase =
-        "names";
 
-    var existing =
-        document.getElementById(
-            "rpgNameScreen"
-        );
+    game.phase = "names";
 
-    if (existing) {
-        existing.remove();
+    setText(
+        "chapter",
+        "PRÓLOGO"
+    );
+
+    setText(
+        "location",
+        "Antes de Hogwarts"
+    );
+
+    var scene = document.getElementById("scene");
+
+    if (scene) {
+
+        scene.innerHTML = "";
+
+        var title = document.createElement("h2");
+
+        title.className = "story-title";
+
+        title.textContent =
+            "Duas histórias. Um destino.";
+
+        scene.appendChild(title);
+
+        var paragraph = document.createElement("p");
+
+        paragraph.textContent =
+            "Antes que a aventura comece, escolha o nome dos dois personagens que viverão esta história.";
+
+        scene.appendChild(paragraph);
+
+        var paragraph2 = document.createElement("p");
+
+        paragraph2.textContent =
+            "Os nomes escolhidos serão usados durante toda a aventura, nos diálogos, decisões e acontecimentos.";
+
+        scene.appendChild(paragraph2);
+
     }
 
-    var overlay =
-        document.createElement("div");
 
-    overlay.id =
-        "rpgNameScreen";
+    var choices =
+        document.getElementById("choices");
 
-    overlay.className =
-        "rpg-name-screen";
+    if (!choices) {
+        return;
+    }
+
+    choices.innerHTML = "";
+
 
     var box =
         document.createElement("div");
 
     box.className =
-        "name-screen-box";
+        "name-selection";
 
-    var title =
-        document.createElement("h1");
 
-    title.textContent =
-        "Hogwarts";
+    /* =====================================================
+       TÍTULO
+    ===================================================== */
 
-    box.appendChild(title);
+    var titleBox =
+        document.createElement("h3");
 
-    var subtitle =
-        document.createElement("p");
+    titleBox.textContent =
+        "PERSONAGENS";
 
-    subtitle.textContent =
-        "Uma nova história está prestes a começar.";
+    box.appendChild(
+        titleBox
+    );
 
-    box.appendChild(subtitle);
 
-    var intro =
-        document.createElement("p");
+    /* =====================================================
+       PERSONAGEM 1
+    ===================================================== */
 
-    intro.textContent =
-        "Escolha os nomes dos dois protagonistas.";
+    var group1 =
+        document.createElement("div");
 
-    box.appendChild(intro);
+    group1.className =
+        "name-group";
+
 
     var label1 =
         document.createElement("label");
 
     label1.textContent =
-        "Protagonista 1";
+        "Nome do personagem 1";
 
-    box.appendChild(label1);
+    label1.setAttribute(
+        "for",
+        "nameInput1"
+    );
+
 
     var input1 =
         document.createElement("input");
@@ -1301,24 +1342,63 @@ function startNameScreen() {
     input1.type =
         "text";
 
-    input1.maxLength =
-        24;
+    input1.id =
+        "nameInput1";
 
-    input1.value =
-        game.sasah.name;
+    input1.name =
+        "nameInput1";
 
     input1.placeholder =
-        "Nome do protagonista";
+        "Digite o nome do personagem 1";
 
-    box.appendChild(input1);
+    input1.maxLength =
+        30;
+
+    input1.autocomplete =
+        "off";
+
+    input1.value =
+        game.sasah &&
+        game.sasah.name
+            ? game.sasah.name
+            : "Sasah";
+
+
+    group1.appendChild(
+        label1
+    );
+
+    group1.appendChild(
+        input1
+    );
+
+    box.appendChild(
+        group1
+    );
+
+
+    /* =====================================================
+       PERSONAGEM 2
+    ===================================================== */
+
+    var group2 =
+        document.createElement("div");
+
+    group2.className =
+        "name-group";
+
 
     var label2 =
         document.createElement("label");
 
     label2.textContent =
-        "Protagonista 2";
+        "Nome do personagem 2";
 
-    box.appendChild(label2);
+    label2.setAttribute(
+        "for",
+        "nameInput2"
+    );
+
 
     var input2 =
         document.createElement("input");
@@ -1326,157 +1406,176 @@ function startNameScreen() {
     input2.type =
         "text";
 
-    input2.maxLength =
-        24;
+    input2.id =
+        "nameInput2";
 
-    input2.value =
-        game.lucas.name;
+    input2.name =
+        "nameInput2";
 
     input2.placeholder =
-        "Nome do protagonista";
+        "Digite o nome do personagem 2";
 
-    box.appendChild(input2);
+    input2.maxLength =
+        30;
 
-    var startButton =
-        document.createElement("button");
+    input2.autocomplete =
+        "off";
 
-    startButton.type =
-        "button";
+    input2.value =
+        game.lucas &&
+        game.lucas.name
+            ? game.lucas.name
+            : "Lucas";
 
-    startButton.className =
-        "choice-button";
 
-    startButton.textContent =
-        "Começar a aventura";
+    group2.appendChild(
+        label2
+    );
 
-    startButton.addEventListener(
-        "click",
-        function() {
-            var name1 =
-                input1.value.trim();
-
-            var name2 =
-                input2.value.trim();
-
-            if (!name1) {
-                name1 =
-                    "Sasah";
-            }
-
-            if (!name2) {
-                name2 =
-                    "Lucas";
-            }
-
-            game.sasah.name =
-                name1;
-
-            game.lucas.name =
-                name2;
-
-            game.phase =
-                "story";
-
-            game.chapter =
-                0;
-
-            game.scene =
-                0;
-
-            game.sceneId =
-                "prologue_1";
-
-            overlay.remove();
-
-            showGameInterface();
-
-            addLog(
-                "A aventura de " +
-                name1 +
-                " e " +
-                name2 +
-                " começou."
-            );
-
-            goToScene(
-                "prologue_1"
-            );
-        }
+    group2.appendChild(
+        input2
     );
 
     box.appendChild(
-        startButton
+        group2
     );
 
-    overlay.appendChild(
+
+    /* =====================================================
+       BOTÃO
+    ===================================================== */
+
+    var button =
+        document.createElement("button");
+
+    button.type =
+        "button";
+
+    button.className =
+        "choice-button continue-button";
+
+    button.textContent =
+        "Começar aventura";
+
+
+    button.addEventListener(
+        "click",
+        function() {
+
+            var first =
+                input1.value.trim();
+
+            var second =
+                input2.value.trim();
+
+
+            /*
+               Não permite que os personagens
+               fiquem sem nome.
+            */
+
+            if (first === "") {
+
+                input1.focus();
+
+                alert(
+                    "Digite o nome do primeiro personagem."
+                );
+
+                return;
+
+            }
+
+
+            if (second === "") {
+
+                input2.focus();
+
+                alert(
+                    "Digite o nome do segundo personagem."
+                );
+
+                return;
+
+            }
+
+
+            /*
+               Guarda os nomes escolhidos.
+            */
+
+            game.sasah.name =
+                first;
+
+            game.lucas.name =
+                second;
+
+
+            /*
+               Registra a escolha no diário.
+            */
+
+            addLog(
+                first +
+                " e " +
+                second +
+                " começaram a aventura."
+            );
+
+
+            /*
+               Atualiza imediatamente
+               os cartões dos personagens.
+            */
+
+            updateCharacterUI();
+
+
+            /*
+               Salva os nomes.
+            */
+
+            saveGame();
+
+
+            /*
+               Agora começa a escolha das casas.
+            */
+
+            startHouseSelection(
+                "sasah"
+            );
+
+        }
+    );
+
+
+    box.appendChild(
+        button
+    );
+
+
+    choices.appendChild(
         box
     );
 
-    document.body.appendChild(
-        overlay
+
+    /*
+       Coloca automaticamente o cursor
+       no primeiro nome.
+    */
+
+    setTimeout(
+        function() {
+
+            input1.focus();
+
+            input1.select();
+
+        },
+        100
     );
 
-    hideGameInterface();
-}
-
-function hideGameInterface() {
-    var selectors = [
-        ".game-header",
-        ".game-layout",
-        ".game-container",
-        ".game-controls"
-    ];
-
-    for (
-        var i = 0;
-        i < selectors.length;
-        i++
-    ) {
-        var elements =
-            document.querySelectorAll(
-                selectors[i]
-            );
-
-        for (
-            var j = 0;
-            j < elements.length;
-            j++
-        ) {
-            elements[j].classList.add(
-                "rpg-hidden"
-            );
-        }
-    }
-}
-
-function showGameInterface() {
-    var selectors = [
-        ".game-header",
-        ".game-layout",
-        ".game-container",
-        ".game-controls"
-    ];
-
-    for (
-        var i = 0;
-        i < selectors.length;
-        i++
-    ) {
-        var elements =
-            document.querySelectorAll(
-                selectors[i]
-            );
-
-        for (
-            var j = 0;
-            j < elements.length;
-            j++
-        ) {
-            elements[j].classList.remove(
-                "rpg-hidden"
-            );
-        }
-    }
 }
 
 
