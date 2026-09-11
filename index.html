@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade.">
 <title>Hogwarts RPG</title>
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -62,7 +63,7 @@
                     <div class="status-bar"><div id="sasahMana" class="status-fill mana-fill" style="width: 100%;"></div></div>
                 </div>
                 <div class="status-row">
-                    <div class="status-label"><span>⭐ XP</span><span id="sasahXpText">0</span></div>
+                    <div class="status-label"><span>⭐ XP</span><span id="sasahXpText">XP: 0 • Nível 1</span></div>
                     <div class="status-bar"><div id="sasahXp" class="status-fill xp-fill" style="width: 0%;"></div></div>
                 </div>
                 <div class="attributes">
@@ -92,7 +93,7 @@
                     <div class="status-bar"><div id="lucasMana" class="status-fill mana-fill" style="width: 100%;"></div></div>
                 </div>
                 <div class="status-row">
-                    <div class="status-label"><span>⭐ XP</span><span id="lucasXpText">0</span></div>
+                    <div class="status-label"><span>⭐ XP</span><span id="lucasXpText">XP: 0 • Nível 1</span></div>
                     <div class="status-bar"><div id="lucasXp" class="status-fill xp-fill" style="width: 0%;"></div></div>
                 </div>
                 <div class="attributes">
@@ -150,15 +151,47 @@
 
 </main>
 
-<script src="script.js?v=4"></script>
+<!-- ============================================================
+     SCRIPT PRINCIPAL DO JOGO (script.js)
+============================================================ -->
+<script src="script.js?v=5"></script>
 
+<!-- ============================================================
+     CORREÇÕES CSS (barras + responsividade)
+============================================================ -->
+<style>
+.status-bar {
+    width: 100%;
+    height: 10px;
+    background: #0e0d11;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 4px;
+    position: relative;
+}
+.status-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    transition: width 0.35s ease;
+    display: block;
+}
+.status-fill.hp-fill { background: #b04a4a; }
+.status-fill.mana-fill { background: #4f7fb0; }
+.status-fill.xp-fill { background: #c99a3e; }
+</style>
+
+<!-- ============================================================
+     SCRIPT DE CONTROLE — TELA DE NOMES + QUIZ + PATCHES
+     Roda DEPOIS do script.js e sobrescreve o que for preciso
+============================================================ -->
 <script>
-// ============================================================
-// SCRIPT DE CONTROLE — TELA DE NOMES + QUIZ DAS CASAS
-// ============================================================
 (function () {
     "use strict";
 
+    // ============================================================
+    // QUIZ DAS CASAS (embutido, não depende do script.js)
+    // ============================================================
     var houseQuiz = [
         { question: "Você encontra um colega em perigo. O que faz?",
           answers: [
@@ -206,6 +239,9 @@
     var quizIndex = 0;
     var quizAnswers = { sasah: [], lucas: [] };
 
+    // ============================================================
+    // GARANTE ESTRUTURA DO GAME
+    // ============================================================
     function ensureGame() {
         if (!window.game || typeof window.game !== "object") window.game = {};
         if (!window.game.sasah) window.game.sasah = { name: "Sasah", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0 };
@@ -217,6 +253,106 @@
         if (!window.game.log) window.game.log = [];
     }
 
+    // ============================================================
+    // CORREÇÃO: XP, NÍVEL E MAGIA NEGATIVA
+    // ============================================================
+    function corrigirPersonagem(p) {
+        if (!p) return;
+
+        // Atributos nunca negativos
+        ["magic", "bravery", "loyalty", "intelligence", "ambition", "empathy"].forEach(function (attr) {
+            if (typeof p[attr] === "number" && p[attr] < 0) p[attr] = 0;
+        });
+
+        // HP e Mana dentro do range
+        if (typeof p.hp === "number" && typeof p.maxHp === "number") {
+            p.hp = Math.max(0, Math.min(p.hp, p.maxHp));
+        }
+        if (typeof p.mana === "number" && typeof p.maxMana === "number") {
+            p.mana = Math.max(0, Math.min(p.mana, p.maxMana));
+        }
+
+        // Level up automático (corrige XP estourado)
+        if (typeof p.xp === "number" && typeof p.level === "number") {
+            if (!p.maxHp) p.maxHp = 100;
+            if (!p.maxMana) p.maxMana = 100;
+            var required = p.level * 100;
+            while (p.xp >= required && required > 0) {
+                p.xp -= required;
+                p.level += 1;
+                p.maxHp += 10;
+                p.maxMana += 10;
+                p.magic += 2;
+                p.hp = p.maxHp;
+                p.mana = p.maxMana;
+                required = p.level * 100;
+            }
+        }
+    }
+
+    // ============================================================
+    // RENDERIZA CARDS DOS PERSONAGENS (força texto correto)
+    // ============================================================
+    function renderCardsCorrigidos() {
+        if (!window.game) return;
+        corrigirPersonagem(window.game.sasah);
+        corrigirPersonagem(window.game.lucas);
+
+        function setTxt(id, value) {
+            var el = document.getElementById(id);
+            if (el) el.textContent = value;
+        }
+        function setBar(id, value, max) {
+            var el = document.getElementById(id);
+            if (!el || !max) return;
+            var pct = Math.max(0, Math.min(100, (value / max) * 100));
+            el.style.width = pct + "%";
+        }
+
+        var s = window.game.sasah, l = window.game.lucas;
+
+        // Sasah
+        setTxt("sasahName", s.name);
+        setTxt("sasahHouse", s.house || "Sem casa");
+        setTxt("sasahHpText", s.hp + " / " + s.maxHp);
+        setTxt("sasahManaText", s.mana + " / " + s.maxMana);
+        setTxt("sasahXpText", "XP: " + s.xp + " • Nível " + s.level);
+        setBar("sasahHp", s.hp, s.maxHp);
+        setBar("sasahMana", s.mana, s.maxMana);
+        setBar("sasahXp", s.xp, s.level * 100);
+        setTxt("sasahBravery", s.bravery);
+        setTxt("sasahLoyalty", s.loyalty);
+        setTxt("sasahIntelligence", s.intelligence);
+        setTxt("sasahAmbition", s.ambition);
+        setTxt("sasahEmpathy", s.empathy);
+        setTxt("sasahMagic", s.magic);
+
+        // Lucas
+        setTxt("lucasName", l.name);
+        setTxt("lucasHouse", l.house || "Sem casa");
+        setTxt("lucasHpText", l.hp + " / " + l.maxHp);
+        setTxt("lucasManaText", l.mana + " / " + l.maxMana);
+        setTxt("lucasXpText", "XP: " + l.xp + " • Nível " + l.level);
+        setBar("lucasHp", l.hp, l.maxHp);
+        setBar("lucasMana", l.mana, l.maxMana);
+        setBar("lucasXp", l.xp, l.level * 100);
+        setTxt("lucasBravery", l.bravery);
+        setTxt("lucasLoyalty", l.loyalty);
+        setTxt("lucasIntelligence", l.intelligence);
+        setTxt("lucasAmbition", l.ambition);
+        setTxt("lucasEmpathy", l.empathy);
+        setTxt("lucasMagic", l.magic);
+
+        // Relacionamento
+        setTxt("friendship", window.game.relationship.friendship);
+        setTxt("trust", window.game.relationship.trust);
+        setTxt("rivalry", window.game.relationship.rivalry);
+        setTxt("affinity", window.game.relationship.affinity);
+    }
+
+    // ============================================================
+    // QUIZ — CÁLCULO E RENDERIZAÇÃO
+    // ============================================================
     function calcularCasa(characterKey) {
         var answers = quizAnswers[characterKey] || [];
         var scores = { "Grifinória": 0, "Lufa-Lufa": 0, "Corvinal": 0, "Sonserina": 0 };
@@ -230,7 +366,7 @@
     function renderPergunta() {
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
-        if (!sceneEl || !choicesEl) { console.error("❌ #scene ou #choices não encontrado"); return; }
+        if (!sceneEl || !choicesEl) return;
 
         var character = window.game[quizPlayer];
         var pergunta = houseQuiz[quizIndex];
@@ -280,6 +416,8 @@
     function finalizarCasa() {
         var casa = calcularCasa(quizPlayer);
         window.game[quizPlayer].house = casa;
+        corrigirPersonagem(window.game[quizPlayer]);
+        renderCardsCorrigidos();
 
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
@@ -308,11 +446,13 @@
                 quizIndex = 0;
                 renderPergunta();
             } else {
+                // Inicia a história
                 if (typeof window.showScene === "function") {
                     window.game.phase = "story";
                     window.game.flags.gameStarted = true;
                     try { window.showScene("arrival_1"); }
                     catch (e) { console.error("Erro ao iniciar história:", e); }
+                    setTimeout(renderCardsCorrigidos, 300);
                 } else {
                     sceneEl.innerHTML = "<h2 class='story-title'>Pronto para a aventura!</h2>" +
                         "<p>" + window.game.sasah.name + " (" + window.game.sasah.house + ") e " +
@@ -333,6 +473,9 @@
         renderPergunta();
     }
 
+    // ============================================================
+    // TELA DE NOMES
+    // ============================================================
     function iniciarTelaDeNomes() {
         console.log("🎮 Inicializando tela de nomes...");
 
@@ -385,22 +528,70 @@
             window.game.lucas.name = n2;
             window.game.phase = "quiz_sasah";
 
-            var sasahNameEl = document.getElementById("sasahName");
-            var lucasNameEl = document.getElementById("lucasName");
-            if (sasahNameEl) sasahNameEl.textContent = n1;
-            if (lucasNameEl) lucasNameEl.textContent = n2;
-
+            renderCardsCorrigidos();
             iniciarQuiz("sasah");
         });
 
+        renderCardsCorrigidos();
         console.log("✅ Tela de nomes pronta.");
     }
 
+    // ============================================================
+    // PATCH: sobrescreve updateCharacterUI e updateFinalInterface
+    // para SEMPRE reaplicar as correções
+    // ============================================================
+    function aplicarPatches() {
+        if (typeof window.updateCharacterUI === "function" && !window.updateCharacterUI.__patch) {
+            var orig = window.updateCharacterUI;
+            window.updateCharacterUI = function () {
+                corrigirPersonagem(window.game && window.game.sasah);
+                corrigirPersonagem(window.game && window.game.lucas);
+                try { orig.apply(this, arguments); } catch (e) {}
+                renderCardsCorrigidos();
+            };
+            window.updateCharacterUI.__patch = true;
+        }
+
+        if (typeof window.updateFinalInterface === "function" && !window.updateFinalInterface.__patch) {
+            var orig2 = window.updateFinalInterface;
+            window.updateFinalInterface = function () {
+                corrigirPersonagem(window.game && window.game.sasah);
+                corrigirPersonagem(window.game && window.game.lucas);
+                try { orig2.apply(this, arguments); } catch (e) {}
+                renderCardsCorrigidos();
+            };
+            window.updateFinalInterface.__patch = true;
+        }
+    }
+
+    // Reaplica depois de cada clique em escolha
+    document.addEventListener("click", function (e) {
+        if (e.target && e.target.classList && e.target.classList.contains("choice-button")) {
+            setTimeout(function () {
+                corrigirPersonagem(window.game && window.game.sasah);
+                corrigirPersonagem(window.game && window.game.lucas);
+                renderCardsCorrigidos();
+            }, 200);
+        }
+    });
+
+    // ============================================================
+    // BOOT
+    // ============================================================
+    function boot() {
+        console.log("🎮 Inicializando jogo...");
+        aplicarPatches();
+        iniciarTelaDeNomes();
+        // Reaplica patches uma última vez, caso script.js tenha sobrescrito
+        setTimeout(aplicarPatches, 200);
+        setTimeout(renderCardsCorrigidos, 400);
+    }
+
     if (document.readyState === "complete") {
-        setTimeout(iniciarTelaDeNomes, 300);
+        setTimeout(boot, 300);
     } else {
         window.addEventListener("load", function () {
-            setTimeout(iniciarTelaDeNomes, 300);
+            setTimeout(boot, 300);
         });
     }
 })();
