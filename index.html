@@ -6,7 +6,122 @@
 <meta name="description" content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade.">
 <title>Hogwarts RPG</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
+<style>
+/* =========================================================
+   CORREÇÃO — BARRAS DE HP, MANA E XP
+========================================================= */
+.status-bar {
+    width: 100%;
+    height: 10px;
+    background: #0e0d11;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 4px;
+    position: relative;
+}
+.status-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    transition: width 0.35s ease;
+    display: block;
+}
+.status-fill.hp-fill { background: #b04a4a; }
+.status-fill.mana-fill { background: #4f7fb0; }
+.status-fill.xp-fill { background: #c99a3e; }
+
+/* =========================================================
+   CARD DA KIWI (LEBRÍLOPE)
+========================================================= */
+.kiwi-card {
+    border: 1px solid rgba(164, 139, 93, 0.4);
+    background: linear-gradient(145deg, rgba(35, 31, 27, 0.98), rgba(20, 19, 20, 0.98));
+    animation: fadeIn 0.5s ease;
+}
+.kiwi-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+.kiwi-image {
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgba(190, 158, 96, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+    background: #1a1614;
+}
+.kiwi-info {
+    flex: 1;
+    min-width: 0;
+}
+.kiwi-name {
+    color: #e7d6b3;
+    font-size: 1.1rem;
+    margin: 0 0 3px 0;
+    line-height: 1.2;
+}
+.kiwi-house {
+    color: #a89b7e;
+    font-size: 0.78rem;
+    font-style: italic;
+}
+.kiwi-description {
+    color: #c4bcae;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    margin-bottom: 12px;
+}
+.kiwi-description p {
+    margin-bottom: 8px;
+}
+.kiwi-description p:last-child {
+    margin-bottom: 0;
+}
+.kiwi-description strong {
+    color: #e7d6b3;
+}
+.kiwi-description em {
+    color: #d4b896;
+    font-style: italic;
+}
+.kiwi-note {
+    color: #b8a888 !important;
+    font-style: italic;
+    text-align: center;
+    padding: 8px 0;
+    border-top: 1px solid rgba(190, 158, 96, 0.2);
+    border-bottom: 1px solid rgba(190, 158, 96, 0.2);
+    margin: 12px 0 !important;
+}
+.kiwi-attributes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.kiwi-attributes > div {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 8px;
+    background: rgba(255, 255, 255, 0.025);
+    border-radius: 5px;
+    font-size: 0.72rem;
+}
+.kiwi-attributes span:first-child {
+    color: #969087;
+}
+.kiwi-attributes span:last-child,
+.kiwi-attributes strong {
+    color: #d8c39b;
+    font-weight: bold;
+}
+</style>
 </head>
 <body>
 
@@ -46,6 +161,7 @@
 
         <aside class="sidebar">
 
+            <!-- CARD SASAH -->
             <section class="status-card">
                 <div class="status-header">
                     <div>
@@ -76,6 +192,7 @@
                 </div>
             </section>
 
+            <!-- CARD LUCAS -->
             <section class="status-card">
                 <div class="status-header">
                     <div>
@@ -106,6 +223,52 @@
                 </div>
             </section>
 
+            <!-- ==================================================
+                 CARD DA KIWI (LEBRÍLOPE)
+                 Imagem hospedada no Imgur
+            ================================================== -->
+            <section class="status-card kiwi-card" id="kiwiCard" style="display: none;">
+
+                <div class="kiwi-header">
+                    <img
+                        src="https://i.imgur.com/xWZ7p4E.png"
+                        alt="Kiwi, a Lebrílope"
+                        class="kiwi-image"
+                        loading="lazy"
+                        onerror="this.onerror=null; this.style.display='none';"
+                    >
+                    <div class="kiwi-info">
+                        <h2 class="kiwi-name">Lebrílope (Kiwi)</h2>
+                        <span class="kiwi-house" id="kiwiStatus">Companheira misteriosa</span>
+                    </div>
+                </div>
+
+                <div class="kiwi-description">
+                    <p>
+                        <strong>Lebrílope</strong> é uma criatura mágica extremamente rara,
+                        descrita em registros antigos de Hogwarts como um ser capaz de
+                        <em>perceber alterações na magia antiga</em>. Sua aparência única
+                        mistura traços de lebre e antílope — orelhas longas, olhos enormes
+                        e uma cauda que lembra folhas secas.
+                    </p>
+                    <p>
+                        Décadas atrás, uma Lebrílope chamada <strong>Kiwi</strong> teria
+                        sido vista nos corredores do castelo. Depois disso, todos os
+                        registros sobre ela desapareceram misteriosamente — até agora.
+                    </p>
+                    <p class="kiwi-note">
+                        "A Lebrílope aparece quando uma história precisa de duas pessoas."
+                    </p>
+                </div>
+
+                <div class="kiwi-attributes">
+                    <div><span>💛 Confiança</span><strong id="kiwiTrust">0</strong></div>
+                    <div><span>💜 Afeição</span><strong id="kiwiAffection">0</strong></div>
+                </div>
+
+            </section>
+
+            <!-- CARD RELAÇÃO -->
             <section class="relationship-card">
                 <div class="status-header">
                     <div>
@@ -122,6 +285,7 @@
                 </div>
             </section>
 
+            <!-- CARD DIÁRIO -->
             <section class="log-card">
                 <div class="status-header">
                     <div>
@@ -154,43 +318,17 @@
 <!-- ============================================================
      SCRIPT PRINCIPAL DO JOGO (script.js)
 ============================================================ -->
-<script src="script.js?v=5"></script>
-
-<!-- ============================================================
-     CORREÇÕES CSS (barras + responsividade)
-============================================================ -->
-<style>
-.status-bar {
-    width: 100%;
-    height: 10px;
-    background: #0e0d11;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 4px;
-    position: relative;
-}
-.status-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: inherit;
-    transition: width 0.35s ease;
-    display: block;
-}
-.status-fill.hp-fill { background: #b04a4a; }
-.status-fill.mana-fill { background: #4f7fb0; }
-.status-fill.xp-fill { background: #c99a3e; }
-</style>
+<script src="script.js?v=6"></script>
 
 <!-- ============================================================
      SCRIPT DE CONTROLE — TELA DE NOMES + QUIZ + PATCHES
-     Roda DEPOIS do script.js e sobrescreve o que for preciso
 ============================================================ -->
 <script>
 (function () {
     "use strict";
 
     // ============================================================
-    // QUIZ DAS CASAS (embutido, não depende do script.js)
+    // QUIZ DAS CASAS
     // ============================================================
     var houseQuiz = [
         { question: "Você encontra um colega em perigo. O que faz?",
@@ -248,7 +386,7 @@
         if (!window.game.lucas) window.game.lucas = { name: "Lucas", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0 };
         if (!window.game.houseAnswers) window.game.houseAnswers = { sasah: [], lucas: [] };
         if (!window.game.relationship) window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
-        if (!window.game.kiwi) window.game.kiwi = { name: "Kiwi", trust: 0, discovered: false, rescued: false };
+        if (!window.game.kiwi) window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
         if (!window.game.flags) window.game.flags = {};
         if (!window.game.log) window.game.log = [];
     }
@@ -259,12 +397,10 @@
     function corrigirPersonagem(p) {
         if (!p) return;
 
-        // Atributos nunca negativos
         ["magic", "bravery", "loyalty", "intelligence", "ambition", "empathy"].forEach(function (attr) {
             if (typeof p[attr] === "number" && p[attr] < 0) p[attr] = 0;
         });
 
-        // HP e Mana dentro do range
         if (typeof p.hp === "number" && typeof p.maxHp === "number") {
             p.hp = Math.max(0, Math.min(p.hp, p.maxHp));
         }
@@ -272,7 +408,6 @@
             p.mana = Math.max(0, Math.min(p.mana, p.maxMana));
         }
 
-        // Level up automático (corrige XP estourado)
         if (typeof p.xp === "number" && typeof p.level === "number") {
             if (!p.maxHp) p.maxHp = 100;
             if (!p.maxMana) p.maxMana = 100;
@@ -291,7 +426,7 @@
     }
 
     // ============================================================
-    // RENDERIZA CARDS DOS PERSONAGENS (força texto correto)
+    // RENDERIZA CARDS
     // ============================================================
     function renderCardsCorrigidos() {
         if (!window.game) return;
@@ -311,7 +446,6 @@
 
         var s = window.game.sasah, l = window.game.lucas;
 
-        // Sasah
         setTxt("sasahName", s.name);
         setTxt("sasahHouse", s.house || "Sem casa");
         setTxt("sasahHpText", s.hp + " / " + s.maxHp);
@@ -327,7 +461,6 @@
         setTxt("sasahEmpathy", s.empathy);
         setTxt("sasahMagic", s.magic);
 
-        // Lucas
         setTxt("lucasName", l.name);
         setTxt("lucasHouse", l.house || "Sem casa");
         setTxt("lucasHpText", l.hp + " / " + l.maxHp);
@@ -343,11 +476,70 @@
         setTxt("lucasEmpathy", l.empathy);
         setTxt("lucasMagic", l.magic);
 
-        // Relacionamento
         setTxt("friendship", window.game.relationship.friendship);
         setTxt("trust", window.game.relationship.trust);
         setTxt("rivalry", window.game.relationship.rivalry);
         setTxt("affinity", window.game.relationship.affinity);
+
+        mostrarKiwi();
+    }
+
+    // ============================================================
+    // MOSTRA O CARD DA KIWI QUANDO ELA É ENCONTRADA
+    // ============================================================
+    function mostrarKiwi() {
+        var kiwiCard = document.getElementById("kiwiCard");
+        if (!kiwiCard || !window.game || !window.game.kiwi) return;
+
+        var cenasComKiwi = [
+            "train_1", "train_2", "train_3",
+            "arrival_2", "arrival_3", "arrival_4", "arrival_5",
+            "arrival_6", "arrival_7", "arrival_8",
+            "kiwi_1", "kiwi_2", "kiwi_3",
+            "forest_1", "forest_2", "forest_3",
+            "lake_1", "lake_2", "lake_3",
+            "mirror_1", "mirror_2", "mirror_3",
+            "catacombs_1", "catacombs_2", "catacombs_3",
+            "society_1", "society_2", "society_3",
+            "invasion_1", "invasion_2", "invasion_3",
+            "ancient_1", "ancient_2",
+            "final_war_1", "final_war_2", "final_war_3",
+            "ancient_chamber_1", "ancient_chamber_2", "ancient_chamber_3",
+            "final_battle_1", "final_battle_2",
+            "final_choice_shared", "final_choice_single", "final_choice_destroy",
+            "ending_shared", "ending_sacrifice", "ending_sacrifice_search",
+            "ending_destroy", "credits"
+        ];
+
+        var cenaAtual = (window.game.currentSceneId || window.game.currentScene || "");
+        var kiwiEncontrada = window.game.kiwi.met === true
+                           || window.game.kiwi.discovered === true
+                           || (window.game.flags && window.game.flags.metKiwi === true)
+                           || (window.game.flags && window.game.flags.kiwiSecret === true)
+                           || (cenaAtual && cenasComKiwi.indexOf(cenaAtual) !== -1);
+
+        if (kiwiEncontrada) {
+            kiwiCard.style.display = "block";
+
+            var trust = window.game.kiwi.trust || 0;
+            var aff = window.game.kiwi.affection || 0;
+
+            var trustEl = document.getElementById("kiwiTrust");
+            var affEl = document.getElementById("kiwiAffection");
+            if (trustEl) trustEl.textContent = trust;
+            if (affEl) affEl.textContent = aff;
+
+            var statusEl = document.getElementById("kiwiStatus");
+            if (statusEl) {
+                if (trust >= 8) statusEl.textContent = "Aliada leal";
+                else if (trust >= 5) statusEl.textContent = "Companheira confiável";
+                else if (trust >= 3) statusEl.textContent = "Amiga curiosa";
+                else if (trust >= 1) statusEl.textContent = "Criatura misteriosa";
+                else statusEl.textContent = "Companheira misteriosa";
+            }
+        } else {
+            kiwiCard.style.display = "none";
+        }
     }
 
     // ============================================================
@@ -446,7 +638,6 @@
                 quizIndex = 0;
                 renderPergunta();
             } else {
-                // Inicia a história
                 if (typeof window.showScene === "function") {
                     window.game.phase = "story";
                     window.game.flags.gameStarted = true;
@@ -493,10 +684,7 @@
 
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
-        if (!sceneEl || !choicesEl) {
-            console.error("❌ Não achei #scene ou #choices!");
-            return;
-        }
+        if (!sceneEl || !choicesEl) return;
 
         sceneEl.innerHTML =
             '<h2 class="story-title">Antes de Hogwarts</h2>' +
@@ -521,8 +709,6 @@
             var n1 = (n1El && n1El.value.trim()) || "Sasah";
             var n2 = (n2El && n2El.value.trim()) || "Lucas";
 
-            console.log("✅ Nomes escolhidos:", n1, "e", n2);
-
             ensureGame();
             window.game.sasah.name = n1;
             window.game.lucas.name = n2;
@@ -537,8 +723,7 @@
     }
 
     // ============================================================
-    // PATCH: sobrescreve updateCharacterUI e updateFinalInterface
-    // para SEMPRE reaplicar as correções
+    // PATCHES
     // ============================================================
     function aplicarPatches() {
         if (typeof window.updateCharacterUI === "function" && !window.updateCharacterUI.__patch) {
@@ -564,7 +749,6 @@
         }
     }
 
-    // Reaplica depois de cada clique em escolha
     document.addEventListener("click", function (e) {
         if (e.target && e.target.classList && e.target.classList.contains("choice-button")) {
             setTimeout(function () {
@@ -582,7 +766,6 @@
         console.log("🎮 Inicializando jogo...");
         aplicarPatches();
         iniciarTelaDeNomes();
-        // Reaplica patches uma última vez, caso script.js tenha sobrescrito
         setTimeout(aplicarPatches, 200);
         setTimeout(renderCardsCorrigidos, 400);
     }
