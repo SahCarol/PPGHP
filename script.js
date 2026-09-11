@@ -2735,7 +2735,7 @@ scenes.sorting_result = {
                     intelligence: 1,
                     xp: 15
                 },
-                relationship: {
+                                relationship: {
                     trust: -1
                 }
             },
@@ -2744,7 +2744,6 @@ scenes.sorting_result = {
         }
     ]
 };
-
 
 /* =========================================================
    FUNÇÃO ESPECIAL PARA NOMES DAS CASAS
