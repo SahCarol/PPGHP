@@ -267,12 +267,152 @@
     padding: 12px 8px;
     font-size: 0.82rem;
 }
+   /* =========================================================
+   PLAYER DE MÚSICA
+========================================================= */
+.music-player {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: linear-gradient(145deg, rgba(35, 31, 27, 0.95), rgba(20, 19, 20, 0.95));
+    border: 1px solid rgba(190, 158, 96, 0.4);
+    border-radius: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.music-player.visible {
+    display: flex !important;
+}
+
+.music-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(190, 158, 96, 0.4);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+    color: #e7d6b3;
+}
+
+.music-btn:hover {
+    background: rgba(201, 154, 62, 0.15);
+    border-color: #c99a3e;
+    transform: scale(1.05);
+}
+
+.music-btn.muted {
+    opacity: 0.6;
+}
+
+.music-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 90px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.music-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #c99a3e;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #1a1614;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.music-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #c99a3e;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #1a1614;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.music-volume-label {
+    color: #a89b7e;
+    font-size: 0.75rem;
+    min-width: 32px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .music-player {
+        top: 10px;
+        right: 10px;
+        padding: 6px 10px;
+        gap: 8px;
+    }
+    .music-slider {
+        width: 60px;
+    }
+    .music-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    .music-volume-label {
+        display: none;
+    }
+}
+   
 </style>
 </head>
 <body>
 
 <div class="page-background"></div>
+<!-- ============================================================
+     PLAYER DE MÚSICA
+============================================================ -->
+<div id="musicPlayer" class="music-player" style="display: none;">
 
+    <audio id="bgMusic" loop preload="auto">
+        <source src="musica.mp3" type="audio/mpeg">
+        Seu navegador não suporta áudio.
+    </audio>
+
+    <button id="musicMuteBtn" type="button" class="music-btn" title="Mudo/Ativar">
+        🔊
+    </button>
+
+    <input
+        id="musicVolume"
+        type="range"
+        min="0"
+        max="100"
+        value="30"
+        class="music-slider"
+        title="Volume"
+    >
+
+    <span id="musicVolumeLabel" class="music-volume-label">30%</span>
+
+</div>
+   
 <main class="game-container">
 
     <header class="game-header">
@@ -1060,6 +1200,8 @@
                 window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
                 window.game.log = [];
                 renderLog();
+                               // 🎵 Inicia a música depois do quiz do Chapéu Seletor
+                iniciarMusica();
 
                 if (typeof window.showScene === "function") {
                     window.game.phase = "story";
@@ -1344,6 +1486,118 @@
         }
     });
 
+       // ============================================================
+    // PLAYER DE MÚSICA
+    // ============================================================
+    var MUSIC_STORAGE_KEY = "hogwarts_music_volume";
+    var MUSIC_MUTED_KEY = "hogwarts_music_muted";
+    var musicaIniciada = false;
+
+    function iniciarMusica() {
+        if (musicaIniciada) return;
+
+        var player = document.getElementById("musicPlayer");
+        var audio = document.getElementById("bgMusic");
+        var btnMute = document.getElementById("musicMuteBtn");
+        var slider = document.getElementById("musicVolume");
+        var label = document.getElementById("musicVolumeLabel");
+
+        if (!player || !audio || !btnMute || !slider || !label) {
+            console.warn("Player de música não encontrado.");
+            return;
+        }
+
+        // Recupera preferências salvas
+        var volumeSalvo = localStorage.getItem(MUSIC_STORAGE_KEY);
+        var mutadoSalvo = localStorage.getItem(MUSIC_MUTED_KEY);
+
+        var volumeInicial = volumeSalvo !== null ? parseInt(volumeSalvo, 10) : 30;
+        if (isNaN(volumeInicial)) volumeInicial = 30;
+        volumeInicial = Math.max(0, Math.min(100, volumeInicial));
+
+        var mutado = mutadoSalvo === "true";
+
+        slider.value = volumeInicial;
+        label.textContent = volumeInicial + "%";
+
+        // Mudo por padrão até o usuário interagir
+        audio.volume = 0;
+
+        // Mostra o player
+        player.style.display = "flex";
+        player.classList.add("visible");
+
+        // Tenta tocar (pode ser bloqueado)
+        var playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(function () {
+                // Sucesso: aplica o fade-in
+                musicaIniciada = true;
+                aplicarVolume();
+                fazerFadeIn();
+            }).catch(function (err) {
+                console.warn("Autoplay bloqueado:", err);
+                // Mostra instrução
+                player.title = "Clique no botão para ativar a música";
+            });
+        }
+
+        function aplicarVolume() {
+            if (mutado) {
+                audio.volume = 0;
+                btnMute.textContent = "🔇";
+                btnMute.classList.add("muted");
+            } else {
+                audio.volume = volumeInicial / 100;
+                btnMute.textContent = "🔊";
+                btnMute.classList.remove("muted");
+            }
+        }
+
+        // Fade-in suave (0 → volume escolhido em 2 segundos)
+        function fazerFadeIn() {
+            if (mutado) return;
+            var alvo = volumeInicial / 100;
+            var passos = 20;
+            var atual = 0;
+            var incremento = alvo / passos;
+            var i = 0;
+            var timer = setInterval(function () {
+                i++;
+                atual += incremento;
+                if (atual >= alvo || i >= passos) {
+                    atual = alvo;
+                    clearInterval(timer);
+                }
+                audio.volume = atual;
+            }, 100);
+        }
+
+        // Botão de mudo
+        btnMute.addEventListener("click", function () {
+            mutado = !mutado;
+            localStorage.setItem(MUSIC_MUTED_KEY, mutado ? "true" : "false");
+            aplicarVolume();
+            // Se desmutou e a música ainda não tocou, tenta de novo
+            if (!mutado && audio.paused) {
+                audio.play().catch(function () {});
+            }
+        });
+
+        // Slider de volume
+        slider.addEventListener("input", function () {
+            var v = parseInt(slider.value, 10);
+            volumeInicial = v;
+            label.textContent = v + "%";
+            localStorage.setItem(MUSIC_STORAGE_KEY, String(v));
+            if (v > 0 && mutado) {
+                mutado = false;
+                localStorage.setItem(MUSIC_MUTED_KEY, "false");
+            }
+            aplicarVolume();
+        });
+    }
     // ============================================================
     // BOOT
     // ============================================================
