@@ -2793,15 +2793,13 @@ replaceNames = function(text) {
    ARCO I — O CASTELO QUE OBSERVA
 ========================================================= */
 
+
+
 scenes.castle_1 = {
     chapter: 4,
     location: "Corredores de Hogwarts",
-
-    title:
-        "O castelo que observa",
-
+    title: "O castelo que observa",
     mode: "sasah",
-
     text:
         "Na manhã seguinte, Hogwarts parecia perfeitamente normal.\n\n" +
         "Aulas começaram, estudantes corriam pelos corredores e professores tentavam organizar a rotina.\n\n" +
@@ -2810,149 +2808,86 @@ scenes.castle_1 = {
         "Não era apenas uma impressão.\n\n" +
         "Os olhos do retrato acompanharam seus movimentos.\n\n" +
         "Quando {P1} se aproximou, o personagem pintado virou o rosto e sussurrou:\n\n" +
-        "“Vocês dois não deveriam ter encontrado o livro.”\n\n" +
+        "\"Vocês dois não deveriam ter encontrado o livro.\"\n\n" +
         "Então o retrato voltou à posição original.\n\n" +
         "Como se nunca tivesse falado.",
-
     choices: [
         {
-            text:
-                "Perguntar ao retrato quem escreveu o livro.",
+            text: "Perguntar ao retrato quem escreveu o livro.",
             effects: {
-                sasah: {
-                    intelligence: 2,
-                    xp: 20
-                },
-                flags: {
-                    professorClue: true
-                }
+                sasah: { intelligence: 2, xp: 20 },
+                flags: { professorClue: true }
             },
-            next:
-                "castle_2"
+            next: "castle_2"
         },
-
         {
-            text:
-                "Exigir que o retrato conte imediatamente o que sabe.",
+            text: "Exigir que o retrato conte imediatamente o que sabe.",
             effects: {
-                sasah: {
-                    bravery: 2,
-                    xp: 20
-                },
-                relationship: {
-                    rivalry: 1
-                }
+                sasah: { bravery: 2, xp: 20 },
+                relationship: { rivalry: 1 }
             },
-            next:
-                "castle_2"
+            next: "castle_2"
         },
-
         {
-            text:
-                "Não pressionar o retrato e observar seu comportamento.",
+            text: "Não pressionar o retrato e observar seu comportamento.",
             effects: {
-                sasah: {
-                    empathy: 1,
-                    intelligence: 1,
-                    xp: 20
-                }
+                sasah: { empathy: 1, intelligence: 1, xp: 20 }
             },
-            next:
-                "castle_2"
+            next: "castle_2"
         }
-    ] } 
+    ]
 };
-
 
 scenes.castle_2 = {
     chapter: 4,
     location: "Biblioteca",
-
-    title:
-        "O livro sem título",
-
+    title: "O livro sem título",
     mode: "lucas",
-
     text:
         "{P2} levou o livro até a biblioteca.\n\n" +
         "A bibliotecária imediatamente percebeu que havia algo incomum nele.\n\n" +
         "Ela não tocou na capa.\n\n" +
         "Apenas disse:\n\n" +
-        "“Alguns livros não gostam de ser encontrados.”\n\n" +
+        "\"Alguns livros não gostam de ser encontrados.\"\n\n" +
         "Nas estantes mais antigas, {P2} encontrou uma referência às Lebrílopas.\n\n" +
         "Segundo o registro, eram criaturas extremamente raras capazes de perceber alterações na magia antiga.\n\n" +
         "Mas havia uma anotação ainda mais estranha.\n\n" +
         "Uma Lebrílope chamada Kiwi teria sido vista em Hogwarts décadas atrás.\n\n" +
         "Depois disso, todos os registros sobre ela desapareceram.",
-
     choices: [
         {
-            text:
-                "Pesquisar tudo que existir sobre Kiwi.",
+            text: "Pesquisar tudo que existir sobre Kiwi.",
             effects: {
-                lucas: {
-                    intelligence: 3,
-                    xp: 25
-                },
-                flags: {
-                    library: true,
-                    kiwiSecret: true
-                },
-                kiwi: {
-                    trust: 1
-                }
+                lucas: { intelligence: 3, xp: 25 },
+                flags: { library: true, kiwiSecret: true },
+                kiwi: { trust: 1 }
             },
-            next:
-                "castle_3"
+            next: "castle_3"
         },
-
         {
-            text:
-                "Pesquisar quem apagou os registros.",
+            text: "Pesquisar quem apagou os registros.",
             effects: {
-                lucas: {
-                    ambition: 1,
-                    intelligence: 2,
-                    xp: 25
-                },
-                flags: {
-                    library: true,
-                    professorClue: true
-                }
+                lucas: { ambition: 1, intelligence: 2, xp: 25 },
+                flags: { library: true, professorClue: true }
             },
-            next:
-                "castle_3"
+            next: "castle_3"
         },
-
         {
-            text:
-                "Fechar o livro e contar tudo a {P1}.",
+            text: "Fechar o livro e contar tudo a {P1}.",
             effects: {
-                lucas: {
-                    loyalty: 2,
-                    xp: 20
-                },
-                relationship: {
-                    friendship: 2,
-                    trust: 2
-                }
+                lucas: { loyalty: 2, xp: 20 },
+                relationship: { friendship: 2, trust: 2 }
             },
-            next:
-                "castle_3"
+            next: "castle_3"
         }
     ]
 };
 
-
 scenes.castle_3 = {
     chapter: 4,
     location: "Biblioteca — seção restrita",
-
-    title:
-        "A porta que não deveria existir",
-
+    title: "A porta que não deveria existir",
     mode: "both",
-
     text:
         "Os dois se encontraram depois das aulas.\n\n" +
         "As pistas pareciam apontar para o mesmo lugar.\n\n" +
@@ -2966,80 +2901,38 @@ scenes.castle_3 = {
         "E no centro dela estava uma caixa de vidro.\n\n" +
         "Dentro da caixa havia uma pena prateada.\n\n" +
         "A mesma pena deixada pela criatura no trem.",
-
     choices: [
         {
-            text:
-                "Abrir a caixa.",
+            text: "Abrir a caixa.",
             effects: {
-                sasah: {
-                    bravery: 1,
-                    magic: 1,
-                    xp: 30
-                },
-                lucas: {
-                    intelligence: 1,
-                    magic: 1,
-                    xp: 30
-                },
-                relationship: {
-                    friendship: 2,
-                    trust: 2
-                },
-                flags: {
-                    ancientArtifact: true,
-                    forbiddenRoom: true
-                }
+                sasah: { bravery: 1, magic: 1, xp: 30 },
+                lucas: { intelligence: 1, magic: 1, xp: 30 },
+                relationship: { friendship: 2, trust: 2 },
+                flags: { ancientArtifact: true, forbiddenRoom: true }
             },
-            next:
-                "kiwi_1"
+            next: "kiwi_1"
         },
-
         {
-            text:
-                "Estudar a proteção mágica primeiro.",
+            text: "Estudar a proteção mágica primeiro.",
             effects: {
-                sasah: {
-                    intelligence: 2,
-                    xp: 30
-                },
-                lucas: {
-                    intelligence: 2,
-                    xp: 30
-                },
-                relationship: {
-                    trust: 1
-                },
-                flags: {
-                    ancientArtifact: true
-                }
+                sasah: { intelligence: 2, xp: 30 },
+                lucas: { intelligence: 2, xp: 30 },
+                relationship: { trust: 1 },
+                flags: { ancientArtifact: true }
             },
-            next:
-                "kiwi_1"
+            next: "kiwi_1"
         },
-
         {
-            text:
-                "Não tocar na caixa e procurar outras pistas.",
+            text: "Não tocar na caixa e procurar outras pistas.",
             effects: {
-                sasah: {
-                    empathy: 1,
-                    xp: 20
-                },
-                lucas: {
-                    intelligence: 1,
-                    xp: 20
-                },
-                flags: {
-                    forbiddenRoom: true
-                }
+                sasah: { empathy: 1, xp: 20 },
+                lucas: { intelligence: 1, xp: 20 },
+                flags: { forbiddenRoom: true }
             },
-            next:
-                "kiwi_1"
+            next: "kiwi_1"
         }
     ]
 };
-
 
 /* =========================================================
    ARCO II — KIWI
