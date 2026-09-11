@@ -5003,7 +5003,7 @@ scenes.ancient_2 = {
                 }
             },
             next:
-                "final_battle"
+                "final_war_1"
         },
 
         {
@@ -5025,7 +5025,7 @@ scenes.ancient_2 = {
                 }
             },
             next:
-                "final_battle"
+                "final_war_1"
         },
 
         {
@@ -5056,7 +5056,7 @@ scenes.ancient_2 = {
                 }
             },
             next:
-                "final_battle"
+                "final_war_1"
         }
     ]
 };
