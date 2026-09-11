@@ -1312,3 +1312,65 @@ input:focus-visible {
         transition-duration: 0.01ms !important;
     }
 }
+/* =========================================================
+   CORREÇÃO — BARRAS DE HP, MANA E XP
+========================================================= */
+
+/* Container da barra */
+.status-bar {
+    width: 100%;
+    height: 10px;
+    background: #0e0d11;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 4px;
+    position: relative;
+}
+
+/* Preenchimento (genérico) */
+.status-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    transition: width 0.35s ease;
+    display: block;
+}
+
+/* Cores específicas por tipo */
+.status-fill.hp-fill,
+.status-fill.hp,
+.hp .status-fill,
+.hp .bar-fill {
+    background: #b04a4a;
+}
+
+.status-fill.mana-fill,
+.status-fill.mana,
+.mana .status-fill,
+.mana .bar-fill {
+    background: #4f7fb0;
+}
+
+.status-fill.xp-fill,
+.status-fill.xp,
+.xp .status-fill,
+.xp .bar-fill {
+    background: #c99a3e;
+}
+
+/* Compatibilidade com a classe .bar */
+.bar {
+    width: 100%;
+    height: 10px;
+    background: #0e0d11;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    transition: width 0.35s ease;
+}
