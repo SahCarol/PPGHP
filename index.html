@@ -6,27 +6,13 @@
 <meta name="description" content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade.">
 <title>Hogwarts RPG</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 <style>
 /* =========================================================
-   CORREÇÃO — BARRAS DE HP, MANA E XP
+   BARRAS DE HP, MANA E XP
 ========================================================= */
-.status-bar {
-    width: 100%;
-    height: 10px;
-    background: #0e0d11;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 4px;
-    position: relative;
-}
-.status-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: inherit;
-    transition: width 0.35s ease;
-    display: block;
-}
+.status-bar { width: 100%; height: 10px; background: #0e0d11; border-radius: 20px; overflow: hidden; margin-top: 4px; position: relative; }
+.status-fill { height: 100%; width: 0%; border-radius: inherit; transition: width 0.35s ease; display: block; }
 .status-fill.hp-fill { background: #b04a4a; }
 .status-fill.mana-fill { background: #4f7fb0; }
 .status-fill.xp-fill { background: #c99a3e; }
@@ -34,385 +20,130 @@
 /* =========================================================
    ESPAÇAMENTO ENTRE TEXTO E ESCOLHAS
 ========================================================= */
-#choices {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-#choices h3,
-#choices .choice-title {
-    margin-bottom: 10px;
-}
-.choice-button {
-    margin: 0;
-    padding: 16px 18px;
-}
-.name-selection {
-    margin-top: 28px;
-    margin-bottom: 28px;
-}
-.name-group {
-    margin-bottom: 16px;
-}
+#choices { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+#choices h3, #choices .choice-title { margin-bottom: 10px; }
+.choice-button { margin: 0; padding: 16px 18px; }
+.name-selection { margin-top: 28px; margin-bottom: 28px; }
+.name-group { margin-bottom: 16px; }
 
 /* =========================================================
    CARD DE RELAÇÃO
 ========================================================= */
-.relationship-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    margin-top: 8px;
-}
-.relationship-grid > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 8px;
-    background: rgba(255, 255, 255, 0.025);
-    border-radius: 5px;
-    font-size: 0.78rem;
-}
-.relationship-grid > div > span {
-    color: #969087;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-.relationship-grid > div > strong {
-    color: #d8c39b;
-    font-weight: bold;
-    min-width: 24px;
-    text-align: right;
-}
+.relationship-grid { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+.relationship-grid > div { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 8px; background: rgba(255, 255, 255, 0.025); border-radius: 5px; font-size: 0.78rem; }
+.relationship-grid > div > span { color: #969087; white-space: nowrap; flex-shrink: 0; }
+.relationship-grid > div > strong { color: #d8c39b; font-weight: bold; min-width: 24px; text-align: right; }
 
 /* =========================================================
-   AVATARES DOS PERSONAGENS (em vez de emoji)
+   AVATARES
 ========================================================= */
-.character-avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(190, 158, 96, 0.5);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    flex-shrink: 0;
-    background: #1a1614;
-    display: block;
-}
-
-/* Fallback: se a imagem falhar, mostra o emoji */
-.character-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    border: 2px solid rgba(190, 158, 96, 0.5);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    background: #1a1614;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    flex-shrink: 0;
-}
+.character-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(190, 158, 96, 0.5); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); flex-shrink: 0; background: #1a1614; display: block; }
+.character-icon { width: 72px; height: 72px; border-radius: 50%; border: 2px solid rgba(190, 158, 96, 0.5); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); background: #1a1614; display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; }
 
 /* =========================================================
-   SELEÇÃO DE GÊNERO (tela inicial)
+   SELEÇÃO DE GÊNERO
 ========================================================= */
-.gender-selection {
-    display: flex;
-    gap: 10px;
-    margin-top: 8px;
-}
-.gender-option {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 14px;
-    border: 2px solid rgba(190, 158, 96, 0.25);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.02);
-    color: #b8b0a4;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-}
-.gender-option:hover {
-    border-color: rgba(190, 158, 96, 0.55);
-    background: rgba(255, 255, 255, 0.05);
-    color: #e7d6b3;
-}
-.gender-option.selected {
-    border-color: #c99a3e;
-    background: rgba(201, 154, 62, 0.12);
-    color: #e7d6b3;
-    box-shadow: 0 0 12px rgba(201, 154, 62, 0.25);
-}
-.gender-option img {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid rgba(190, 158, 96, 0.4);
-}
-.gender-option .gender-emoji {
-    font-size: 1.3rem;
-}
-.gender-option input {
-    display: none;
-}
+.gender-selection { display: flex; gap: 10px; margin-top: 8px; }
+.gender-option { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 14px; border: 2px solid rgba(190, 158, 96, 0.25); border-radius: 8px; background: rgba(255, 255, 255, 0.02); color: #b8b0a4; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+.gender-option:hover { border-color: rgba(190, 158, 96, 0.55); background: rgba(255, 255, 255, 0.05); color: #e7d6b3; }
+.gender-option.selected { border-color: #c99a3e; background: rgba(201, 154, 62, 0.12); color: #e7d6b3; box-shadow: 0 0 12px rgba(201, 154, 62, 0.25); }
+.gender-option img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(190, 158, 96, 0.4); }
+.gender-option .gender-emoji { font-size: 1.3rem; }
+.gender-option input { display: none; }
 
 /* =========================================================
-   CARD DA KIWI (LEBRÍLOPE)
+   CARD DA KIWI
 ========================================================= */
-.kiwi-card {
-    border: 1px solid rgba(164, 139, 93, 0.4);
-    background: linear-gradient(145deg, rgba(35, 31, 27, 0.98), rgba(20, 19, 20, 0.98));
-    animation: fadeIn 0.5s ease;
-}
-.kiwi-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 14px;
-}
-.kiwi-image {
-    width: 76px;
-    height: 76px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid rgba(190, 158, 96, 0.5);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    flex-shrink: 0;
-    background: #1a1614;
-}
-.kiwi-info {
-    flex: 1;
-    min-width: 0;
-}
-.kiwi-name {
-    color: #e7d6b3;
-    font-size: 1.1rem;
-    margin: 0 0 3px 0;
-    line-height: 1.2;
-}
-.kiwi-house {
-    color: #a89b7e;
-    font-size: 0.78rem;
-    font-style: italic;
-}
-.kiwi-description {
-    color: #c4bcae;
-    font-size: 0.82rem;
-    line-height: 1.55;
-    margin-bottom: 12px;
-}
-.kiwi-description p {
-    margin-bottom: 8px;
-}
-.kiwi-description p:last-child {
-    margin-bottom: 0;
-}
-.kiwi-description strong {
-    color: #e7d6b3;
-}
-.kiwi-description em {
-    color: #d4b896;
-    font-style: italic;
-}
-.kiwi-note {
-    color: #b8a888 !important;
-    font-style: italic;
-    text-align: center;
-    padding: 8px 0;
-    border-top: 1px solid rgba(190, 158, 96, 0.2);
-    border-bottom: 1px solid rgba(190, 158, 96, 0.2);
-    margin: 12px 0 !important;
-}
-.kiwi-attributes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-}
-.kiwi-attributes > div {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 8px;
-    background: rgba(255, 255, 255, 0.025);
-    border-radius: 5px;
-    font-size: 0.72rem;
-}
-.kiwi-attributes span:first-child {
-    color: #969087;
-}
-.kiwi-attributes span:last-child,
-.kiwi-attributes strong {
-    color: #d8c39b;
-    font-weight: bold;
-}
+.kiwi-card { border: 1px solid rgba(164, 139, 93, 0.4); background: linear-gradient(145deg, rgba(35, 31, 27, 0.98), rgba(20, 19, 20, 0.98)); animation: fadeIn 0.5s ease; }
+.kiwi-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.kiwi-image { width: 76px; height: 76px; object-fit: cover; border-radius: 50%; border: 2px solid rgba(190, 158, 96, 0.5); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); flex-shrink: 0; background: #1a1614; }
+.kiwi-info { flex: 1; min-width: 0; }
+.kiwi-name { color: #e7d6b3; font-size: 1.1rem; margin: 0 0 3px 0; line-height: 1.2; }
+.kiwi-house { color: #a89b7e; font-size: 0.78rem; font-style: italic; }
+.kiwi-description { color: #c4bcae; font-size: 0.82rem; line-height: 1.55; margin-bottom: 12px; }
+.kiwi-description p { margin-bottom: 8px; }
+.kiwi-description p:last-child { margin-bottom: 0; }
+.kiwi-description strong { color: #e7d6b3; }
+.kiwi-description em { color: #d4b896; font-style: italic; }
+.kiwi-note { color: #b8a888 !important; font-style: italic; text-align: center; padding: 8px 0; border-top: 1px solid rgba(190, 158, 96, 0.2); border-bottom: 1px solid rgba(190, 158, 96, 0.2); margin: 12px 0 !important; }
+.kiwi-attributes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.07); }
+.kiwi-attributes > div { display: flex; justify-content: space-between; padding: 5px 8px; background: rgba(255, 255, 255, 0.025); border-radius: 5px; font-size: 0.72rem; }
+.kiwi-attributes span:first-child { color: #969087; }
+.kiwi-attributes span:last-child, .kiwi-attributes strong { color: #d8c39b; font-weight: bold; }
 
 /* =========================================================
    DIÁRIO VAZIO
 ========================================================= */
-.log-empty {
-    color: #6a655d;
-    font-style: italic;
-    text-align: center;
-    padding: 12px 8px;
-    font-size: 0.82rem;
-}
-   /* =========================================================
+.log-empty { color: #6a655d; font-style: italic; text-align: center; padding: 12px 8px; font-size: 0.82rem; }
+
+/* =========================================================
    PLAYER DE MÚSICA
 ========================================================= */
-.music-player {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    background: linear-gradient(145deg, rgba(35, 31, 27, 0.95), rgba(20, 19, 20, 0.95));
-    border: 1px solid rgba(190, 158, 96, 0.4);
-    border-radius: 30px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    backdrop-filter: blur(8px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.music-player.visible {
-    display: flex !important;
-}
-
-.music-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(190, 158, 96, 0.4);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    padding: 0;
-    line-height: 1;
-    color: #e7d6b3;
-}
-
-.music-btn:hover {
-    background: rgba(201, 154, 62, 0.15);
-    border-color: #c99a3e;
-    transform: scale(1.05);
-}
-
-.music-btn.muted {
-    opacity: 0.6;
-}
-
-.music-slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 90px;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    outline: none;
-    cursor: pointer;
-}
-
-.music-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 14px;
-    height: 14px;
-    background: #c99a3e;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid #1a1614;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.music-slider::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    background: #c99a3e;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid #1a1614;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.music-volume-label {
-    color: #a89b7e;
-    font-size: 0.75rem;
-    min-width: 32px;
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-}
-
-/* Mobile */
+.music-player { position: fixed; top: 16px; right: 16px; display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: linear-gradient(145deg, rgba(35, 31, 27, 0.95), rgba(20, 19, 20, 0.95)); border: 1px solid rgba(190, 158, 96, 0.4); border-radius: 30px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); z-index: 1000; backdrop-filter: blur(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
+.music-player.visible { display: flex !important; }
+.music-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(190, 158, 96, 0.4); border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; padding: 0; line-height: 1; color: #e7d6b3; }
+.music-btn:hover { background: rgba(201, 154, 62, 0.15); border-color: #c99a3e; transform: scale(1.05); }
+.music-btn.muted { opacity: 0.6; }
+.music-slider { -webkit-appearance: none; appearance: none; width: 90px; height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; outline: none; cursor: pointer; }
+.music-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; background: #c99a3e; border-radius: 50%; cursor: pointer; border: 2px solid #1a1614; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); }
+.music-slider::-moz-range-thumb { width: 14px; height: 14px; background: #c99a3e; border-radius: 50%; cursor: pointer; border: 2px solid #1a1614; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); }
+.music-volume-label { color: #a89b7e; font-size: 0.75rem; min-width: 32px; text-align: right; font-variant-numeric: tabular-nums; }
 @media (max-width: 700px) {
-    .music-player {
-        top: 10px;
-        right: 10px;
-        padding: 6px 10px;
-        gap: 8px;
-    }
-    .music-slider {
-        width: 60px;
-    }
-    .music-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 1rem;
-    }
-    .music-volume-label {
-        display: none;
-    }
+    .music-player { top: 10px; right: 10px; padding: 6px 10px; gap: 8px; }
+    .music-slider { width: 60px; }
+    .music-btn { width: 32px; height: 32px; font-size: 1rem; }
+    .music-volume-label { display: none; }
 }
-   
+
+/* =========================================================
+   MODAL DE CRÉDITOS
+========================================================= */
+.credits-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.25s ease; }
+.credits-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); cursor: pointer; }
+.credits-box { position: relative; width: min(520px, 92%); max-height: 88vh; overflow-y: auto; padding: 32px 28px; background: linear-gradient(145deg, rgba(38, 33, 27, 0.99), rgba(20, 19, 20, 0.99)); border: 1px solid rgba(190, 158, 96, 0.45); border-radius: 14px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7); animation: creditsSlideIn 0.35s ease; }
+@keyframes creditsSlideIn { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.credits-close { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(190, 158, 96, 0.3); background: rgba(255, 255, 255, 0.04); color: #b8b0a4; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; padding: 0; line-height: 1; }
+.credits-close:hover { background: rgba(201, 154, 62, 0.15); border-color: #c99a3e; color: #e7d6b3; transform: rotate(90deg); }
+.credits-header { text-align: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(190, 158, 96, 0.2); }
+.credits-symbol { display: block; color: #c99a3e; font-size: 1.5rem; margin-bottom: 8px; }
+.credits-header h2 { color: #e7d6b3; font-size: 1.6rem; margin: 0 0 6px 0; letter-spacing: 1px; }
+.credits-header p { color: #a89b7e; font-size: 0.85rem; font-style: italic; margin: 0; }
+.credits-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.credits-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(190, 158, 96, 0.15); border-radius: 8px; transition: all 0.2s ease; }
+.credits-item:hover { background: rgba(201, 154, 62, 0.06); border-color: rgba(190, 158, 96, 0.35); transform: translateX(3px); }
+.credits-emoji { font-size: 1.5rem; flex-shrink: 0; width: 32px; text-align: center; }
+.credits-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.credits-label { color: #969087; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+.credits-value { color: #e7d6b3; font-size: 0.95rem; font-weight: bold; }
+.credits-footer { padding-top: 18px; border-top: 1px solid rgba(190, 158, 96, 0.2); text-align: center; }
+.credits-footer p { color: #c4bcae; font-size: 0.82rem; line-height: 1.5; margin-bottom: 8px; }
+.credits-footer strong { color: #e7d6b3; }
+.credits-footer em { color: #d4b896; font-style: italic; }
+.credits-disclaimer { color: #6a655d !important; font-size: 0.72rem !important; font-style: italic; margin-bottom: 0 !important; }
+@media (max-width: 600px) {
+    .credits-box { padding: 24px 18px; border-radius: 12px; }
+    .credits-header h2 { font-size: 1.35rem; }
+    .credits-item { padding: 10px 12px; gap: 10px; }
+    .credits-emoji { font-size: 1.2rem; width: 26px; }
+    .credits-value { font-size: 0.88rem; }
+}
 </style>
 </head>
 <body>
 
 <div class="page-background"></div>
-<!-- ============================================================
-     PLAYER DE MÚSICA
-============================================================ -->
-<div id="musicPlayer" class="music-player" style="display: none;">
 
+<!-- PLAYER DE MÚSICA -->
+<div id="musicPlayer" class="music-player" style="display: none;">
     <audio id="bgMusic" loop preload="auto">
         <source src="musica.mp3" type="audio/mpeg">
         Seu navegador não suporta áudio.
     </audio>
-
-    <button id="musicMuteBtn" type="button" class="music-btn" title="Mudo/Ativar">
-        🔊
-    </button>
-
-    <input
-        id="musicVolume"
-        type="range"
-        min="0"
-        max="100"
-        value="30"
-        class="music-slider"
-        title="Volume"
-    >
-
+    <button id="musicMuteBtn" type="button" class="music-btn" title="Mudo/Ativar">🔊</button>
+    <input id="musicVolume" type="range" min="0" max="100" value="30" class="music-slider" title="Volume">
     <span id="musicVolumeLabel" class="music-volume-label">30%</span>
-
 </div>
-   
+
 <main class="game-container">
 
     <header class="game-header">
@@ -454,13 +185,7 @@
                         <h2 id="sasahName">Sasah</h2>
                         <span id="sasahHouse" class="house-name">Ainda não definida</span>
                     </div>
-                    <img
-                        id="sasahAvatar"
-                        class="character-avatar"
-                        src="https://i.imgur.com/Duuchxo.png"
-                        alt="Avatar"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                    >
+                    <img id="sasahAvatar" class="character-avatar" src="https://i.imgur.com/Duuchxo.png" alt="Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <span id="sasahFallback" class="character-icon" style="display:none;">🧙</span>
                 </div>
                 <div class="status-row">
@@ -492,13 +217,7 @@
                         <h2 id="lucasName">Lucas</h2>
                         <span id="lucasHouse" class="house-name">Ainda não definida</span>
                     </div>
-                    <img
-                        id="lucasAvatar"
-                        class="character-avatar"
-                        src="https://i.imgur.com/MFjpE6J.png"
-                        alt="Avatar"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                    >
+                    <img id="lucasAvatar" class="character-avatar" src="https://i.imgur.com/MFjpE6J.png" alt="Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <span id="lucasFallback" class="character-icon" style="display:none;">🧙‍♂️</span>
                 </div>
                 <div class="status-row">
@@ -525,44 +244,22 @@
 
             <!-- CARD DA KIWI -->
             <section class="status-card kiwi-card" id="kiwiCard" style="display: none;">
-
                 <div class="kiwi-header">
-                    <img
-                        src="https://i.imgur.com/xWZ7p4E.png"
-                        alt="Kiwi, a Lebrílope"
-                        class="kiwi-image"
-                        loading="lazy"
-                        onerror="this.onerror=null; this.style.display='none';"
-                    >
+                    <img src="https://i.imgur.com/xWZ7p4E.png" alt="Kiwi, a Lebrílope" class="kiwi-image" loading="lazy" onerror="this.onerror=null; this.style.display='none';">
                     <div class="kiwi-info">
                         <h2 class="kiwi-name">Lebrílope (Kiwi)</h2>
                         <span class="kiwi-house" id="kiwiStatus">Companheira misteriosa</span>
                     </div>
                 </div>
-
                 <div class="kiwi-description">
-                    <p>
-                        <strong>Lebrílope</strong> é uma criatura mágica extremamente rara,
-                        descrita em registros antigos de Hogwarts como um ser capaz de
-                        <em>perceber alterações na magia antiga</em>. Sua aparência única
-                        mistura traços de lebre e antílope — orelhas longas, olhos enormes
-                        e uma cauda que lembra folhas secas.
-                    </p>
-                    <p>
-                        Décadas atrás, uma Lebrílope chamada <strong>Kiwi</strong> teria
-                        sido vista nos corredores do castelo. Depois disso, todos os
-                        registros sobre ela desapareceram misteriosamente — até agora.
-                    </p>
-                    <p class="kiwi-note">
-                        "A Lebrílope aparece quando uma história precisa de duas pessoas."
-                    </p>
+                    <p><strong>Lebrílope</strong> é uma criatura mágica extremamente rara, descrita em registros antigos de Hogwarts como um ser capaz de <em>perceber alterações na magia antiga</em>. Sua aparência única mistura traços de lebre e antílope — orelhas longas, olhos enormes e uma cauda que lembra folhas secas.</p>
+                    <p>Décadas atrás, uma Lebrílope chamada <strong>Kiwi</strong> teria sido vista nos corredores do castelo. Depois disso, todos os registros sobre ela desapareceram misteriosamente — até agora.</p>
+                    <p class="kiwi-note">"A Lebrílope aparece quando uma história precisa de duas pessoas."</p>
                 </div>
-
                 <div class="kiwi-attributes">
                     <div><span>💛 Confiança</span><strong id="kiwiTrust">0</strong></div>
                     <div><span>💜 Afeição</span><strong id="kiwiAffection">0</strong></div>
                 </div>
-
             </section>
 
             <!-- CARD RELAÇÃO -->
@@ -603,6 +300,7 @@
         <button id="saveButton" type="button" class="control-button">💾 Salvar</button>
         <button id="loadButton" type="button" class="control-button">📂 Carregar</button>
         <button id="restartButton" type="button" class="control-button danger-button">🔄 Reiniciar</button>
+        <button id="creditsButton" type="button" class="control-button">🎬 Créditos</button>
     </nav>
 
     <footer class="game-footer">
@@ -612,94 +310,127 @@
 
 </main>
 
-<!-- ============================================================
-     SCRIPT PRINCIPAL DO JOGO (script.js)
-============================================================ -->
-<script src="script.js?v=9"></script>
+<!-- MODAL DE CRÉDITOS -->
+<div id="creditsModal" class="credits-modal" style="display: none;">
+    <div class="credits-overlay" id="creditsOverlay"></div>
+    <div class="credits-box">
+        <button id="creditsClose" class="credits-close" type="button" title="Fechar">✕</button>
 
-<!-- ============================================================
-     SCRIPT DE CONTROLE — TELA DE NOMES + GÊNERO + PRÓLOGO + QUIZ + PATCHES
-============================================================ -->
+        <div class="credits-header">
+            <span class="credits-symbol">✦</span>
+            <h2>Créditos</h2>
+            <p>Hogwarts RPG — uma aventura mágica</p>
+        </div>
+
+        <div class="credits-list">
+            <div class="credits-item">
+                <span class="credits-emoji">🎨</span>
+                <div class="credits-info">
+                    <span class="credits-label">Idealizador</span>
+                    <span class="credits-value">Lucas Okami</span>
+                </div>
+            </div>
+            <div class="credits-item">
+                <span class="credits-emoji">💻</span>
+                <div class="credits-info">
+                    <span class="credits-label">Desenvolvedora</span>
+                    <span class="credits-value">Sahmara Carolina</span>
+                </div>
+            </div>
+            <div class="credits-item">
+                <span class="credits-emoji">🤖</span>
+                <div class="credits-info">
+                    <span class="credits-label">Suporte</span>
+                    <span class="credits-value">Deepseek</span>
+                </div>
+            </div>
+            <div class="credits-item">
+                <span class="credits-emoji">🐰</span>
+                <div class="credits-info">
+                    <span class="credits-label">Suporte Moral</span>
+                    <span class="credits-value">Kiwi Panda</span>
+                </div>
+            </div>
+            <div class="credits-item">
+                <span class="credits-emoji">🌐</span>
+                <div class="credits-info">
+                    <span class="credits-label">Desenvolvido em</span>
+                    <span class="credits-value">GitHub</span>
+                </div>
+            </div>
+            <div class="credits-item">
+                <span class="credits-emoji">⚙️</span>
+                <div class="credits-info">
+                    <span class="credits-label">Linguagens</span>
+                    <span class="credits-value">JavaScript, HTML e CSS</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="credits-footer">
+            <p>Inspirado na obra de <strong>Harry Potter</strong>, de <em>J. K. Rowling</em>.</p>
+            <p class="credits-disclaimer">Projeto de fã, sem fins comerciais.</p>
+        </div>
+    </div>
+</div>
+
+<script src="script.js?v=10"></script>
+
 <script>
 (function () {
     "use strict";
 
-    // ============================================================
-    // AVATARES
-    // ============================================================
     var AVATAR_FEMININO = "https://i.imgur.com/Duuchxo.png";
     var AVATAR_MASCULINO = "https://i.imgur.com/MFjpE6J.png";
 
-    // ============================================================
-    // QUIZ DAS CASAS
-    // ============================================================
     var houseQuiz = [
-        { question: "Você encontra um colega em perigo. O que faz?",
-          answers: [
+        { question: "Você encontra um colega em perigo. O que faz?", answers: [
             { text: "Enfrento o perigo imediatamente.", house: "Grifinória", attribute: "bravery" },
             { text: "Fico ao lado dele e não o abandono.", house: "Lufa-Lufa", attribute: "loyalty" },
             { text: "Analiso a situação antes de agir.", house: "Corvinal", attribute: "intelligence" },
             { text: "Procuro uma maneira de transformar a situação em vantagem.", house: "Sonserina", attribute: "ambition" },
             { text: "Tento entender o que ele está sentindo.", house: "Lufa-Lufa", attribute: "empathy" }
-          ] },
-        { question: "Você recebe acesso a uma biblioteca proibida. O que procura?",
-          answers: [
+        ] },
+        { question: "Você recebe acesso a uma biblioteca proibida. O que procura?", answers: [
             { text: "Um livro sobre grandes feitos heroicos.", house: "Grifinória", attribute: "bravery" },
             { text: "Informações que possam ajudar meus amigos.", house: "Lufa-Lufa", attribute: "loyalty" },
             { text: "Conhecimento que ninguém mais descobriu.", house: "Corvinal", attribute: "intelligence" },
             { text: "Conhecimento que me dê poder.", house: "Sonserina", attribute: "ambition" },
             { text: "Um livro sobre sentimentos e comportamento humano.", house: "Lufa-Lufa", attribute: "empathy" }
-          ] },
-        { question: "Qual destas características mais combina com você?",
-          answers: [
+        ] },
+        { question: "Qual destas características mais combina com você?", answers: [
             { text: "Coragem.", house: "Grifinória", attribute: "bravery" },
             { text: "Lealdade.", house: "Lufa-Lufa", attribute: "loyalty" },
             { text: "Curiosidade.", house: "Corvinal", attribute: "intelligence" },
             { text: "Determinação.", house: "Sonserina", attribute: "ambition" },
             { text: "Empatia.", house: "Lufa-Lufa", attribute: "empathy" }
-          ] },
-        { question: "Quando alguém duvida de você, qual é sua reação?",
-          answers: [
+        ] },
+        { question: "Quando alguém duvida de você, qual é sua reação?", answers: [
             { text: "Provo que sou capaz.", house: "Grifinória", attribute: "bravery" },
             { text: "Continuo fazendo o meu melhor.", house: "Lufa-Lufa", attribute: "loyalty" },
             { text: "Tento descobrir por que a pessoa pensa assim.", house: "Corvinal", attribute: "intelligence" },
             { text: "Uso a dúvida como motivação para vencer.", house: "Sonserina", attribute: "ambition" },
             { text: "Tento compreender a insegurança da pessoa.", house: "Lufa-Lufa", attribute: "empathy" }
-          ] },
-        { question: "Você encontra um artefato mágico extremamente poderoso.",
-          answers: [
+        ] },
+        { question: "Você encontra um artefato mágico extremamente poderoso.", answers: [
             { text: "Uso-o para proteger alguém.", house: "Grifinória", attribute: "bravery" },
             { text: "Guardo-o para impedir que outras pessoas se machuquem.", house: "Lufa-Lufa", attribute: "loyalty" },
             { text: "Estudo cuidadosamente seu funcionamento.", house: "Corvinal", attribute: "intelligence" },
             { text: "Descubro como usar seu poder a meu favor.", house: "Sonserina", attribute: "ambition" },
             { text: "Penso primeiro nas consequências para todos.", house: "Lufa-Lufa", attribute: "empathy" }
-          ] }
+        ] }
     ];
 
     var quizPlayer = null;
     var quizIndex = 0;
     var quizAnswers = { sasah: [], lucas: [] };
 
-    // ============================================================
-    // CENAS DE PRÓLOGO
-    // ============================================================
     var cenasPreStory = {
         pre_story_1: {
             chapter: "PRÓLOGO",
             location: "Casa de {P1} — noite",
             title: "A carta que mudou tudo",
-            text:
-                "A noite estava silenciosa demais.\n\n" +
-                "{P1} tentava dormir, mas alguma coisa no ar parecia diferente. " +
-                "Um cheiro leve de madeira queimada, talvez. Ou talvez fosse apenas imaginação.\n\n" +
-                "Então veio o som.\n\n" +
-                "Três batidas secas no vidro da janela.\n\n" +
-                "Quando {P1} olhou, não havia ninguém. Apenas a rua vazia e as estrelas piscando atrás das nuvens.\n\n" +
-                "Mas sobre a escrivaninha — que estava vazia minutos antes — havia um envelope.\n\n" +
-                "Papel grosso, cor de pergaminho, selado com cera vermelha.\n\n" +
-                "No centro do selo, um brasão: um leão, uma águia, um texugo e uma serpente entrelaçados ao redor de uma letra 'H'.\n\n" +
-                "Hogwarts.\n\n" +
-                "{P1} sentiu o coração bater mais forte.",
+            text: "A noite estava silenciosa demais.\n\n{P1} tentava dormir, mas alguma coisa no ar parecia diferente. Um cheiro leve de madeira queimada, talvez. Ou talvez fosse apenas imaginação.\n\nEntão veio o som.\n\nTrês batidas secas no vidro da janela.\n\nQuando {P1} olhou, não havia ninguém. Apenas a rua vazia e as estrelas piscando atrás das nuvens.\n\nMas sobre a escrivaninha — que estava vazia minutos antes — havia um envelope.\n\nPapel grosso, cor de pergaminho, selado com cera vermelha.\n\nNo centro do selo, um brasão: um leão, uma águia, um texugo e uma serpente entrelaçados ao redor de uma letra 'H'.\n\nHogwarts.\n\n{P1} sentiu o coração bater mais forte.",
             choices: [
                 { text: "Abrir a carta imediatamente.", effects: { sasah: { bravery: 1, xp: 10 }, relationship: { affinity: 1 } }, next: "pre_story_2" },
                 { text: "Examinar o envelope antes de abrir.", effects: { sasah: { intelligence: 1, xp: 10 } }, next: "pre_story_2" },
@@ -710,22 +441,7 @@
             chapter: "PRÓLOGO",
             location: "Estação King's Cross — manhã seguinte",
             title: "O bilhete para Hogwarts",
-            text:
-                "Dentro do envelope, uma única folha.\n\n" +
-                "A caligrafia era elegante, quase antiga:\n\n" +
-                "\"Prezado(a) {P1},\n\n" +
-                "Temos o prazer de informar que você foi aceito(a) na Escola de Magia e Bruxaria de Hogwarts. " +
-                "O Expresso de Hogwarts partirá da Plataforma 9¾, na Estação King's Cross, no dia 1º de setembro, às 11h.\n\n" +
-                "A passagem segue anexa.\n\n" +
-                "Atenciosamente,\n" +
-                "Minerva McGonagall\n" +
-                "Diretora Adjunta\"\n\n" +
-                "No dia seguinte, {P1} estava na estação.\n\n" +
-                "Gente correndo. Malas. Anúncios metálicos ecoando pelo teto.\n\n" +
-                "Mas nenhuma placa dizia \"Plataforma 9¾\".\n\n" +
-                "{P1} olhou ao redor, perdido(a).\n\n" +
-                "Foi quando viu, alguns metros à frente, outra pessoa da mesma idade — " +
-                "também com um envelope na mão, também com o mesmo olhar confuso.",
+            text: "Dentro do envelope, uma única folha.\n\nA caligrafia era elegante, quase antiga:\n\n\"Prezado(a) {P1},\n\nTemos o prazer de informar que você foi aceito(a) na Escola de Magia e Bruxaria de Hogwarts. O Expresso de Hogwarts partirá da Plataforma 9¾, na Estação King's Cross, no dia 1º de setembro, às 11h.\n\nA passagem segue anexa.\n\nAtenciosamente,\nMinerva McGonagall\nDiretora Adjunta\"\n\nNo dia seguinte, {P1} estava na estação.\n\nGente correndo. Malas. Anúncios metálicos ecoando pelo teto.\n\nMas nenhuma placa dizia \"Plataforma 9¾\".\n\n{P1} olhou ao redor, perdido(a).\n\nFoi quando viu, alguns metros à frente, outra pessoa da mesma idade — também com um envelope na mão, também com o mesmo olhar confuso.",
             choices: [
                 { text: "Aproximar-se e perguntar se a pessoa também está perdida.", effects: { sasah: { empathy: 1, xp: 15 }, relationship: { friendship: 2, trust: 1 } }, next: "pre_story_3" },
                 { text: "Observar de longe antes de agir.", effects: { sasah: { intelligence: 1, xp: 15 } }, next: "pre_story_3" },
@@ -736,24 +452,7 @@
             chapter: "PRÓLOGO",
             location: "Plataforma 9¾",
             title: "Dois estranhos, um destino",
-            text:
-                "Os dois se entreolharam.\n\n" +
-                "Foi {P2} quem falou primeiro:\n\n" +
-                "\"Você também está procurando a plataforma 9¾?\"\n\n" +
-                "{P1} assentiu.\n\n" +
-                "\"Eu vi uma família atravessando aquela parede\", continuou {P2}, apontando para a coluna entre as plataformas 9 e 10. " +
-                "\"Achei que fosse coisa da minha cabeça, mas...\"\n\n" +
-                "Os dois ficaram em silêncio por um momento.\n\n" +
-                "Então, sem combinar, caminharam juntos até a parede.\n\n" +
-                "Fecharam os olhos.\n\n" +
-                "E atravessaram.\n\n" +
-                "Do outro lado, o mundo havia mudado.\n\n" +
-                "Um trem vermelho e fumegante esperava na plataforma. " +
-                "Famílias se despediam. Corujas piavam em gaiolas. Crianças corriam.\n\n" +
-                "O Expresso de Hogwarts.\n\n" +
-                "{P1} e {P2} se olharam.\n\n" +
-                "Alguma coisa naquele momento — talvez o cheiro de carvão, talvez o som do apito — " +
-                "fez os dois sentirem que aquela não seria uma viagem comum.",
+            text: "Os dois se entreolharam.\n\nFoi {P2} quem falou primeiro:\n\n\"Você também está procurando a plataforma 9¾?\"\n\n{P1} assentiu.\n\n\"Eu vi uma família atravessando aquela parede\", continuou {P2}, apontando para a coluna entre as plataformas 9 e 10. \"Achei que fosse coisa da minha cabeça, mas...\"\n\nOs dois ficaram em silêncio por um momento.\n\nEntão, sem combinar, caminharam juntos até a parede.\n\nFecharam os olhos.\n\nE atravessaram.\n\nDo outro lado, o mundo havia mudado.\n\nUm trem vermelho e fumegante esperava na plataforma. Famílias se despediam. Corujas piavam em gaiolas. Crianças corriam.\n\nO Expresso de Hogwarts.\n\n{P1} e {P2} se olharam.\n\nAlguma coisa naquele momento — talvez o cheiro de carvão, talvez o som do apito — fez os dois sentirem que aquela não seria uma viagem comum.",
             choices: [
                 { text: "Sugerir que embarquem juntos.", effects: { sasah: { loyalty: 1, empathy: 1, xp: 20 }, lucas: { loyalty: 1, empathy: 1, xp: 20 }, relationship: { friendship: 3, trust: 2 } }, next: "pre_story_4" },
                 { text: "Agradecer e seguir cada um para o seu lado.", effects: { sasah: { intelligence: 1, xp: 15 }, lucas: { intelligence: 1, xp: 15 }, relationship: { rivalry: 1 } }, next: "pre_story_4" },
@@ -764,19 +463,7 @@
             chapter: "PRÓLOGO",
             location: "Expresso de Hogwarts — compartimento",
             title: "A primeira conversa",
-            text:
-                "O trem começou a andar.\n\n" +
-                "Pela janela, Londres desaparecia aos poucos, dando lugar a campos verdes e céu aberto.\n\n" +
-                "{P1} e {P2} sentaram-se frente a frente no mesmo compartimento. " +
-                "Por alguns minutos, nenhum dos dois falou.\n\n" +
-                "Então {P2} quebrou o silêncio:\n\n" +
-                "\"Você acha que a gente vai mesmo virar bruxo(a)?\"\n\n" +
-                "{P1} riu, sem saber direito o que responder.\n\n" +
-                "\"Acho que sim\", disse. \"Ou então essa carta é a maior pegadinha da história.\"\n\n" +
-                "Os dois riram.\n\n" +
-                "Foi o primeiro riso compartilhado. Pequeno, mas real.\n\n" +
-                "Foi também quando {P1} percebeu: pela primeira vez, " +
-                "não estava sozinho(a) diante do desconhecido.",
+            text: "O trem começou a andar.\n\nPela janela, Londres desaparecia aos poucos, dando lugar a campos verdes e céu aberto.\n\n{P1} e {P2} sentaram-se frente a frente no mesmo compartimento. Por alguns minutos, nenhum dos dois falou.\n\nEntão {P2} quebrou o silêncio:\n\n\"Você acha que a gente vai mesmo virar bruxo(a)?\"\n\n{P1} riu, sem saber direito o que responder.\n\n\"Acho que sim\", disse. \"Ou então essa carta é a maior pegadinha da história.\"\n\nOs dois riram.\n\nFoi o primeiro riso compartilhado. Pequeno, mas real.\n\nFoi também quando {P1} percebeu: pela primeira vez, não estava sozinho(a) diante do desconhecido.",
             choices: [
                 { text: "Perguntar sobre a família e a vida antes de Hogwarts.", effects: { sasah: { empathy: 1, xp: 25 }, lucas: { empathy: 1, xp: 25 }, relationship: { friendship: 3, trust: 2, affinity: 1 } }, next: "__INICIAR_QUIZ__" },
                 { text: "Falar sobre o que espera de Hogwarts.", effects: { sasah: { ambition: 1, xp: 25 }, lucas: { ambition: 1, xp: 25 }, relationship: { affinity: 2 } }, next: "__INICIAR_QUIZ__" },
@@ -785,9 +472,6 @@
         }
     };
 
-    // ============================================================
-    // GARANTE ESTRUTURA DO GAME
-    // ============================================================
     function ensureGame() {
         if (!window.game || typeof window.game !== "object") window.game = {};
         if (!window.game.sasah) window.game.sasah = { name: "Sasah", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0, gender: "feminino" };
@@ -799,48 +483,28 @@
         if (!window.game.log) window.game.log = [];
     }
 
-    // ============================================================
-    // APLICA AVATAR CONFORME GÊNERO
-    // ============================================================
     function aplicarAvatar(characterKey) {
         var p = window.game && window.game[characterKey];
         if (!p) return;
-
         var imgEl = document.getElementById(characterKey + "Avatar");
         var fallbackEl = document.getElementById(characterKey + "Fallback");
-
         if (!imgEl) return;
-
         var url = (p.gender === "feminino") ? AVATAR_FEMININO : AVATAR_MASCULINO;
-
-        // Reseta fallback
         if (fallbackEl) fallbackEl.style.display = "none";
         imgEl.style.display = "block";
-
-        // Só atualiza se mudou (evita piscar)
         if (imgEl.getAttribute("data-gender") !== p.gender) {
             imgEl.src = url;
             imgEl.setAttribute("data-gender", p.gender);
         }
     }
 
-    // ============================================================
-    // CORREÇÃO: XP, NÍVEL E MAGIA NEGATIVA
-    // ============================================================
     function corrigirPersonagem(p) {
         if (!p) return;
-
         ["magic", "bravery", "loyalty", "intelligence", "ambition", "empathy"].forEach(function (attr) {
             if (typeof p[attr] === "number" && p[attr] < 0) p[attr] = 0;
         });
-
-        if (typeof p.hp === "number" && typeof p.maxHp === "number") {
-            p.hp = Math.max(0, Math.min(p.hp, p.maxHp));
-        }
-        if (typeof p.mana === "number" && typeof p.maxMana === "number") {
-            p.mana = Math.max(0, Math.min(p.mana, p.maxMana));
-        }
-
+        if (typeof p.hp === "number" && typeof p.maxHp === "number") p.hp = Math.max(0, Math.min(p.hp, p.maxHp));
+        if (typeof p.mana === "number" && typeof p.maxMana === "number") p.mana = Math.max(0, Math.min(p.mana, p.maxMana));
         if (typeof p.xp === "number" && typeof p.level === "number") {
             if (!p.maxHp) p.maxHp = 100;
             if (!p.maxMana) p.maxMana = 100;
@@ -858,24 +522,13 @@
         }
     }
 
-    // ============================================================
-    // RENDERIZA CARDS
-    // ============================================================
     function renderCardsCorrigidos() {
         if (!window.game) return;
         corrigirPersonagem(window.game.sasah);
         corrigirPersonagem(window.game.lucas);
 
-        function setTxt(id, value) {
-            var el = document.getElementById(id);
-            if (el) el.textContent = value;
-        }
-        function setBar(id, value, max) {
-            var el = document.getElementById(id);
-            if (!el || !max) return;
-            var pct = Math.max(0, Math.min(100, (value / max) * 100));
-            el.style.width = pct + "%";
-        }
+        function setTxt(id, value) { var el = document.getElementById(id); if (el) el.textContent = value; }
+        function setBar(id, value, max) { var el = document.getElementById(id); if (!el || !max) return; var pct = Math.max(0, Math.min(100, (value / max) * 100)); el.style.width = pct + "%"; }
 
         var s = window.game.sasah, l = window.game.lucas;
 
@@ -914,58 +567,25 @@
         setTxt("rivalry", window.game.relationship.rivalry || 0);
         setTxt("affinity", window.game.relationship.affinity || 0);
 
-        // Aplica avatares
         aplicarAvatar("sasah");
         aplicarAvatar("lucas");
-
         mostrarKiwi();
     }
 
-    // ============================================================
-    // MOSTRA O CARD DA KIWI
-    // ============================================================
     function mostrarKiwi() {
         var kiwiCard = document.getElementById("kiwiCard");
         if (!kiwiCard || !window.game || !window.game.kiwi) return;
-
-        var cenasComKiwi = [
-            "train_1", "train_2", "train_3",
-            "arrival_2", "arrival_3", "arrival_4", "arrival_5",
-            "arrival_6", "arrival_7", "arrival_8",
-            "kiwi_1", "kiwi_2", "kiwi_3",
-            "forest_1", "forest_2", "forest_3",
-            "lake_1", "lake_2", "lake_3",
-            "mirror_1", "mirror_2", "mirror_3",
-            "catacombs_1", "catacombs_2", "catacombs_3",
-            "society_1", "society_2", "society_3",
-            "invasion_1", "invasion_2", "invasion_3",
-            "ancient_1", "ancient_2",
-            "final_war_1", "final_war_2", "final_war_3",
-            "ancient_chamber_1", "ancient_chamber_2", "ancient_chamber_3",
-            "final_battle_1", "final_battle_2",
-            "final_choice_shared", "final_choice_single", "final_choice_destroy",
-            "ending_shared", "ending_sacrifice", "ending_sacrifice_search",
-            "ending_destroy", "credits"
-        ];
-
+        var cenasComKiwi = ["train_1","train_2","train_3","arrival_2","arrival_3","arrival_4","arrival_5","arrival_6","arrival_7","arrival_8","kiwi_1","kiwi_2","kiwi_3","forest_1","forest_2","forest_3","lake_1","lake_2","lake_3","mirror_1","mirror_2","mirror_3","catacombs_1","catacombs_2","catacombs_3","society_1","society_2","society_3","invasion_1","invasion_2","invasion_3","ancient_1","ancient_2","final_war_1","final_war_2","final_war_3","ancient_chamber_1","ancient_chamber_2","ancient_chamber_3","final_battle_1","final_battle_2","final_choice_shared","final_choice_single","final_choice_destroy","ending_shared","ending_sacrifice","ending_sacrifice_search","ending_destroy","credits"];
         var cenaAtual = (window.game.currentSceneId || window.game.currentScene || "");
-        var kiwiEncontrada = window.game.kiwi.met === true
-                           || window.game.kiwi.discovered === true
-                           || (window.game.flags && window.game.flags.metKiwi === true)
-                           || (window.game.flags && window.game.flags.kiwiSecret === true)
-                           || (cenaAtual && cenasComKiwi.indexOf(cenaAtual) !== -1);
-
+        var kiwiEncontrada = window.game.kiwi.met === true || window.game.kiwi.discovered === true || (window.game.flags && window.game.flags.metKiwi === true) || (window.game.flags && window.game.flags.kiwiSecret === true) || (cenaAtual && cenasComKiwi.indexOf(cenaAtual) !== -1);
         if (kiwiEncontrada) {
             kiwiCard.style.display = "block";
-
             var trust = window.game.kiwi.trust || 0;
             var aff = window.game.kiwi.affection || 0;
-
             var trustEl = document.getElementById("kiwiTrust");
             var affEl = document.getElementById("kiwiAffection");
             if (trustEl) trustEl.textContent = trust;
             if (affEl) affEl.textContent = aff;
-
             var statusEl = document.getElementById("kiwiStatus");
             if (statusEl) {
                 if (trust >= 8) statusEl.textContent = "Aliada leal";
@@ -979,21 +599,12 @@
         }
     }
 
-    // ============================================================
-    // RENDERIZA CENA DE PRÓLOGO
-    // ============================================================
     function renderPreStory(sceneId) {
         var cena = cenasPreStory[sceneId];
-        if (!cena) {
-            console.error("Cena não encontrada:", sceneId);
-            iniciarQuiz("sasah");
-            return;
-        }
-
+        if (!cena) { console.error("Cena não encontrada:", sceneId); iniciarQuiz("sasah"); return; }
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
         if (!sceneEl || !choicesEl) return;
-
         var chapterEl = document.getElementById("chapter");
         var locationEl = document.getElementById("location");
         var tagEl = document.getElementById("playerTag");
@@ -1031,17 +642,10 @@
             btn.className = "choice-button";
             btn.textContent = (idx + 1) + ". " + substituirNomes(choice.text);
             btn.addEventListener("click", function () {
-                if (choice.effects) {
-                    aplicarEfeitosPreStory(choice.effects);
-                }
-                try {
-                    localStorage.setItem("hogwarts_rpg_final_v10", JSON.stringify(window.game));
-                } catch (e) {}
-                if (choice.next === "__INICIAR_QUIZ__") {
-                    iniciarQuiz("sasah");
-                } else if (choice.next) {
-                    renderPreStory(choice.next);
-                }
+                if (choice.effects) aplicarEfeitosPreStory(choice.effects);
+                try { localStorage.setItem("hogwarts_rpg_final_v10", JSON.stringify(window.game)); } catch (e) {}
+                if (choice.next === "__INICIAR_QUIZ__") iniciarQuiz("sasah");
+                else if (choice.next) renderPreStory(choice.next);
                 renderCardsCorrigidos();
             });
             choicesEl.appendChild(btn);
@@ -1050,12 +654,8 @@
         renderCardsCorrigidos();
     }
 
-    // ============================================================
-    // APLICA EFEITOS DAS CENAS DE PRÓLOGO
-    // ============================================================
     function aplicarEfeitosPreStory(effects) {
         if (!effects) return;
-
         function aplicarPersonagem(key, vals) {
             var p = window.game[key];
             if (!p || !vals) return;
@@ -1079,10 +679,8 @@
                 }
             });
         }
-
         if (effects.sasah) aplicarPersonagem("sasah", effects.sasah);
         if (effects.lucas) aplicarPersonagem("lucas", effects.lucas);
-
         if (effects.relationship && window.game.relationship) {
             Object.keys(effects.relationship).forEach(function (k) {
                 if (typeof window.game.relationship[k] === "number") {
@@ -1092,17 +690,11 @@
                 }
             });
         }
-
         if (effects.flags && window.game.flags) {
-            Object.keys(effects.flags).forEach(function (k) {
-                window.game.flags[k] = effects.flags[k];
-            });
+            Object.keys(effects.flags).forEach(function (k) { window.game.flags[k] = effects.flags[k]; });
         }
     }
 
-    // ============================================================
-    // QUIZ
-    // ============================================================
     function calcularCasa(characterKey) {
         var answers = quizAnswers[characterKey] || [];
         var scores = { "Grifinória": 0, "Lufa-Lufa": 0, "Corvinal": 0, "Sonserina": 0 };
@@ -1117,34 +709,27 @@
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
         if (!sceneEl || !choicesEl) return;
-
         var character = window.game[quizPlayer];
         var pergunta = houseQuiz[quizIndex];
-
         var chapterEl = document.getElementById("chapter");
         var locationEl = document.getElementById("location");
         if (chapterEl) chapterEl.textContent = "O CHAPÉU SELETOR";
         if (locationEl) locationEl.textContent = "Grande Salão";
-
         sceneEl.innerHTML = "";
         choicesEl.innerHTML = "";
-
         var title = document.createElement("h2");
         title.className = "story-title";
         title.textContent = "Seleção de Casa — " + (character.name || "Protagonista");
         sceneEl.appendChild(title);
-
         var intro = document.createElement("p");
         intro.textContent = (character.name || "Protagonista") + ", o Chapéu Seletor aguarda sua resposta. (Pergunta " + (quizIndex + 1) + " de " + houseQuiz.length + ")";
         sceneEl.appendChild(intro);
-
         var q = document.createElement("p");
         q.className = "quiz-question";
         q.style.fontWeight = "bold";
         q.style.marginTop = "16px";
         q.textContent = pergunta.question;
         sceneEl.appendChild(q);
-
         pergunta.answers.forEach(function (answer, idx) {
             var btn = document.createElement("button");
             btn.type = "button";
@@ -1168,28 +753,22 @@
         window.game[quizPlayer].house = casa;
         corrigirPersonagem(window.game[quizPlayer]);
         renderCardsCorrigidos();
-
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
         if (!sceneEl || !choicesEl) return;
-
         sceneEl.innerHTML = "";
         choicesEl.innerHTML = "";
-
         var title = document.createElement("h2");
         title.className = "story-title";
         title.textContent = "O Chapéu decidiu!";
         sceneEl.appendChild(title);
-
         var p = document.createElement("p");
         p.textContent = "As respostas de " + window.game[quizPlayer].name + " indicam uma forte afinidade com " + casa + ".";
         sceneEl.appendChild(p);
-
         var btn = document.createElement("button");
         btn.type = "button";
         btn.className = "choice-button continue-button";
         btn.textContent = "Continuar";
-
         btn.addEventListener("click", function () {
             if (quizPlayer === "sasah") {
                 quizPlayer = "lucas";
@@ -1200,9 +779,7 @@
                 window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
                 window.game.log = [];
                 renderLog();
-                               // 🎵 Inicia a música depois do quiz do Chapéu Seletor
                 iniciarMusica();
-
                 if (typeof window.showScene === "function") {
                     window.game.phase = "story";
                     window.game.flags.gameStarted = true;
@@ -1229,15 +806,10 @@
         renderPergunta();
     }
 
-    // ============================================================
-    // RENDERIZA LOG
-    // ============================================================
     function renderLog() {
         var logEl = document.getElementById("log");
         if (!logEl) return;
-
         logEl.innerHTML = "";
-
         var log = window.game && window.game.log;
         if (!log || log.length === 0) {
             var empty = document.createElement("div");
@@ -1246,34 +818,25 @@
             logEl.appendChild(empty);
             return;
         }
-
         log.slice().reverse().forEach(function (entry) {
             var item = document.createElement("div");
             item.className = "log-entry";
             var txt = "";
-            if (typeof entry === "string") {
-                txt = entry;
-            } else if (entry && entry.text) {
-                txt = "[" + (entry.time || "--:--") + "] " + entry.text;
-            }
+            if (typeof entry === "string") txt = entry;
+            else if (entry && entry.text) txt = "[" + (entry.time || "--:--") + "] " + entry.text;
             item.textContent = txt;
             logEl.appendChild(item);
         });
     }
 
-    // ============================================================
-    // SELETOR DE GÊNERO (componente reutilizável)
-    // ============================================================
     function criarSeletorGenero(id, defaultGender) {
         var wrap = document.createElement("div");
         wrap.className = "gender-selection";
         wrap.id = id;
-
         function criarOpcao(valor, label, imgUrl, emoji) {
             var opt = document.createElement("div");
             opt.className = "gender-option" + (valor === defaultGender ? " selected" : "");
             opt.setAttribute("data-value", valor);
-
             var img = document.createElement("img");
             img.src = imgUrl;
             img.alt = label;
@@ -1284,26 +847,18 @@
                 span.textContent = emoji;
                 opt.insertBefore(span, opt.firstChild);
             };
-
             var spanTxt = document.createElement("span");
             spanTxt.textContent = label;
-
             opt.appendChild(img);
             opt.appendChild(spanTxt);
-
             opt.addEventListener("click", function () {
-                wrap.querySelectorAll(".gender-option").forEach(function (o) {
-                    o.classList.remove("selected");
-                });
+                wrap.querySelectorAll(".gender-option").forEach(function (o) { o.classList.remove("selected"); });
                 opt.classList.add("selected");
             });
-
             return opt;
         }
-
         wrap.appendChild(criarOpcao("feminino", "Feminino", AVATAR_FEMININO, "👩"));
         wrap.appendChild(criarOpcao("masculino", "Masculino", AVATAR_MASCULINO, "👨"));
-
         return wrap;
     }
 
@@ -1314,38 +869,28 @@
         return sel ? sel.getAttribute("data-value") : "feminino";
     }
 
-    // ============================================================
-    // TELA DE NOMES
-    // ============================================================
     function iniciarTelaDeNomes() {
         console.log("🎮 Inicializando tela de nomes...");
-
         try {
             localStorage.removeItem("hogwarts_rpg_final_v10");
             localStorage.removeItem("hogwarts_rpg_v10");
             localStorage.removeItem("hogwarts_rpg_v9");
             localStorage.removeItem("hogwarts_rpg_v8");
         } catch (e) {}
-
         ensureGame();
         window.game.phase = "names";
         window.game.currentScene = null;
         window.game.currentSceneId = null;
-
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
         if (!sceneEl || !choicesEl) return;
-
         sceneEl.innerHTML =
             '<h2 class="story-title">Antes de Hogwarts</h2>' +
             '<p>Duas pessoas estão prestes a descobrir que suas vidas estão ligadas a um dos maiores mistérios mágicos de Hogwarts. Antes que a aventura comece, escolha o nome e o gênero dos dois personagens.</p>';
-
         choicesEl.innerHTML = "";
-
         var box = document.createElement("div");
         box.className = "name-selection";
 
-        // --- PERSONAGEM 1 ---
         var g1 = document.createElement("div");
         g1.className = "name-group";
         var l1 = document.createElement("label");
@@ -1358,20 +903,16 @@
         i1.maxLength = 30;
         i1.autocomplete = "off";
         i1.value = "Sasah";
-
         var l1b = document.createElement("label");
         l1b.textContent = "Gênero do personagem 1";
         l1b.style.marginTop = "12px";
-
         var sel1 = criarSeletorGenero("gender1", "feminino");
-
         g1.appendChild(l1);
         g1.appendChild(i1);
         g1.appendChild(l1b);
         g1.appendChild(sel1);
         box.appendChild(g1);
 
-        // --- PERSONAGEM 2 ---
         var g2 = document.createElement("div");
         g2.className = "name-group";
         var l2 = document.createElement("label");
@@ -1384,13 +925,10 @@
         i2.maxLength = 30;
         i2.autocomplete = "off";
         i2.value = "Lucas";
-
         var l2b = document.createElement("label");
         l2b.textContent = "Gênero do personagem 2";
         l2b.style.marginTop = "12px";
-
         var sel2 = criarSeletorGenero("gender2", "masculino");
-
         g2.appendChild(l2);
         g2.appendChild(i2);
         g2.appendChild(l2b);
@@ -1399,7 +937,6 @@
 
         choicesEl.appendChild(box);
 
-        // --- BOTÃO ---
         var btn = document.createElement("button");
         btn.type = "button";
         btn.id = "startGameButton";
@@ -1412,24 +949,19 @@
             var n2 = (document.getElementById("nameInput2").value || "").trim() || "Lucas";
             var gen1 = lerGeneroSelecionado("gender1");
             var gen2 = lerGeneroSelecionado("gender2");
-
             ensureGame();
             window.game.sasah.name = n1;
             window.game.sasah.gender = gen1;
             window.game.lucas.name = n2;
             window.game.lucas.gender = gen2;
             window.game.phase = "prologue";
-
             window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
             window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
             window.game.log = [];
-
             renderCardsCorrigidos();
             renderLog();
-
             renderPreStory("pre_story_1");
         });
-
         choicesEl.appendChild(btn);
 
         renderCardsCorrigidos();
@@ -1437,9 +969,6 @@
         console.log("✅ Tela de nomes pronta.");
     }
 
-    // ============================================================
-    // PATCHES
-    // ============================================================
     function aplicarPatches() {
         if (typeof window.updateCharacterUI === "function" && !window.updateCharacterUI.__patch) {
             var orig = window.updateCharacterUI;
@@ -1451,7 +980,6 @@
             };
             window.updateCharacterUI.__patch = true;
         }
-
         if (typeof window.updateFinalInterface === "function" && !window.updateFinalInterface.__patch) {
             var orig2 = window.updateFinalInterface;
             window.updateFinalInterface = function () {
@@ -1462,14 +990,11 @@
             };
             window.updateFinalInterface.__patch = true;
         }
-
         if (typeof window.addLogEntry === "function" && !window.addLogEntry.__patch) {
             var orig3 = window.addLogEntry;
             window.addLogEntry = function (text) {
                 var fase = window.game && window.game.phase;
-                if (fase === "names" || fase === "prologue" || fase === "quiz_sasah" || fase === "quiz_lucas" || fase === "sorting") {
-                    return;
-                }
+                if (fase === "names" || fase === "prologue" || fase === "quiz_sasah" || fase === "quiz_lucas" || fase === "sorting") return;
                 return orig3.apply(this, arguments);
             };
             window.addLogEntry.__patch = true;
@@ -1486,7 +1011,7 @@
         }
     });
 
-       // ============================================================
+    // ============================================================
     // PLAYER DE MÚSICA
     // ============================================================
     var MUSIC_STORAGE_KEY = "hogwarts_music_volume";
@@ -1495,50 +1020,34 @@
 
     function iniciarMusica() {
         if (musicaIniciada) return;
-
         var player = document.getElementById("musicPlayer");
         var audio = document.getElementById("bgMusic");
         var btnMute = document.getElementById("musicMuteBtn");
         var slider = document.getElementById("musicVolume");
         var label = document.getElementById("musicVolumeLabel");
+        if (!player || !audio || !btnMute || !slider || !label) { console.warn("Player de música não encontrado."); return; }
 
-        if (!player || !audio || !btnMute || !slider || !label) {
-            console.warn("Player de música não encontrado.");
-            return;
-        }
-
-        // Recupera preferências salvas
         var volumeSalvo = localStorage.getItem(MUSIC_STORAGE_KEY);
         var mutadoSalvo = localStorage.getItem(MUSIC_MUTED_KEY);
-
         var volumeInicial = volumeSalvo !== null ? parseInt(volumeSalvo, 10) : 30;
         if (isNaN(volumeInicial)) volumeInicial = 30;
         volumeInicial = Math.max(0, Math.min(100, volumeInicial));
-
         var mutado = mutadoSalvo === "true";
 
         slider.value = volumeInicial;
         label.textContent = volumeInicial + "%";
-
-        // Mudo por padrão até o usuário interagir
         audio.volume = 0;
-
-        // Mostra o player
         player.style.display = "flex";
         player.classList.add("visible");
 
-        // Tenta tocar (pode ser bloqueado)
         var playPromise = audio.play();
-
         if (playPromise !== undefined) {
             playPromise.then(function () {
-                // Sucesso: aplica o fade-in
                 musicaIniciada = true;
                 aplicarVolume();
                 fazerFadeIn();
             }).catch(function (err) {
                 console.warn("Autoplay bloqueado:", err);
-                // Mostra instrução
                 player.title = "Clique no botão para ativar a música";
             });
         }
@@ -1555,7 +1064,6 @@
             }
         }
 
-        // Fade-in suave (0 → volume escolhido em 2 segundos)
         function fazerFadeIn() {
             if (mutado) return;
             var alvo = volumeInicial / 100;
@@ -1566,38 +1074,54 @@
             var timer = setInterval(function () {
                 i++;
                 atual += incremento;
-                if (atual >= alvo || i >= passos) {
-                    atual = alvo;
-                    clearInterval(timer);
-                }
+                if (atual >= alvo || i >= passos) { atual = alvo; clearInterval(timer); }
                 audio.volume = atual;
             }, 100);
         }
 
-        // Botão de mudo
         btnMute.addEventListener("click", function () {
             mutado = !mutado;
             localStorage.setItem(MUSIC_MUTED_KEY, mutado ? "true" : "false");
             aplicarVolume();
-            // Se desmutou e a música ainda não tocou, tenta de novo
-            if (!mutado && audio.paused) {
-                audio.play().catch(function () {});
-            }
+            if (!mutado && audio.paused) audio.play().catch(function () {});
         });
 
-        // Slider de volume
         slider.addEventListener("input", function () {
             var v = parseInt(slider.value, 10);
             volumeInicial = v;
             label.textContent = v + "%";
             localStorage.setItem(MUSIC_STORAGE_KEY, String(v));
-            if (v > 0 && mutado) {
-                mutado = false;
-                localStorage.setItem(MUSIC_MUTED_KEY, "false");
-            }
+            if (v > 0 && mutado) { mutado = false; localStorage.setItem(MUSIC_MUTED_KEY, "false"); }
             aplicarVolume();
         });
     }
+
+    // ============================================================
+    // MODAL DE CRÉDITOS
+    // ============================================================
+    function iniciarCreditos() {
+        var modal = document.getElementById("creditsModal");
+        var btn = document.getElementById("creditsButton");
+        var closeBtn = document.getElementById("creditsClose");
+        var overlay = document.getElementById("creditsOverlay");
+        if (!modal || !btn) return;
+
+        function abrir() {
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+        function fechar() {
+            modal.style.display = "none";
+            document.body.style.overflow = "";
+        }
+        btn.addEventListener("click", abrir);
+        if (closeBtn) closeBtn.addEventListener("click", fechar);
+        if (overlay) overlay.addEventListener("click", fechar);
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && modal.style.display === "flex") fechar();
+        });
+    }
+
     // ============================================================
     // BOOT
     // ============================================================
@@ -1605,17 +1129,13 @@
         console.log("🎮 Inicializando jogo...");
         aplicarPatches();
         iniciarTelaDeNomes();
+        iniciarCreditos();
         setTimeout(aplicarPatches, 200);
         setTimeout(renderCardsCorrigidos, 400);
     }
 
-    if (document.readyState === "complete") {
-        setTimeout(boot, 300);
-    } else {
-        window.addEventListener("load", function () {
-            setTimeout(boot, 300);
-        });
-    }
+    if (document.readyState === "complete") setTimeout(boot, 300);
+    else window.addEventListener("load", function () { setTimeout(boot, 300); });
 })();
 </script>
 
