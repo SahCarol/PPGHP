@@ -2742,6 +2742,7 @@ scenes.sorting_result = {
                     "castle_1"
         }
     ]
+}
 };
 
 
@@ -2860,7 +2861,7 @@ scenes.castle_1 = {
             next:
                 "castle_2"
         }
-    ]
+    ] } 
 };
 
 
