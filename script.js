@@ -13721,3 +13721,38 @@ window.HogwartsRPG = {
 /* =========================================================
    FIM DO RPG
 ========================================================= */
+
+/* =========================================================
+CORREÇÃO FINAL - FORÇAR TELA DE NOMES
+========================================================= */
+
+// Sobrescreve a função de inicialização para garantir que a tela de nomes apareça
+function bootCompleteGame() {
+    // Garante que a estrutura do jogo existe
+    if (typeof prepareGameForStory === 'function') {
+        prepareGameForStory();
+    }
+    
+    // Sempre força o jogo a começar na fase de nomes
+    game.phase = "names";
+    game.currentScene = null;
+    game.currentSceneId = null;
+    
+    // Renderiza a tela de nomes
+    if (typeof renderNameScreen === 'function') {
+        renderNameScreen();
+    } else {
+        console.error("Função renderNameScreen não encontrada!");
+    }
+    
+    // Conecta os botões de controle
+    if (typeof connectFinalButtons === 'function') {
+        connectFinalButtons();
+    }
+}
+
+// Executa a inicialização corrigida assim que a página carregar
+document.addEventListener("DOMContentLoaded", function() {
+    // Espera um pouco para garantir que todo o resto do script foi carregado
+    setTimeout(bootCompleteGame, 100);
+});
