@@ -1,75 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade.">
+<title>Hogwarts RPG</title>
+<link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+
+<div class="page-background"></div>
+
+<main class="game-container">
+
+    <header class="game-header">
+        <div class="header-content">
+            <div class="magic-symbol">✦</div>
+            <div>
+                <h1>Hogwarts RPG</h1>
+                <p>Dois destinos. Um antigo mistério.</p>
+            </div>
+            <div class="magic-symbol">✦</div>
+        </div>
+    </header>
+
+    <section class="game-layout">
+
+        <section class="story-panel">
+            <div class="story-top">
+                <div class="story-info">
+                    <span id="chapter" class="chapter">Hogwarts RPG</span>
+                    <span id="location" class="location">Uma nova aventura mágica</span>
+                </div>
+                <span id="playerTag" class="player-tag">Dois destinos</span>
+            </div>
+
+            <article id="scene" class="scene">
+                <h2>Antes de Hogwarts</h2>
+                <p>Duas pessoas estão prestes a descobrir que suas vidas estão ligadas a um dos maiores mistérios mágicos de Hogwarts.</p>
+            </article>
+
+            <div id="choices" class="choices"></div>
+        </section>
+
+        <aside class="sidebar">
+
+            <section class="status-card">
+                <div class="status-header">
+                    <div>
+                        <h2 id="sasahName">Sasah</h2>
+                        <span id="sasahHouse" class="house-name">Ainda não definida</span>
+                    </div>
+                    <span class="character-icon">🧙</span>
+                </div>
+                <div class="status-row">
+                    <div class="status-label"><span>❤️ Vida</span><span id="sasahHpText">100 / 100</span></div>
+                    <div class="status-bar"><div id="sasahHp" class="status-fill hp-fill" style="width: 100%;"></div></div>
+                </div>
+                <div class="status-row">
+                    <div class="status-label"><span>✨ Mana</span><span id="sasahManaText">100 / 100</span></div>
+                    <div class="status-bar"><div id="sasahMana" class="status-fill mana-fill" style="width: 100%;"></div></div>
+                </div>
+                <div class="status-row">
+                    <div class="status-label"><span>⭐ XP</span><span id="sasahXpText">0</span></div>
+                    <div class="status-bar"><div id="sasahXp" class="status-fill xp-fill" style="width: 0%;"></div></div>
+                </div>
+                <div class="attributes">
+                    <div>🦁 Coragem: <strong id="sasahBravery">0</strong></div>
+                    <div>🤝 Lealdade: <strong id="sasahLoyalty">0</strong></div>
+                    <div>🧠 Inteligência: <strong id="sasahIntelligence">0</strong></div>
+                    <div>👑 Ambição: <strong id="sasahAmbition">0</strong></div>
+                    <div>💛 Empatia: <strong id="sasahEmpathy">0</strong></div>
+                    <div>🔮 Magia: <strong id="sasahMagic">0</strong></div>
+                </div>
+            </section>
+
+            <section class="status-card">
+                <div class="status-header">
+                    <div>
+                        <h2 id="lucasName">Lucas</h2>
+                        <span id="lucasHouse" class="house-name">Ainda não definida</span>
+                    </div>
+                    <span class="character-icon">🧙‍♂️</span>
+                </div>
+                <div class="status-row">
+                    <div class="status-label"><span>❤️ Vida</span><span id="lucasHpText">100 / 100</span></div>
+                    <div class="status-bar"><div id="lucasHp" class="status-fill hp-fill" style="width: 100%;"></div></div>
+                </div>
+                <div class="status-row">
+                    <div class="status-label"><span>✨ Mana</span><span id="lucasManaText">100 / 100</span></div>
+                    <div class="status-bar"><div id="lucasMana" class="status-fill mana-fill" style="width: 100%;"></div></div>
+                </div>
+                <div class="status-row">
+                    <div class="status-label"><span>⭐ XP</span><span id="lucasXpText">0</span></div>
+                    <div class="status-bar"><div id="lucasXp" class="status-fill xp-fill" style="width: 0%;"></div></div>
+                </div>
+                <div class="attributes">
+                    <div>🦁 Coragem: <strong id="lucasBravery">0</strong></div>
+                    <div>🤝 Lealdade: <strong id="lucasLoyalty">0</strong></div>
+                    <div>🧠 Inteligência: <strong id="lucasIntelligence">0</strong></div>
+                    <div>👑 Ambição: <strong id="lucasAmbition">0</strong></div>
+                    <div>💛 Empatia: <strong id="lucasEmpathy">0</strong></div>
+                    <div>🔮 Magia: <strong id="lucasMagic">0</strong></div>
+                </div>
+            </section>
+
+            <section class="relationship-card">
+                <div class="status-header">
+                    <div>
+                        <h2>Relação</h2>
+                        <p>Os destinos dos protagonistas</p>
+                    </div>
+                    <span class="character-icon">💫</span>
+                </div>
+                <div class="relationship-grid">
+                    <div><span>💙 Amizade</span><strong id="friendship">50</strong></div>
+                    <div><span>🤝 Confiança</span><strong id="trust">50</strong></div>
+                    <div><span>⚔️ Rivalidade</span><strong id="rivalry">0</strong></div>
+                    <div><span>💜 Afinidade</span><strong id="affinity">50</strong></div>
+                </div>
+            </section>
+
+            <section class="log-card">
+                <div class="status-header">
+                    <div>
+                        <h2>Diário da aventura</h2>
+                        <p>Acontecimentos recentes</p>
+                    </div>
+                    <span class="character-icon">📜</span>
+                </div>
+                <div id="log" class="log">
+                    <div class="log-empty">A aventura ainda está começando...</div>
+                </div>
+            </section>
+
+        </aside>
+    </section>
+
+    <nav class="game-controls" aria-label="Controles do jogo">
+        <button id="saveButton" type="button" class="control-button">💾 Salvar</button>
+        <button id="loadButton" type="button" class="control-button">📂 Carregar</button>
+        <button id="restartButton" type="button" class="control-button danger-button">🔄 Reiniciar</button>
+    </nav>
+
+    <footer class="game-footer">
+        <p>Hogwarts RPG</p>
+        <span>Uma aventura de magia, escolhas e mistério.</span>
+    </footer>
+
+</main>
+
+<script src="script.js?v=4"></script>
+
 <script>
 // ============================================================
 // SCRIPT DE CONTROLE — TELA DE NOMES + QUIZ DAS CASAS
-// Funciona independentemente do script.js
 // ============================================================
 (function () {
     "use strict";
 
-    // -------- QUIZ DAS CASAS (embutido) --------
     var houseQuiz = [
-        {
-            question: "Você encontra um colega em perigo. O que faz?",
-            answers: [
-                { text: "Enfrento o perigo imediatamente.", house: "Grifinória", attribute: "bravery" },
-                { text: "Fico ao lado dele e não o abandono.", house: "Lufa-Lufa", attribute: "loyalty" },
-                { text: "Analiso a situação antes de agir.", house: "Corvinal", attribute: "intelligence" },
-                { text: "Procuro uma maneira de transformar a situação em vantagem.", house: "Sonserina", attribute: "ambition" },
-                { text: "Tento entender o que ele está sentindo.", house: "Lufa-Lufa", attribute: "empathy" }
-            ]
-        },
-        {
-            question: "Você recebe acesso a uma biblioteca proibida. O que procura?",
-            answers: [
-                { text: "Um livro sobre grandes feitos heroicos.", house: "Grifinória", attribute: "bravery" },
-                { text: "Informações que possam ajudar meus amigos.", house: "Lufa-Lufa", attribute: "loyalty" },
-                { text: "Conhecimento que ninguém mais descobriu.", house: "Corvinal", attribute: "intelligence" },
-                { text: "Conhecimento que me dê poder.", house: "Sonserina", attribute: "ambition" },
-                { text: "Um livro sobre sentimentos e comportamento humano.", house: "Lufa-Lufa", attribute: "empathy" }
-            ]
-        },
-        {
-            question: "Qual destas características mais combina com você?",
-            answers: [
-                { text: "Coragem.", house: "Grifinória", attribute: "bravery" },
-                { text: "Lealdade.", house: "Lufa-Lufa", attribute: "loyalty" },
-                { text: "Curiosidade.", house: "Corvinal", attribute: "intelligence" },
-                { text: "Determinação.", house: "Sonserina", attribute: "ambition" },
-                { text: "Empatia.", house: "Lufa-Lufa", attribute: "empathy" }
-            ]
-        },
-        {
-            question: "Quando alguém duvida de você, qual é sua reação?",
-            answers: [
-                { text: "Provo que sou capaz.", house: "Grifinória", attribute: "bravery" },
-                { text: "Continuo fazendo o meu melhor.", house: "Lufa-Lufa", attribute: "loyalty" },
-                { text: "Tento descobrir por que a pessoa pensa assim.", house: "Corvinal", attribute: "intelligence" },
-                { text: "Uso a dúvida como motivação para vencer.", house: "Sonserina", attribute: "ambition" },
-                { text: "Tento compreender a insegurança da pessoa.", house: "Lufa-Lufa", attribute: "empathy" }
-            ]
-        },
-        {
-            question: "Você encontra um artefato mágico extremamente poderoso.",
-            answers: [
-                { text: "Uso-o para proteger alguém.", house: "Grifinória", attribute: "bravery" },
-                { text: "Guardo-o para impedir que outras pessoas se machuquem.", house: "Lufa-Lufa", attribute: "loyalty" },
-                { text: "Estudo cuidadosamente seu funcionamento.", house: "Corvinal", attribute: "intelligence" },
-                { text: "Descubro como usar seu poder a meu favor.", house: "Sonserina", attribute: "ambition" },
-                { text: "Penso primeiro nas consequências para todos.", house: "Lufa-Lufa", attribute: "empathy" }
-            ]
-        }
+        { question: "Você encontra um colega em perigo. O que faz?",
+          answers: [
+            { text: "Enfrento o perigo imediatamente.", house: "Grifinória", attribute: "bravery" },
+            { text: "Fico ao lado dele e não o abandono.", house: "Lufa-Lufa", attribute: "loyalty" },
+            { text: "Analiso a situação antes de agir.", house: "Corvinal", attribute: "intelligence" },
+            { text: "Procuro uma maneira de transformar a situação em vantagem.", house: "Sonserina", attribute: "ambition" },
+            { text: "Tento entender o que ele está sentindo.", house: "Lufa-Lufa", attribute: "empathy" }
+          ] },
+        { question: "Você recebe acesso a uma biblioteca proibida. O que procura?",
+          answers: [
+            { text: "Um livro sobre grandes feitos heroicos.", house: "Grifinória", attribute: "bravery" },
+            { text: "Informações que possam ajudar meus amigos.", house: "Lufa-Lufa", attribute: "loyalty" },
+            { text: "Conhecimento que ninguém mais descobriu.", house: "Corvinal", attribute: "intelligence" },
+            { text: "Conhecimento que me dê poder.", house: "Sonserina", attribute: "ambition" },
+            { text: "Um livro sobre sentimentos e comportamento humano.", house: "Lufa-Lufa", attribute: "empathy" }
+          ] },
+        { question: "Qual destas características mais combina com você?",
+          answers: [
+            { text: "Coragem.", house: "Grifinória", attribute: "bravery" },
+            { text: "Lealdade.", house: "Lufa-Lufa", attribute: "loyalty" },
+            { text: "Curiosidade.", house: "Corvinal", attribute: "intelligence" },
+            { text: "Determinação.", house: "Sonserina", attribute: "ambition" },
+            { text: "Empatia.", house: "Lufa-Lufa", attribute: "empathy" }
+          ] },
+        { question: "Quando alguém duvida de você, qual é sua reação?",
+          answers: [
+            { text: "Provo que sou capaz.", house: "Grifinória", attribute: "bravery" },
+            { text: "Continuo fazendo o meu melhor.", house: "Lufa-Lufa", attribute: "loyalty" },
+            { text: "Tento descobrir por que a pessoa pensa assim.", house: "Corvinal", attribute: "intelligence" },
+            { text: "Uso a dúvida como motivação para vencer.", house: "Sonserina", attribute: "ambition" },
+            { text: "Tento compreender a insegurança da pessoa.", house: "Lufa-Lufa", attribute: "empathy" }
+          ] },
+        { question: "Você encontra um artefato mágico extremamente poderoso.",
+          answers: [
+            { text: "Uso-o para proteger alguém.", house: "Grifinória", attribute: "bravery" },
+            { text: "Guardo-o para impedir que outras pessoas se machuquem.", house: "Lufa-Lufa", attribute: "loyalty" },
+            { text: "Estudo cuidadosamente seu funcionamento.", house: "Corvinal", attribute: "intelligence" },
+            { text: "Descubro como usar seu poder a meu favor.", house: "Sonserina", attribute: "ambition" },
+            { text: "Penso primeiro nas consequências para todos.", house: "Lufa-Lufa", attribute: "empathy" }
+          ] }
     ];
 
-    // -------- ESTADO DO QUIZ --------
-    var quizPlayer = null;     // "sasah" ou "lucas"
+    var quizPlayer = null;
     var quizIndex = 0;
     var quizAnswers = { sasah: [], lucas: [] };
 
-    // -------- GARANTE ESTRUTURA DO GAME --------
     function ensureGame() {
-        if (!window.game || typeof window.game !== "object") {
-            window.game = {};
-        }
+        if (!window.game || typeof window.game !== "object") window.game = {};
         if (!window.game.sasah) window.game.sasah = { name: "Sasah", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0 };
         if (!window.game.lucas) window.game.lucas = { name: "Lucas", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0 };
         if (!window.game.houseAnswers) window.game.houseAnswers = { sasah: [], lucas: [] };
@@ -79,38 +217,24 @@
         if (!window.game.log) window.game.log = [];
     }
 
-    // -------- CALCULA A CASA --------
     function calcularCasa(characterKey) {
         var answers = quizAnswers[characterKey] || [];
         var scores = { "Grifinória": 0, "Lufa-Lufa": 0, "Corvinal": 0, "Sonserina": 0 };
-
-        answers.forEach(function (a) {
-            if (a && a.house && scores[a.house] !== undefined) {
-                scores[a.house] += 1;
-            }
-        });
-
+        answers.forEach(function (a) { if (a && a.house && scores[a.house] !== undefined) scores[a.house] += 1; });
         var bestHouse = "Grifinória";
         var bestScore = scores[bestHouse];
-        Object.keys(scores).forEach(function (h) {
-            if (scores[h] > bestScore) {
-                bestHouse = h;
-                bestScore = scores[h];
-            }
-        });
+        Object.keys(scores).forEach(function (h) { if (scores[h] > bestScore) { bestHouse = h; bestScore = scores[h]; } });
         return bestHouse;
     }
 
-    // -------- RENDERIZA UMA PERGUNTA --------
     function renderPergunta() {
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
-        if (!sceneEl || !choicesEl) return;
+        if (!sceneEl || !choicesEl) { console.error("❌ #scene ou #choices não encontrado"); return; }
 
         var character = window.game[quizPlayer];
         var pergunta = houseQuiz[quizIndex];
 
-        // Cabeçalho
         var chapterEl = document.getElementById("chapter");
         var locationEl = document.getElementById("location");
         if (chapterEl) chapterEl.textContent = "O CHAPÉU SELETOR";
@@ -142,22 +266,17 @@
             btn.textContent = (idx + 1) + ". " + answer.text;
             btn.addEventListener("click", function () {
                 quizAnswers[quizPlayer].push(answer);
-                // Bônus de atributo
                 if (window.game[quizPlayer] && answer.attribute) {
                     window.game[quizPlayer][answer.attribute] = (window.game[quizPlayer][answer.attribute] || 0) + 3;
                 }
                 quizIndex++;
-                if (quizIndex < houseQuiz.length) {
-                    renderPergunta();
-                } else {
-                    finalizarCasa();
-                }
+                if (quizIndex < houseQuiz.length) renderPergunta();
+                else finalizarCasa();
             });
             choicesEl.appendChild(btn);
         });
     }
 
-    // -------- FINALIZA A SELEÇÃO DE UMA CASA --------
     function finalizarCasa() {
         var casa = calcularCasa(quizPlayer);
         window.game[quizPlayer].house = casa;
@@ -189,17 +308,12 @@
                 quizIndex = 0;
                 renderPergunta();
             } else {
-                // Ambos escolheram casa — começa a história
                 if (typeof window.showScene === "function") {
                     window.game.phase = "story";
                     window.game.flags.gameStarted = true;
-                    try {
-                        window.showScene("arrival_1");
-                    } catch (e) {
-                        console.error("Erro ao iniciar história:", e);
-                    }
+                    try { window.showScene("arrival_1"); }
+                    catch (e) { console.error("Erro ao iniciar história:", e); }
                 } else {
-                    // Fallback: mostra mensagem simples
                     sceneEl.innerHTML = "<h2 class='story-title'>Pronto para a aventura!</h2>" +
                         "<p>" + window.game.sasah.name + " (" + window.game.sasah.house + ") e " +
                         window.game.lucas.name + " (" + window.game.lucas.house + ") estão prontos.</p>" +
@@ -211,7 +325,6 @@
         choicesEl.appendChild(btn);
     }
 
-    // -------- INICIA O QUIZ PARA UM PERSONAGEM --------
     function iniciarQuiz(characterKey) {
         ensureGame();
         quizPlayer = characterKey;
@@ -220,7 +333,6 @@
         renderPergunta();
     }
 
-    // -------- TELA DE NOMES --------
     function iniciarTelaDeNomes() {
         console.log("🎮 Inicializando tela de nomes...");
 
@@ -229,7 +341,7 @@
             localStorage.removeItem("hogwarts_rpg_v10");
             localStorage.removeItem("hogwarts_rpg_v9");
             localStorage.removeItem("hogwarts_rpg_v8");
-        } catch (e) { /* ignora */ }
+        } catch (e) {}
 
         ensureGame();
         window.game.phase = "names";
@@ -238,7 +350,10 @@
 
         var sceneEl = document.getElementById("scene");
         var choicesEl = document.getElementById("choices");
-        if (!sceneEl || !choicesEl) return;
+        if (!sceneEl || !choicesEl) {
+            console.error("❌ Não achei #scene ou #choices!");
+            return;
+        }
 
         sceneEl.innerHTML =
             '<h2 class="story-title">Antes de Hogwarts</h2>' +
@@ -275,14 +390,12 @@
             if (sasahNameEl) sasahNameEl.textContent = n1;
             if (lucasNameEl) lucasNameEl.textContent = n2;
 
-            // Inicia o quiz embutido (não depende do script.js)
             iniciarQuiz("sasah");
         });
 
         console.log("✅ Tela de nomes pronta.");
     }
 
-    // -------- BOOT --------
     if (document.readyState === "complete") {
         setTimeout(iniciarTelaDeNomes, 300);
     } else {
@@ -292,3 +405,6 @@
     }
 })();
 </script>
+
+</body>
+</html>
