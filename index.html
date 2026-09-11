@@ -6,7 +6,7 @@
 <meta name="description" content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade.">
 <title>Hogwarts RPG</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 <style>
 /* =========================================================
    CORREÇÃO — BARRAS DE HP, MANA E XP
@@ -30,6 +30,37 @@
 .status-fill.hp-fill { background: #b04a4a; }
 .status-fill.mana-fill { background: #4f7fb0; }
 .status-fill.xp-fill { background: #c99a3e; }
+
+/* =========================================================
+   CARD DE RELAÇÃO — rótulo e valor separados
+========================================================= */
+.relationship-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 8px;
+}
+.relationship-grid > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background: rgba(255, 255, 255, 0.025);
+    border-radius: 5px;
+    font-size: 0.78rem;
+}
+.relationship-grid > div > span {
+    color: #969087;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.relationship-grid > div > strong {
+    color: #d8c39b;
+    font-weight: bold;
+    min-width: 24px;
+    text-align: right;
+}
 
 /* =========================================================
    CARD DA KIWI (LEBRÍLOPE)
@@ -120,6 +151,17 @@
 .kiwi-attributes strong {
     color: #d8c39b;
     font-weight: bold;
+}
+
+/* =========================================================
+   DIÁRIO VAZIO
+========================================================= */
+.log-empty {
+    color: #6a655d;
+    font-style: italic;
+    text-align: center;
+    padding: 12px 8px;
+    font-size: 0.82rem;
 }
 </style>
 </head>
@@ -223,10 +265,7 @@
                 </div>
             </section>
 
-            <!-- ==================================================
-                 CARD DA KIWI (LEBRÍLOPE)
-                 Imagem hospedada no Imgur
-            ================================================== -->
+            <!-- CARD DA KIWI -->
             <section class="status-card kiwi-card" id="kiwiCard" style="display: none;">
 
                 <div class="kiwi-header">
@@ -278,10 +317,10 @@
                     <span class="character-icon">💫</span>
                 </div>
                 <div class="relationship-grid">
-                    <div><span>💙 Amizade</span><strong id="friendship">50</strong></div>
-                    <div><span>🤝 Confiança</span><strong id="trust">50</strong></div>
-                    <div><span>⚔️ Rivalidade</span><strong id="rivalry">0</strong></div>
-                    <div><span>💜 Afinidade</span><strong id="affinity">50</strong></div>
+                    <div><span>💙 Amizade:</span><strong id="friendship">50</strong></div>
+                    <div><span>🤝 Confiança:</span><strong id="trust">50</strong></div>
+                    <div><span>⚔️ Rivalidade:</span><strong id="rivalry">0</strong></div>
+                    <div><span>💜 Afinidade:</span><strong id="affinity">50</strong></div>
                 </div>
             </section>
 
@@ -318,7 +357,7 @@
 <!-- ============================================================
      SCRIPT PRINCIPAL DO JOGO (script.js)
 ============================================================ -->
-<script src="script.js?v=6"></script>
+<script src="script.js?v=7"></script>
 
 <!-- ============================================================
      SCRIPT DE CONTROLE — TELA DE NOMES + QUIZ + PATCHES
@@ -426,7 +465,7 @@
     }
 
     // ============================================================
-    // RENDERIZA CARDS
+    // RENDERIZA CARDS (VERSÃO CORRIGIDA)
     // ============================================================
     function renderCardsCorrigidos() {
         if (!window.game) return;
@@ -446,6 +485,7 @@
 
         var s = window.game.sasah, l = window.game.lucas;
 
+        // Sasah
         setTxt("sasahName", s.name);
         setTxt("sasahHouse", s.house || "Sem casa");
         setTxt("sasahHpText", s.hp + " / " + s.maxHp);
@@ -461,6 +501,7 @@
         setTxt("sasahEmpathy", s.empathy);
         setTxt("sasahMagic", s.magic);
 
+        // Lucas
         setTxt("lucasName", l.name);
         setTxt("lucasHouse", l.house || "Sem casa");
         setTxt("lucasHpText", l.hp + " / " + l.maxHp);
@@ -476,16 +517,17 @@
         setTxt("lucasEmpathy", l.empathy);
         setTxt("lucasMagic", l.magic);
 
-        setTxt("friendship", window.game.relationship.friendship);
-        setTxt("trust", window.game.relationship.trust);
-        setTxt("rivalry", window.game.relationship.rivalry);
-        setTxt("affinity", window.game.relationship.affinity);
+        // Relação (só os valores — o rótulo já está no HTML)
+        setTxt("friendship", window.game.relationship.friendship || 0);
+        setTxt("trust", window.game.relationship.trust || 0);
+        setTxt("rivalry", window.game.relationship.rivalry || 0);
+        setTxt("affinity", window.game.relationship.affinity || 0);
 
         mostrarKiwi();
     }
 
     // ============================================================
-    // MOSTRA O CARD DA KIWI QUANDO ELA É ENCONTRADA
+    // MOSTRA O CARD DA KIWI
     // ============================================================
     function mostrarKiwi() {
         var kiwiCard = document.getElementById("kiwiCard");
@@ -638,6 +680,12 @@
                 quizIndex = 0;
                 renderPergunta();
             } else {
+                // 🔧 Reset completo antes de começar a história
+                window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
+                window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
+                window.game.log = [];
+                renderLog();
+
                 if (typeof window.showScene === "function") {
                     window.game.phase = "story";
                     window.game.flags.gameStarted = true;
@@ -662,6 +710,38 @@
         quizIndex = 0;
         quizAnswers[characterKey] = [];
         renderPergunta();
+    }
+
+    // ============================================================
+    // RENDERIZA LOG (corrigido — mostra vazio quando não há entradas)
+    // ============================================================
+    function renderLog() {
+        var logEl = document.getElementById("log");
+        if (!logEl) return;
+
+        logEl.innerHTML = "";
+
+        var log = window.game && window.game.log;
+        if (!log || log.length === 0) {
+            var empty = document.createElement("div");
+            empty.className = "log-empty";
+            empty.textContent = "A aventura ainda está começando...";
+            logEl.appendChild(empty);
+            return;
+        }
+
+        log.slice().reverse().forEach(function (entry) {
+            var item = document.createElement("div");
+            item.className = "log-entry";
+            var txt = "";
+            if (typeof entry === "string") {
+                txt = entry;
+            } else if (entry && entry.text) {
+                txt = "[" + (entry.time || "--:--") + "] " + entry.text;
+            }
+            item.textContent = txt;
+            logEl.appendChild(item);
+        });
     }
 
     // ============================================================
@@ -714,11 +794,18 @@
             window.game.lucas.name = n2;
             window.game.phase = "quiz_sasah";
 
+            // 🔧 Reset completo ao começar nova aventura
+            window.game.relationship = { friendship: 50, trust: 50, rivalry: 0, affinity: 50 };
+            window.game.kiwi = { name: "Kiwi", trust: 0, affection: 0, met: false, discovered: false, rescued: false };
+            window.game.log = [];
+
             renderCardsCorrigidos();
+            renderLog();
             iniciarQuiz("sasah");
         });
 
         renderCardsCorrigidos();
+        renderLog();
         console.log("✅ Tela de nomes pronta.");
     }
 
@@ -746,6 +833,19 @@
                 renderCardsCorrigidos();
             };
             window.updateFinalInterface.__patch = true;
+        }
+
+        // 🔧 Bloqueia addLogEntry antes da história começar
+        if (typeof window.addLogEntry === "function" && !window.addLogEntry.__patch) {
+            var orig3 = window.addLogEntry;
+            window.addLogEntry = function (text) {
+                var fase = window.game && window.game.phase;
+                if (fase === "names" || fase === "quiz_sasah" || fase === "quiz_lucas" || fase === "sorting") {
+                    return; // ignora logs durante as fases de preparação
+                }
+                return orig3.apply(this, arguments);
+            };
+            window.addLogEntry.__patch = true;
         }
     }
 
