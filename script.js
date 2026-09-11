@@ -13723,36 +13723,47 @@ window.HogwartsRPG = {
 ========================================================= */
 
 /* =========================================================
-CORREÇÃO FINAL - FORÇAR TELA DE NOMES
+CORREÇÃO DEFINITIVA - INICIALIZAÇÃO DA TELA DE NOMES
 ========================================================= */
 
-// Sobrescreve a função de inicialização para garantir que a tela de nomes apareça
-function bootCompleteGame() {
-    // Garante que a estrutura do jogo existe
-    if (typeof prepareGameForStory === 'function') {
-        prepareGameForStory();
+// Esta função será a única responsável por iniciar o jogo.
+function startGameCorrectly() {
+    // 1. Garante que a estrutura básica do jogo existe
+    if (typeof ensureGameStructure === 'function') {
+        ensureGameStructure();
     }
-    
-    // Sempre força o jogo a começar na fase de nomes
+    if (typeof normalizeFinalGame === 'function') {
+        normalizeFinalGame();
+    }
+
+    // 2. Força o estado para a fase de nomes, ignorando qualquer save ou cena anterior
     game.phase = "names";
     game.currentScene = null;
     game.currentSceneId = null;
-    
-    // Renderiza a tela de nomes
+    game.chapter = 0;
+
+    // 3. Renderiza a tela de nomes
     if (typeof renderNameScreen === 'function') {
         renderNameScreen();
     } else {
-        console.error("Função renderNameScreen não encontrada!");
+        console.error("ERRO CRÍTICO: A função renderNameScreen não foi encontrada.");
+        return;
     }
-    
-    // Conecta os botões de controle
+
+    // 4. Conecta os botões de controle (Salvar, Carregar, Reiniciar)
     if (typeof connectFinalButtons === 'function') {
         connectFinalButtons();
     }
+    if (typeof connectKeyboardControls === 'function') {
+        connectKeyboardControls();
+    }
 }
 
-// Executa a inicialização corrigida assim que a página carregar
-document.addEventListener("DOMContentLoaded", function() {
-    // Espera um pouco para garantir que todo o resto do script foi carregado
-    setTimeout(bootCompleteGame, 100);
-});
+// Impede que qualquer outra inicialização automática ocorra.
+// Apenas a nossa função startGameCorrectly será executada.
+window.onload = startGameCorrectly;
+
+// Se a página já estiver carregada (o que pode acontecer), executa imediatamente.
+if (document.readyState === "complete") {
+    startGameCorrectly();
+}
