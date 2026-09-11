@@ -153,6 +153,49 @@ h1, h2, .story-title {
 
 /* O corpo do texto continua com a fonte original (Georgia/serif),
    para não cansar a leitura */
+   /* =========================================================
+   SISTEMA DE DESEMPATE (D20 + Atributo)
+========================================================= */
+.tiebreak-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2500; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
+.tiebreak-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(6px); }
+.tiebreak-box { position: relative; width: min(560px, 92%); max-height: 90vh; overflow-y: auto; padding: 28px 26px; background: linear-gradient(145deg, rgba(45, 35, 25, 0.99), rgba(20, 19, 20, 0.99)); border: 2px solid rgba(201, 154, 62, 0.6); border-radius: 16px; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(201, 154, 62, 0.2); animation: creditsSlideIn 0.4s ease; }
+.tiebreak-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(190, 158, 96, 0.25); }
+.tiebreak-symbol { display: block; color: #c99a3e; font-size: 2rem; margin-bottom: 6px; }
+.tiebreak-header h2 { color: #e7d6b3; font-size: 1.4rem; margin: 0 0 4px 0; letter-spacing: 1px; font-family: "Cinzel", Georgia, serif; }
+.tiebreak-header p { color: #a89b7e; font-size: 0.85rem; font-style: italic; margin: 0; }
+.tiebreak-choices { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; margin-bottom: 20px; }
+.tiebreak-choice { padding: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(190, 158, 96, 0.2); border-radius: 10px; text-align: center; }
+.tiebreak-player { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 8px; }
+.tiebreak-player img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(190, 158, 96, 0.5); object-fit: cover; background: #1a1614; }
+.tiebreak-player span { color: #e7d6b3; font-size: 0.8rem; font-weight: bold; }
+.tiebreak-choice p { color: #c4bcae; font-size: 0.82rem; line-height: 1.4; margin: 0; }
+.tiebreak-vs { color: #c99a3e; font-size: 1.2rem; font-weight: bold; text-align: center; padding: 0 4px; font-family: "Cinzel", Georgia, serif; }
+.tiebreak-attribute { text-align: center; padding: 10px 14px; background: rgba(201, 154, 62, 0.08); border: 1px solid rgba(201, 154, 62, 0.25); border-radius: 8px; margin-bottom: 18px; font-size: 0.85rem; color: #a89b7e; }
+.tiebreak-attribute strong { color: #e7d6b3; margin-left: 6px; }
+.tiebreak-roll-btn { display: block; width: 100%; padding: 14px 20px; background: linear-gradient(180deg, #4b3b27, #342a1e); border: 1px solid #a08352; border-radius: 10px; color: #f0dfb9; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.2s ease; font-family: "Cinzel", Georgia, serif; letter-spacing: 1px; }
+.tiebreak-roll-btn:hover { background: linear-gradient(180deg, #5a472e, #3d3021); border-color: #c4a76d; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201, 154, 62, 0.3); }
+.tiebreak-roll-btn:active { transform: translateY(0); }
+.tiebreak-roll-btn:disabled { opacity: 0.6; cursor: wait; }
+.tiebreak-result { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(190, 158, 96, 0.25); animation: fadeIn 0.4s ease; }
+.tiebreak-rolls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.tiebreak-roll { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(190, 158, 96, 0.2); border-radius: 10px; transition: all 0.3s ease; }
+.tiebreak-roll.winner { border-color: #c99a3e; background: rgba(201, 154, 62, 0.12); box-shadow: 0 0 20px rgba(201, 154, 62, 0.3); transform: scale(1.05); }
+.tiebreak-roll .roll-player { color: #e7d6b3; font-size: 0.85rem; font-weight: bold; }
+.tiebreak-roll .roll-dice { color: #c99a3e; font-size: 1.8rem; font-weight: bold; font-family: "Cinzel", Georgia, serif; min-height: 2.2rem; line-height: 1; display: flex; align-items: center; justify-content: center; }
+.tiebreak-roll .roll-attr { color: #a89b7e; font-size: 0.75rem; }
+.tiebreak-roll .roll-total { color: #f0dfb9; font-size: 1rem; font-weight: bold; margin-top: 4px; }
+.tiebreak-winner { text-align: center; color: #e7d6b3; font-size: 0.95rem; line-height: 1.5; margin: 0 0 16px 0; padding: 12px; background: rgba(201, 154, 62, 0.1); border-radius: 8px; border-left: 3px solid #c99a3e; }
+#coopButton.active { background: linear-gradient(180deg, #5a472e, #3d3021); border-color: #c99a3e; color: #f0dfb9; box-shadow: 0 0 12px rgba(201, 154, 62, 0.3); }
+.waiting-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 1500; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
+.waiting-box { text-align: center; padding: 32px 40px; background: linear-gradient(145deg, rgba(38, 33, 27, 0.99), rgba(20, 19, 20, 0.99)); border: 1px solid rgba(190, 158, 96, 0.4); border-radius: 14px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); }
+.waiting-box h3 { color: #e7d6b3; font-size: 1.2rem; margin: 0 0 10px 0; font-family: "Cinzel", Georgia, serif; }
+.waiting-box p { color: #a89b7e; font-size: 0.9rem; margin: 0 0 20px 0; }
+.waiting-spinner { display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(201, 154, 62, 0.2); border-top-color: #c99a3e; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.turn-indicator { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); padding: 10px 20px; background: linear-gradient(145deg, rgba(45, 35, 25, 0.98), rgba(20, 19, 20, 0.98)); border: 2px solid rgba(201, 154, 62, 0.6); border-radius: 30px; color: #e7d6b3; font-size: 0.9rem; font-weight: bold; z-index: 1200; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: none; font-family: "Cinzel", Georgia, serif; letter-spacing: 0.5px; }
+.turn-indicator.visible { display: block; animation: fadeIn 0.3s ease; }
+.turn-indicator .turn-player { color: #c99a3e; }
+   
 </style>
 </head>
 <body>
@@ -327,6 +370,9 @@ h1, h2, .story-title {
         <button id="loadButton" type="button" class="control-button">📂 Carregar</button>
         <button id="restartButton" type="button" class="control-button danger-button">🔄 Reiniciar</button>
         <button id="creditsButton" type="button" class="control-button">🎬 Créditos</button>
+       <button id="coopButton" type="button" class="control-button" title="Ativa o modo 2 jogadores para decisões conjuntas">
+    ⚔️ Coop: OFF
+</button>
     </nav>
 
     <footer class="game-footer">
@@ -335,6 +381,69 @@ h1, h2, .story-title {
     </footer>
 
 </main>
+   <!-- ============================================================
+     MODAL DE DESEMPATE (D20 + Atributo)
+============================================================ -->
+<div id="tiebreakModal" class="tiebreak-modal" style="display: none;">
+    <div class="tiebreak-overlay"></div>
+    <div class="tiebreak-box">
+
+        <div class="tiebreak-header">
+            <span class="tiebreak-symbol">⚔️</span>
+            <h2>Decisão Conjunta</h2>
+            <p>Vocês escolheram coisas diferentes...</p>
+        </div>
+
+        <div class="tiebreak-choices">
+            <div class="tiebreak-choice">
+                <div class="tiebreak-player">
+                    <img id="tiebreakAvatar1" src="" alt="">
+                    <span id="tiebreakName1">Sasah</span>
+                </div>
+                <p id="tiebreakText1">—</p>
+            </div>
+            <div class="tiebreak-vs">VS</div>
+            <div class="tiebreak-choice">
+                <div class="tiebreak-player">
+                    <img id="tiebreakAvatar2" src="" alt="">
+                    <span id="tiebreakName2">Lucas</span>
+                </div>
+                <p id="tiebreakText2">—</p>
+            </div>
+        </div>
+
+        <div class="tiebreak-attribute">
+            <span>Atributo em disputa:</span>
+            <strong id="tiebreakAttrName">Coragem</strong>
+        </div>
+
+        <button id="rollDiceBtn" type="button" class="tiebreak-roll-btn">
+            🎲 Rolar os dados!
+        </button>
+
+        <div id="tiebreakResult" class="tiebreak-result" style="display: none;">
+            <div class="tiebreak-rolls">
+                <div class="tiebreak-roll" id="tiebreakRoll1">
+                    <span class="roll-player" id="tiebreakRollName1">Sasah</span>
+                    <span class="roll-dice" id="tiebreakDice1">—</span>
+                    <span class="roll-attr" id="tiebreakAttr1">+0</span>
+                    <span class="roll-total" id="tiebreakTotal1">= 0</span>
+                </div>
+                <div class="tiebreak-roll" id="tiebreakRoll2">
+                    <span class="roll-player" id="tiebreakRollName2">Lucas</span>
+                    <span class="roll-dice" id="tiebreakDice2">—</span>
+                    <span class="roll-attr" id="tiebreakAttr2">+0</span>
+                    <span class="roll-total" id="tiebreakTotal2">= 0</span>
+                </div>
+            </div>
+            <p id="tiebreakWinner" class="tiebreak-winner">—</p>
+            <button id="tiebreakContinue" type="button" class="tiebreak-roll-btn">
+                Continuar →
+            </button>
+        </div>
+
+    </div>
+</div>
 
 <!-- MODAL DE CRÉDITOS -->
 <div id="creditsModal" class="credits-modal" style="display: none;">
@@ -1148,6 +1257,338 @@ h1, h2, .story-title {
         });
     }
 
+       // ============================================================
+    // SISTEMA DE DESEMPATE (D20 + Atributo)
+    // Modo Coop: ativa com botão, vota Sasah → Lucas, desempata com dado
+    // ============================================================
+    var coopMode = false;
+    var votosAtuais = null;
+    var cenaVotacaoId = null;
+    var atributoAtual = "bravery";
+
+    // Mapeia cena → atributo em disputa
+    function atributoDaCena(sceneId) {
+        if (!sceneId) return "bravery";
+        if (sceneId.indexOf("forest") !== -1) return "bravery";
+        if (sceneId.indexOf("lake") !== -1) return "intelligence";
+        if (sceneId.indexOf("mirror") !== -1) return "empathy";
+        if (sceneId.indexOf("catacombs") !== -1) return "loyalty";
+        if (sceneId.indexOf("society") !== -1) return "ambition";
+        if (sceneId.indexOf("kiwi") !== -1) return "empathy";
+        if (sceneId.indexOf("invasion") !== -1) return "bravery";
+        if (sceneId.indexOf("battle") !== -1) return "bravery";
+        if (sceneId.indexOf("ancient") !== -1) return "magic";
+        if (sceneId.indexOf("final") !== -1) return "magic";
+        if (sceneId.indexOf("arrival") !== -1) return "loyalty";
+        if (sceneId.indexOf("train") !== -1) return "intelligence";
+        if (sceneId.indexOf("castle") !== -1) return "intelligence";
+        return "bravery";
+    }
+
+    function nomeDoAtributo(attr) {
+        var nomes = { bravery: "Coragem", loyalty: "Lealdade", intelligence: "Inteligência", ambition: "Ambição", empathy: "Empatia", magic: "Magia" };
+        return nomes[attr] || "Coragem";
+    }
+
+    // Verifica se a cena atual é de decisão conjunta
+    function isCenaConjunta() {
+        if (!window.game) return false;
+        return window.game.turnMode === "both";
+    }
+
+    // Inicializa o botão Coop
+    function iniciarCoop() {
+        var btn = document.getElementById("coopButton");
+        if (!btn) return;
+        btn.addEventListener("click", function () {
+            coopMode = !coopMode;
+            if (coopMode) {
+                btn.classList.add("active");
+                btn.textContent = "⚔️ Coop: ON";
+                console.log("⚔️ Modo Coop ATIVADO");
+                mostrarIndicadorTurno("sasah");
+            } else {
+                btn.classList.remove("active");
+                btn.textContent = "⚔️ Coop: OFF";
+                console.log("⚔️ Modo Coop DESATIVADO");
+                esconderIndicadorTurno();
+                votosAtuais = null;
+                cenaVotacaoId = null;
+            }
+        });
+
+        var rollBtn = document.getElementById("rollDiceBtn");
+        var continueBtn = document.getElementById("tiebreakContinue");
+        if (rollBtn) rollBtn.addEventListener("click", rolarDados);
+        if (continueBtn) continueBtn.addEventListener("click", aplicarEscolhaVencedora);
+    }
+
+    // Indicador visual de vez
+    function mostrarIndicadorTurno(jogador) {
+        if (!coopMode) return;
+        var el = document.getElementById("turnIndicator");
+        if (!el) {
+            el = document.createElement("div");
+            el.id = "turnIndicator";
+            el.className = "turn-indicator";
+            document.body.appendChild(el);
+        }
+        var nome = jogador === "sasah" ? window.game.sasah.name : window.game.lucas.name;
+        el.innerHTML = '🎯 Vez de <span class="turn-player">' + nome + '</span>';
+        el.classList.add("visible");
+    }
+
+    function esconderIndicadorTurno() {
+        var el = document.getElementById("turnIndicator");
+        if (el) el.classList.remove("visible");
+    }
+
+    // Mostra overlay "aguardando o outro"
+    function mostrarWaiting(nomeOutro) {
+        var overlay = document.getElementById("waitingOverlay");
+        if (!overlay) {
+            overlay = document.createElement("div");
+            overlay.id = "waitingOverlay";
+            overlay.className = "waiting-overlay";
+            overlay.innerHTML = '<div class="waiting-box"><h3>⏳ Voto registrado!</h3><p id="waitingMsg">Aguardando o outro jogador...</p><div class="waiting-spinner"></div></div>';
+            document.body.appendChild(overlay);
+        }
+        var msg = document.getElementById("waitingMsg");
+        if (msg) msg.textContent = "Aguardando " + nomeOutro + "...";
+        overlay.style.display = "flex";
+    }
+
+    function esconderWaiting() {
+        var overlay = document.getElementById("waitingOverlay");
+        if (overlay) overlay.style.display = "none";
+    }
+
+    // Registra voto de um jogador
+    function registrarVoto(jogador, choice) {
+        if (!votosAtuais || cenaVotacaoId !== window.game.currentSceneId) {
+            votosAtuais = { sasah: null, lucas: null, choiceSasah: null, choiceLucas: null, vencedor: null };
+            cenaVotacaoId = window.game.currentSceneId;
+        }
+
+        // Verifica de quem é a vez
+        if (jogador === "sasah" && votosAtuais.sasah !== null) return false;
+        if (jogador === "lucas" && votosAtuais.lucas !== null) return false;
+
+        votosAtuais[jogador] = choice.text;
+        votosAtuais["choice" + (jogador === "sasah" ? "Sasah" : "Lucas")] = choice;
+
+        console.log("📝 Voto de " + jogador + ":", choice.text);
+
+        // Verifica se os dois já votaram
+        if (votosAtuais.sasah !== null && votosAtuais.lucas !== null) {
+            esconderIndicadorTurno();
+            if (votosAtuais.sasah === votosAtuais.lucas) {
+                console.log("✅ Concordaram! Aplicando escolha direto.");
+                aplicarEscolhaDireta(votosAtuais.choiceSasah);
+            } else {
+                console.log("⚠️ Discordaram! Abrindo desempate...");
+                abrirDesempate(votosAtuais);
+            }
+        } else {
+            // Aguardando o outro
+            var outro = jogador === "sasah" ? "lucas" : "sasah";
+            var nomeOutro = outro === "sasah" ? window.game.sasah.name : window.game.lucas.name;
+            mostrarWaiting(nomeOutro);
+            setTimeout(function () {
+                esconderWaiting();
+                mostrarIndicadorTurno(outro);
+            }, 1200);
+        }
+
+        return true;
+    }
+
+    // Aplica a escolha quando concordam
+    function aplicarEscolhaDireta(choice) {
+        votosAtuais = null;
+        cenaVotacaoId = null;
+
+        if (choice.effects && typeof window.applyFinalEffects === "function") {
+            try { window.applyFinalEffects(choice.effects); } catch (e) { console.warn(e); }
+        }
+
+        if (choice.next && typeof window.showScene === "function") {
+            setTimeout(function () {
+                window.showScene(choice.next);
+                if (coopMode) {
+                    votosAtuais = null;
+                    cenaVotacaoId = null;
+                    mostrarIndicadorTurno("sasah");
+                }
+            }, 300);
+        }
+    }
+
+    // Abre o modal de desempate
+    function abrirDesempate(votos) {
+        var modal = document.getElementById("tiebreakModal");
+        if (!modal) return;
+
+        atributoAtual = atributoDaCena(window.game.currentSceneId);
+
+        document.getElementById("tiebreakName1").textContent = window.game.sasah.name;
+        document.getElementById("tiebreakName2").textContent = window.game.lucas.name;
+        document.getElementById("tiebreakText1").textContent = votos.sasah;
+        document.getElementById("tiebreakText2").textContent = votos.lucas;
+        document.getElementById("tiebreakAttrName").textContent = nomeDoAtributo(atributoAtual);
+        document.getElementById("tiebreakRollName1").textContent = window.game.sasah.name;
+        document.getElementById("tiebreakRollName2").textContent = window.game.lucas.name;
+
+        var avatar1 = document.getElementById("tiebreakAvatar1");
+        var avatar2 = document.getElementById("tiebreakAvatar2");
+        avatar1.src = (window.game.sasah.gender === "feminino") ? AVATAR_FEMININO : AVATAR_MASCULINO;
+        avatar2.src = (window.game.lucas.gender === "feminino") ? AVATAR_FEMININO : AVATAR_MASCULINO;
+
+        document.getElementById("tiebreakResult").style.display = "none";
+        document.getElementById("rollDiceBtn").style.display = "block";
+        document.getElementById("rollDiceBtn").disabled = false;
+        document.getElementById("rollDiceBtn").textContent = "🎲 Rolar os dados!";
+        document.getElementById("tiebreakRoll1").classList.remove("winner");
+        document.getElementById("tiebreakRoll2").classList.remove("winner");
+
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+
+    // Rola os dados
+    function rolarDados() {
+        var d1 = Math.floor(Math.random() * 20) + 1;
+        var d2 = Math.floor(Math.random() * 20) + 1;
+        var a1 = window.game.sasah[atributoAtual] || 0;
+        var a2 = window.game.lucas[atributoAtual] || 0;
+        var total1 = d1 + a1;
+        var total2 = d2 + a2;
+
+        var rollBtn = document.getElementById("rollDiceBtn");
+        rollBtn.disabled = true;
+        rollBtn.textContent = "🎲 Rolando...";
+
+        var contador = 0;
+        var animacao = setInterval(function () {
+            document.getElementById("tiebreakDice1").textContent = Math.floor(Math.random() * 20) + 1;
+            document.getElementById("tiebreakDice2").textContent = Math.floor(Math.random() * 20) + 1;
+            contador++;
+            if (contador > 15) {
+                clearInterval(animacao);
+                finalizarRolagem(d1, d2, a1, a2, total1, total2);
+            }
+        }, 80);
+    }
+
+    function finalizarRolagem(d1, d2, a1, a2, total1, total2) {
+        document.getElementById("tiebreakDice1").textContent = d1;
+        document.getElementById("tiebreakDice2").textContent = d2;
+        document.getElementById("tiebreakAttr1").textContent = "+" + a1;
+        document.getElementById("tiebreakAttr2").textContent = "+" + a2;
+        document.getElementById("tiebreakTotal1").textContent = "= " + total1;
+        document.getElementById("tiebreakTotal2").textContent = "= " + total2;
+
+        var vencedor, empate = false;
+        if (total1 > total2) vencedor = "sasah";
+        else if (total2 > total1) vencedor = "lucas";
+        else {
+            empate = true;
+            vencedor = Math.random() < 0.5 ? "sasah" : "lucas";
+        }
+
+        document.getElementById("tiebreakRoll1").classList.toggle("winner", vencedor === "sasah");
+        document.getElementById("tiebreakRoll2").classList.toggle("winner", vencedor === "lucas");
+
+        var nomeVencedor = vencedor === "sasah" ? window.game.sasah.name : window.game.lucas.name;
+        document.getElementById("tiebreakWinner").textContent =
+            (empate ? "⚖️ Empate! A moeda decidiu: " : "🏆 ") + nomeVencedor + " venceu e decide!";
+
+        document.getElementById("tiebreakResult").style.display = "block";
+        document.getElementById("rollDiceBtn").style.display = "none";
+
+        votosAtuais.vencedor = vencedor;
+    }
+
+    function aplicarEscolhaVencedora() {
+        var modal = document.getElementById("tiebreakModal");
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+
+        if (!votosAtuais || !votosAtuais.vencedor) return;
+
+        var escolha = votosAtuais.vencedor === "sasah" ? votosAtuais.choiceSasah : votosAtuais.choiceLucas;
+        var vencedorNome = votosAtuais.vencedor === "sasah" ? window.game.sasah.name : window.game.lucas.name;
+
+        votosAtuais = null;
+        cenaVotacaoId = null;
+
+        console.log("🏆 Vencedor:", vencedorNome);
+
+        if (escolha) {
+            if (escolha.effects && typeof window.applyFinalEffects === "function") {
+                try { window.applyFinalEffects(escolha.effects); } catch (e) {}
+            }
+            if (escolha.next && typeof window.showScene === "function") {
+                setTimeout(function () {
+                    window.showScene(escolha.next);
+                    if (coopMode) {
+                        votosAtuais = null;
+                        cenaVotacaoId = null;
+                        mostrarIndicadorTurno("sasah");
+                    }
+                }, 300);
+            }
+        }
+    }
+
+    // Intercepta cliques nas escolhas quando coop está ativo
+    document.addEventListener("click", function (e) {
+        if (!coopMode) return;
+        if (!isCenaConjunta()) return;
+        if (!e.target || !e.target.classList) return;
+        if (!e.target.classList.contains("choice-button")) return;
+
+        // Descobre de quem é a vez
+        if (!votosAtuais || cenaVotacaoId !== window.game.currentSceneId) {
+            votosAtuais = { sasah: null, lucas: null, choiceSasah: null, choiceLucas: null, vencedor: null };
+            cenaVotacaoId = window.game.currentSceneId;
+        }
+
+        var jogadorAtual = null;
+        if (votosAtuais.sasah === null) jogadorAtual = "sasah";
+        else if (votosAtuais.lucas === null) jogadorAtual = "lucas";
+        else return;
+
+        // Encontra a choice correspondente ao texto do botão
+        var btnText = (e.target.textContent || "").replace(/^\d+\.\s*/, "").trim();
+        var sceneId = window.game.currentSceneId;
+        if (!sceneId || !window.scenes || !window.scenes[sceneId]) return;
+        var scene = window.scenes[sceneId];
+        if (!scene.choices) return;
+
+        var choice = null;
+        for (var i = 0; i < scene.choices.length; i++) {
+            var c = scene.choices[i];
+            var cText = (c.text || "").trim();
+            // Compara com e sem numeração
+            if (cText === btnText || (i + 1) + ". " + cText === (e.target.textContent || "").trim()) {
+                choice = c;
+                break;
+            }
+        }
+        if (!choice) {
+            console.warn("Coop: não achei a choice correspondente.");
+            return;
+        }
+
+        // Impede o comportamento normal do jogo
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        e.preventDefault();
+
+        registrarVoto(jogadorAtual, choice);
+    }, true);
+   
     // ============================================================
     // BOOT
     // ============================================================
@@ -1156,6 +1597,7 @@ h1, h2, .story-title {
         aplicarPatches();
         iniciarTelaDeNomes();
         iniciarCreditos();
+            iniciarCoop();  // ← ADICIONE ESTA LINHA
         setTimeout(aplicarPatches, 200);
         setTimeout(renderCardsCorrigidos, 400);
     }
