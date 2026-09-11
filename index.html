@@ -592,8 +592,113 @@
      ====================================================== -->
 
 <script src="script.js?v=4"></script>
+<script>
+// ============================================================
+// CORREÇÃO FINAL - FORÇA A TELA DE NOMES
+// ============================================================
+window.addEventListener("load", function () {
+    setTimeout(function () {
+        console.log("🔧 Forçando tela de nomes...");
 
+        // 1. Garante que o objeto game existe
+        if (typeof game === "undefined" || !game) {
+            console.error("Objeto game não encontrado.");
+            return;
+        }
 
+        // 2. Reseta o estado para a fase de nomes
+        game.phase = "names";
+        game.currentScene = null;
+        game.currentSceneId = null;
+
+        // 3. Limpa o conteúdo estático do HTML
+        var sceneEl = document.getElementById("scene");
+        var choicesEl = document.getElementById("choices");
+        if (sceneEl) sceneEl.innerHTML = "";
+        if (choicesEl) choicesEl.innerHTML = "";
+
+        // 4. Cria os campos de nome DIRETAMENTE (sem depender de funções do script)
+        var titulo = document.createElement("h2");
+        titulo.className = "story-title";
+        titulo.textContent = "Antes de Hogwarts";
+        sceneEl.appendChild(titulo);
+
+        var intro = document.createElement("p");
+        intro.textContent = "Duas pessoas estão prestes a descobrir que suas vidas estão ligadas a um dos maiores mistérios mágicos de Hogwarts. Antes que a aventura comece, escolha o nome dos dois personagens que viverão esta história.";
+        sceneEl.appendChild(intro);
+
+        var box = document.createElement("div");
+        box.className = "name-selection";
+
+        // Personagem 1
+        var g1 = document.createElement("div");
+        g1.className = "name-group";
+        var l1 = document.createElement("label");
+        l1.textContent = "Nome do personagem 1";
+        l1.setAttribute("for", "nameInput1");
+        var i1 = document.createElement("input");
+        i1.type = "text";
+        i1.id = "nameInput1";
+        i1.placeholder = "Digite o primeiro nome";
+        i1.maxLength = 30;
+        i1.autocomplete = "off";
+        i1.value = (game.sasah && game.sasah.name) || "Sasah";
+        g1.appendChild(l1);
+        g1.appendChild(i1);
+        box.appendChild(g1);
+
+        // Personagem 2
+        var g2 = document.createElement("div");
+        g2.className = "name-group";
+        var l2 = document.createElement("label");
+        l2.textContent = "Nome do personagem 2";
+        l2.setAttribute("for", "nameInput2");
+        var i2 = document.createElement("input");
+        i2.type = "text";
+        i2.id = "nameInput2";
+        i2.placeholder = "Digite o segundo nome";
+        i2.maxLength = 30;
+        i2.autocomplete = "off";
+        i2.value = (game.lucas && game.lucas.name) || "Lucas";
+        g2.appendChild(l2);
+        g2.appendChild(i2);
+        box.appendChild(g2);
+
+        // Botão
+        var botao = document.createElement("button");
+        botao.type = "button";
+        botao.className = "choice-button continue-button";
+        botao.textContent = "Começar aventura";
+        botao.addEventListener("click", function () {
+            var nome1 = i1.value.trim() || "Sasah";
+            var nome2 = i2.value.trim() || "Lucas";
+
+            game.sasah.name = nome1;
+            game.lucas.name = nome2;
+            game.phase = "quiz_sasah";
+            game.chapter = 0;
+
+            console.log("✅ Nomes definidos:", nome1, "e", nome2);
+
+            // Salva
+            try {
+                localStorage.setItem("hogwarts_rpg_final_v10", JSON.stringify(game));
+            } catch (e) { console.warn(e); }
+
+            // Chama o quiz (função existe no script original)
+            if (typeof renderHouseQuiz === "function") {
+                renderHouseQuiz("sasah");
+            } else {
+                alert("Função renderHouseQuiz não encontrada.");
+            }
+        });
+        box.appendChild(botao);
+
+        sceneEl.appendChild(box);
+
+        console.log("✅ Tela de nomes exibida com sucesso!");
+    }, 600); // espera o script original terminar
+});
+</script>
 </body>
-
 </html>
