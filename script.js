@@ -5060,6 +5060,96 @@ scenes.ancient_2 = {
         }
     ]
 };
+
+/* =========================================================
+   CAPÍTULO 13 — AULA DE POÇÕES
+========================================================= */
+
+scenes.potions_class_1 = {
+    chapter: 13,
+    location: "Masmorras de Hogwarts — Sala de Poções",
+    title: "Aula de Poções",
+    mode: "sasah",
+    coop: false,
+    text: "A sala de Poções ficava abaixo do castelo, onde o ar era frio e úmido.\n\nCentenas de frascos coloridos enfeitavam as prateleiras. Caldeirões de estanho fumegavam sobre as bancadas.\n\nNo centro da sala, o professor Snape observava os alunos com olhos escuros e impacientes.\n\n\"Hoje vocês prepararão a Poção do Morto-Vivo\", disse ele. \"Se errarem, o resultado será... desagradável.\"\n\n{P1} procurou um lugar. Foi quando ouviu uma voz conhecida.\n\n\"Olha só. Os dois heróis que acharam um livro misterioso.\"\n\nEra Rafael, da Sonserina. Ao lado dele, Helena, da Corvinal, revirava os olhos.\n\n{P2} estava alguns passos atrás, observando a cena.",
+    choices: [
+        { text: "Ignorar Rafael e focar na poção.", effects: { sasah: { intelligence: 2, xp: 25 }, relationship: { trust: 1 } }, next: "potions_class_2" },
+        { text: "Responder à provocação de Rafael.", effects: { sasah: { bravery: 2, xp: 25 }, relationship: { rivalry: 2 } }, next: "potions_class_2" },
+        { text: "Pedir ajuda a Helena com as instruções.", effects: { sasah: { empathy: 1, intelligence: 1, xp: 25 }, relationship: { friendship: 2 } }, next: "potions_class_2" }
+    ]
+};
+
+scenes.potions_class_2 = {
+    chapter: 13,
+    location: "Sala de Poções",
+    title: "A poção reage",
+    mode: "lucas",
+    coop: false,
+    text: "Os ingredientes estavam sobre a bancada: raiz de mandrágora, folhas de mandrágora, e uma pena de fênix.\n\nAs instruções no quadro eram claras, mas o professor Snape observava cada movimento.\n\nA poção começou a borbulhar. Havia algo de estranho na cor — não era o azul-turquesa esperado, mas um roxo profundo.\n\n\"Vocês adicionaram a pena antes da hora\", sussurrou Helena. \"Vai explodir.\"\n\n{P1} estava concentrada na poção, sem perceber. Agora era {P2} quem precisava agir.\n\nFaltavam apenas alguns segundos.",
+    choices: [
+        { text: "Tentar corrigir a poção com magia.", effects: { lucas: { magic: 2, mana: -15, xp: 35 }, flags: { potionsRescued: true } }, next: "potions_class_3" },
+        { text: "Recuar e avisar o professor.", effects: { lucas: { loyalty: 2, xp: 30 }, relationship: { trust: 2 } }, next: "potions_class_3" },
+        { text: "Deixar a poção explodir e assumir a culpa.", effects: { lucas: { bravery: 3, hp: -10, xp: 30 }, relationship: { friendship: 2 } }, next: "potions_class_3" }
+    ]
+};
+
+scenes.potions_class_3 = {
+    chapter: 13,
+    location: "Sala de Poções",
+    title: "O resultado",
+    mode: "both",
+    coop: true,
+    text: "A poção parou de borbulhar. O líquido ficou azul-turquesa — exatamente como deveria.\n\nO professor Snape se aproximou. Seu olhar era duro, mas havia algo de surpresa nele.\n\n\"Parece que nem todos aqui são inúteis\", disse ele, antes de se afastar.\n\nRafael passou pelos dois, empurrando o ombro de {P1}.\n\n\"Sorte de principiante\", sibilou ele. \"No Quadribol, vocês vão ver o que é bom.\"\n\nHelena se aproximou.\n\n\"Ele está nervoso porque vai jogar contra vocês amanhã\", disse ela com um sorriso. \"Boa sorte.\"",
+    choices: [
+        { text: "Agradecer a Helena e se preparar para o jogo.", effects: { sasah: { empathy: 1, xp: 40 }, lucas: { empathy: 1, xp: 40 }, relationship: { friendship: 2, trust: 1 } }, next: "quidditch_1" },
+        { text: "Provocar Rafael de volta.", effects: { sasah: { bravery: 2, xp: 40 }, lucas: { bravery: 2, xp: 40 }, relationship: { rivalry: 2 } }, next: "quidditch_1" }
+    ]
+};
+
+/* =========================================================
+   CAPÍTULO 14 — JOGO DE QUADRIBOL
+========================================================= */
+
+scenes.quidditch_1 = {
+    chapter: 14,
+    location: "Campo de Quadribol — Vestiários",
+    title: "O jogo de Quadribol",
+    mode: "both",
+    coop: true,
+    text: "O dia do jogo amanheceu claro e ensolarado.\n\nO campo de Quadribol estava lotado. Bandeiras das quatro casas tremulavam nas arquibancadas.\n\nNo vestiário, Tomás, da Grifinória, ajustava as luvas de couro.\n\n\"Hoje é o primeiro jogo do ano\", disse ele, animado. \"Vocês vão jogar contra Sonserina. Rafael está no time deles.\"\n\n{P1} e {P2} pegaram as vassouras. O coração batia mais forte.\n\nDo lado de fora, a multidão rugia.",
+    choices: [
+        { text: "Focar em jogar bem e ignorar Rafael.", effects: { sasah: { intelligence: 2, xp: 30 }, lucas: { intelligence: 2, xp: 30 }, relationship: { trust: 1 } }, next: "quidditch_2" },
+        { text: "Falar com Tomás sobre a estratégia do jogo.", effects: { sasah: { empathy: 1, loyalty: 1, xp: 30 }, lucas: { empathy: 1, loyalty: 1, xp: 30 }, relationship: { friendship: 2 } }, next: "quidditch_2" },
+        { text: "Ir direto para o campo e mostrar confiança.", effects: { sasah: { bravery: 2, xp: 30 }, lucas: { bravery: 2, xp: 30 }, flags: { quidditchConfident: true } }, next: "quidditch_2" }
+    ]
+};
+
+scenes.quidditch_2 = {
+    chapter: 14,
+    location: "Campo de Quadribol",
+    title: "O pomo de ouro",
+    mode: "sasah",
+    coop: false,
+    text: "O jogo começou rápido.\n\nBludgers voavam pelo ar. Goles eram marcados de um lado e de outro. A torcida gritava.\n\nDe repente, {P1} viu algo brilhando perto da arquibancada da Grifinória.\n\nO pomo de ouro.\n\nRafael também viu. Os dois partiram ao mesmo tempo, em alta velocidade.\n\n{P2} estava do outro lado do campo, bloqueado por dois jogadores da Sonserina.\n\nO vento cortava o rosto. Faltavam poucos metros.",
+    choices: [
+        { text: "Acelerar ao máximo e tentar pegar o pomo.", effects: { sasah: { bravery: 3, xp: 50 }, relationship: { friendship: 2, trust: 2 }, flags: { quidditchWon: true } }, next: "quidditch_3" },
+        { text: "Bloquear Rafael para {P2} pegar o pomo.", effects: { sasah: { loyalty: 2, bravery: 2, xp: 50 }, relationship: { friendship: 3, trust: 3 }, flags: { quidditchWon: true, quidditchTeamwork: true } }, next: "quidditch_3" },
+        { text: "Usar magia para desviar Rafael.", effects: { sasah: { intelligence: 2, magic: 1, mana: -15, xp: 45 }, relationship: { rivalry: 1 }, flags: { quidditchWon: true, quidditchTrick: true } }, next: "quidditch_3" }
+    ]
+};
+
+scenes.quidditch_3 = {
+    chapter: 14,
+    location: "Campo de Quadribol",
+    title: "Vitória",
+    mode: "both",
+    coop: true,
+    text: "A mão de {P1} fechou-se ao redor do pomo dourado.\n\nO apito do juiz soou. A torcida explodiu em gritos.\n\nTomás veio correndo, erguendo {P1} nos ombros. Helena aplaudia da arquibancada.\n\nRafael pousou longe, com o rosto vermelho de raiva.\n\nNaquela noite, no Grande Salão, a vitória foi celebrada.\n\nMas {P1} e {P2} sabiam que algo maior estava por vir.\n\nA Câmara Antiga ainda esperava.",
+    choices: [
+        { text: "Celebrar com os amigos.", effects: { sasah: { empathy: 2, loyalty: 1, xp: 50 }, lucas: { empathy: 2, loyalty: 1, xp: 50 }, relationship: { friendship: 3, trust: 2 }, flags: { celebratedWithFriends: true } }, next: "final_war_1" },
+        { text: "Ficar em silêncio, pensando no que viria.", effects: { sasah: { intelligence: 2, xp: 50 }, lucas: { intelligence: 2, xp: 50 }, flags: { quidditchThoughtful: true } }, next: "final_war_1" }
+    ]
+};
 /* =========================================================
    PARTE 3/6
    ARCO VIII — A GUERRA DAS SOMBRAS
