@@ -1358,19 +1358,8 @@ h1, h2, .story-title {
     
     el.classList.add("visible");
 }
-        if (!coopMode) return;
-        var el = document.getElementById("turnIndicator");
-        if (!el) {
-            el = document.createElement("div");
-            el.id = "turnIndicator";
-            el.className = "turn-indicator";
-            document.body.appendChild(el);
+   
         }
-        var nome = jogador === "sasah" ? window.game.sasah.name : window.game.lucas.name;
-        el.innerHTML = '🎯 Vez de <span class="turn-player">' + nome + '</span>';
-        el.classList.add("visible");
-    }
-
     function esconderIndicadorTurno() {
         var el = document.getElementById("turnIndicator");
         if (el) el.classList.remove("visible");
