@@ -1407,12 +1407,17 @@ h1, h2, .story-title { font-weight: 600; letter-spacing: 0.5px; }
     // ============================================================
     // AUTO-ATIVAÇÃO DO COOP POR CENA
     // ============================================================
+     // ============================================================
+    // AUTO-ATIVAÇÃO DO COOP POR CENA + INDICADOR DE VEZ
+    // ============================================================
     function atualizarCoopParaCena() {
         var sceneId = window.game && window.game.currentSceneId;
         var scene = (window.scenes && window.scenes[sceneId]) || null;
         if (!scene) return;
+
         var btn = document.getElementById("coopButton");
         var deveTerCoop = (scene.coop === true) || (scene.mode === "both");
+
         if (deveTerCoop) {
             coopMode = true;
             if (btn) {
@@ -1429,29 +1434,43 @@ h1, h2, .story-title { font-weight: 600; letter-spacing: 0.5px; }
                 btn.textContent = "⚔️ Coop: OFF";
                 btn.style.display = "none";
             }
-            esconderIndicadorTurno();
+        }
+
+        // 🎯 Sempre mostra o indicador de vez (coop ou individual)
+        if (scene.mode === "lucas") {
+            mostrarIndicadorTurno("lucas");
+        } else if (scene.mode === "sasah") {
+            mostrarIndicadorTurno("sasah");
+        } else if (scene.mode === "both") {
+            mostrarIndicadorTurno("sasah");
+        } else {
+            // Sem mode definido — usa o turnMode
+            var m = (window.game && window.game.turnMode) || "both";
+            if (m === "lucas") mostrarIndicadorTurno("lucas");
+            else mostrarIndicadorTurno("sasah");
         }
     }
 
     function interceptarRenderizacaoCoop() {
+        // Sobrescreve updateFinalInterface
         if (typeof window.updateFinalInterface === "function" && !window.updateFinalInterface.__coopPatch) {
             var orig = window.updateFinalInterface;
             window.updateFinalInterface = function () {
                 try { orig.apply(this, arguments); } catch (e) {}
-                setTimeout(function () {
-                    atualizarCoopParaCena();
-                    var cenaId = window.game && window.game.currentSceneId;
-                    var cena = (window.scenes && window.scenes[cenaId]) || null;
-                    if (cena && cena.mode === "sasah") {
-                        mostrarIndicadorTurno("sasah");
-                    } else if (cena && cena.mode === "lucas") {
-                        mostrarIndicadorTurno("lucas");
-                    } else if (cena && cena.mode === "both") {
-                        mostrarIndicadorTurno("sasah");
-                    }
-                }, 100);
+                setTimeout(atualizarCoopParaCena, 80);
             };
             window.updateFinalInterface.__coopPatch = true;
+        }
+
+        // Sobrescreve showScene (mais garantido)
+        if (typeof window.showScene === "function" && !window.showScene.__coopPatch) {
+            var origShow = window.showScene;
+            window.showScene = function (sceneId) {
+                var result = origShow.apply(this, arguments);
+                setTimeout(atualizarCoopParaCena, 150);
+                return result;
+            };
+            window.showScene.__coopPatch = true;
         }
     }
 
