@@ -6,46 +6,27 @@
 <meta name="description" content="Hogwarts RPG — uma aventura mágica de escolhas, casas, mistérios e amizade.">
 <title>Hogwarts RPG</title>
 <link rel="icon" href="data:,">
-   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=10">
 <style>
-/* =========================================================
-   BARRAS DE HP, MANA E XP
-========================================================= */
 .status-bar { width: 100%; height: 10px; background: #0e0d11; border-radius: 20px; overflow: hidden; margin-top: 4px; position: relative; }
 .status-fill { height: 100%; width: 0%; border-radius: inherit; transition: width 0.35s ease; display: block; }
 .status-fill.hp-fill { background: #b04a4a; }
 .status-fill.mana-fill { background: #4f7fb0; }
 .status-fill.xp-fill { background: #c99a3e; }
-
-/* =========================================================
-   ESPAÇAMENTO ENTRE TEXTO E ESCOLHAS
-========================================================= */
 #choices { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
 #choices h3, #choices .choice-title { margin-bottom: 10px; }
 .choice-button { margin: 0; padding: 16px 18px; }
 .name-selection { margin-top: 28px; margin-bottom: 28px; }
 .name-group { margin-bottom: 16px; }
-
-/* =========================================================
-   CARD DE RELAÇÃO
-========================================================= */
 .relationship-grid { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
 .relationship-grid > div { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 8px; background: rgba(255, 255, 255, 0.025); border-radius: 5px; font-size: 0.78rem; }
 .relationship-grid > div > span { color: #969087; white-space: nowrap; flex-shrink: 0; }
 .relationship-grid > div > strong { color: #d8c39b; font-weight: bold; min-width: 24px; text-align: right; }
-
-/* =========================================================
-   AVATARES
-========================================================= */
 .character-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(190, 158, 96, 0.5); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); flex-shrink: 0; background: #1a1614; display: block; }
 .character-icon { width: 72px; height: 72px; border-radius: 50%; border: 2px solid rgba(190, 158, 96, 0.5); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); background: #1a1614; display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; }
-
-/* =========================================================
-   SELEÇÃO DE GÊNERO
-========================================================= */
 .gender-selection { display: flex; gap: 10px; margin-top: 8px; }
 .gender-option { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 14px; border: 2px solid rgba(190, 158, 96, 0.25); border-radius: 8px; background: rgba(255, 255, 255, 0.02); color: #b8b0a4; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; user-select: none; }
 .gender-option:hover { border-color: rgba(190, 158, 96, 0.55); background: rgba(255, 255, 255, 0.05); color: #e7d6b3; }
@@ -53,10 +34,6 @@
 .gender-option img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(190, 158, 96, 0.4); }
 .gender-option .gender-emoji { font-size: 1.3rem; }
 .gender-option input { display: none; }
-
-/* =========================================================
-   CARD DA KIWI
-========================================================= */
 .kiwi-card { border: 1px solid rgba(164, 139, 93, 0.4); background: linear-gradient(145deg, rgba(35, 31, 27, 0.98), rgba(20, 19, 20, 0.98)); animation: fadeIn 0.5s ease; }
 .kiwi-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
 .kiwi-image { width: 76px; height: 76px; object-fit: cover; border-radius: 50%; border: 2px solid rgba(190, 158, 96, 0.5); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); flex-shrink: 0; background: #1a1614; }
@@ -73,15 +50,7 @@
 .kiwi-attributes > div { display: flex; justify-content: space-between; padding: 5px 8px; background: rgba(255, 255, 255, 0.025); border-radius: 5px; font-size: 0.72rem; }
 .kiwi-attributes span:first-child { color: #969087; }
 .kiwi-attributes span:last-child, .kiwi-attributes strong { color: #d8c39b; font-weight: bold; }
-
-/* =========================================================
-   DIÁRIO VAZIO
-========================================================= */
 .log-empty { color: #6a655d; font-style: italic; text-align: center; padding: 12px 8px; font-size: 0.82rem; }
-
-/* =========================================================
-   PLAYER DE MÚSICA
-========================================================= */
 .music-player { position: fixed; top: 16px; right: 16px; display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: linear-gradient(145deg, rgba(35, 31, 27, 0.95), rgba(20, 19, 20, 0.95)); border: 1px solid rgba(190, 158, 96, 0.4); border-radius: 30px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); z-index: 1000; backdrop-filter: blur(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
 .music-player.visible { display: flex !important; }
 .music-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(190, 158, 96, 0.4); border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; padding: 0; line-height: 1; color: #e7d6b3; }
@@ -97,10 +66,6 @@
     .music-btn { width: 32px; height: 32px; font-size: 1rem; }
     .music-volume-label { display: none; }
 }
-
-/* =========================================================
-   MODAL DE CRÉDITOS
-========================================================= */
 .credits-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.25s ease; }
 .credits-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); cursor: pointer; }
 .credits-box { position: relative; width: min(520px, 92%); max-height: 88vh; overflow-y: auto; padding: 32px 28px; background: linear-gradient(145deg, rgba(38, 33, 27, 0.99), rgba(20, 19, 20, 0.99)); border: 1px solid rgba(190, 158, 96, 0.45); border-radius: 14px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7); animation: creditsSlideIn 0.35s ease; }
@@ -123,39 +88,8 @@
 .credits-footer strong { color: #e7d6b3; }
 .credits-footer em { color: #d4b896; font-style: italic; }
 .credits-disclaimer { color: #6a655d !important; font-size: 0.72rem !important; font-style: italic; margin-bottom: 0 !important; }
-@media (max-width: 600px) {
-    .credits-box { padding: 24px 18px; border-radius: 12px; }
-    .credits-header h2 { font-size: 1.35rem; }
-    .credits-item { padding: 10px 12px; gap: 10px; }
-    .credits-emoji { font-size: 1.2rem; width: 26px; }
-    .credits-value { font-size: 0.88rem; }
-}
-   /* =========================================================
-   FONTE PERSONALIZADA — Cinzel
-========================================================= */
-
-/* Aplica Cinzel em TODOS os títulos e cabeçalhos */
-h1,
-h2,
-h3,
-.story-title,
-.credits-header h2,
-.credits-name,
-.kiwi-name {
-    font-family: "Cinzel", serif;
-}
-
-/* Opcional: deixa os títulos com peso mais "nobre" */
-h1, h2, .story-title {
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-/* O corpo do texto continua com a fonte original (Georgia/serif),
-   para não cansar a leitura */
-   /* =========================================================
-   SISTEMA DE DESEMPATE (D20 + Atributo)
-========================================================= */
+h1, h2, h3, .story-title, .credits-header h2, .credits-name, .kiwi-name { font-family: "Cinzel", serif; }
+h1, h2, .story-title { font-weight: 600; letter-spacing: 0.5px; }
 .tiebreak-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2500; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
 .tiebreak-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(6px); }
 .tiebreak-box { position: relative; width: min(560px, 92%); max-height: 90vh; overflow-y: auto; padding: 28px 26px; background: linear-gradient(145deg, rgba(45, 35, 25, 0.99), rgba(20, 19, 20, 0.99)); border: 2px solid rgba(201, 154, 62, 0.6); border-radius: 16px; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(201, 154, 62, 0.2); animation: creditsSlideIn 0.4s ease; }
@@ -195,20 +129,13 @@ h1, h2, .story-title {
 .turn-indicator { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); padding: 10px 20px; background: linear-gradient(145deg, rgba(45, 35, 25, 0.98), rgba(20, 19, 20, 0.98)); border: 2px solid rgba(201, 154, 62, 0.6); border-radius: 30px; color: #e7d6b3; font-size: 0.9rem; font-weight: bold; z-index: 1200; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: none; font-family: "Cinzel", Georgia, serif; letter-spacing: 0.5px; }
 .turn-indicator.visible { display: block; animation: fadeIn 0.3s ease; }
 .turn-indicator .turn-player { color: #c99a3e; }
-
-   .turn-indicator.coop-active {
-    border-color: #c99a3e;
-    box-shadow: 0 0 20px rgba(201, 154, 62, 0.5);
-    background: linear-gradient(145deg, rgba(75, 59, 39, 0.98), rgba(52, 42, 30, 0.98));
-}
-   
+.turn-indicator.coop-active { border-color: #c99a3e; box-shadow: 0 0 20px rgba(201, 154, 62, 0.5); background: linear-gradient(145deg, rgba(75, 59, 39, 0.98), rgba(52, 42, 30, 0.98)); }
 </style>
 </head>
 <body>
 
 <div class="page-background"></div>
 
-<!-- PLAYER DE MÚSICA -->
 <div id="musicPlayer" class="music-player" style="display: none;">
     <audio id="bgMusic" loop preload="auto">
         <source src="musica.mp3" type="audio/mpeg">
@@ -220,7 +147,6 @@ h1, h2, .story-title {
 </div>
 
 <main class="game-container">
-
     <header class="game-header">
         <div class="header-content">
             <div class="magic-symbol">✦</div>
@@ -233,7 +159,6 @@ h1, h2, .story-title {
     </header>
 
     <section class="game-layout">
-
         <section class="story-panel">
             <div class="story-top">
                 <div class="story-info">
@@ -242,18 +167,14 @@ h1, h2, .story-title {
                 </div>
                 <span id="playerTag" class="player-tag">Dois destinos</span>
             </div>
-
             <article id="scene" class="scene">
                 <h2>Antes de Hogwarts</h2>
                 <p>Duas pessoas estão prestes a descobrir que suas vidas estão ligadas a um dos maiores mistérios mágicos de Hogwarts.</p>
             </article>
-
             <div id="choices" class="choices"></div>
         </section>
 
         <aside class="sidebar">
-
-            <!-- CARD SASAH -->
             <section class="status-card">
                 <div class="status-header">
                     <div>
@@ -285,7 +206,6 @@ h1, h2, .story-title {
                 </div>
             </section>
 
-            <!-- CARD LUCAS -->
             <section class="status-card">
                 <div class="status-header">
                     <div>
@@ -317,7 +237,6 @@ h1, h2, .story-title {
                 </div>
             </section>
 
-            <!-- CARD DA KIWI -->
             <section class="status-card kiwi-card" id="kiwiCard" style="display: none;">
                 <div class="kiwi-header">
                     <img src="https://i.imgur.com/xWZ7p4E.png" alt="Kiwi, a Lebrílope" class="kiwi-image" loading="lazy" onerror="this.onerror=null; this.style.display='none';">
@@ -337,7 +256,6 @@ h1, h2, .story-title {
                 </div>
             </section>
 
-            <!-- CARD RELAÇÃO -->
             <section class="relationship-card">
                 <div class="status-header">
                     <div>
@@ -354,7 +272,6 @@ h1, h2, .story-title {
                 </div>
             </section>
 
-            <!-- CARD DIÁRIO -->
             <section class="log-card">
                 <div class="status-header">
                     <div>
@@ -367,7 +284,6 @@ h1, h2, .story-title {
                     <div class="log-empty">A aventura ainda está começando...</div>
                 </div>
             </section>
-
         </aside>
     </section>
 
@@ -376,30 +292,23 @@ h1, h2, .story-title {
         <button id="loadButton" type="button" class="control-button">📂 Carregar</button>
         <button id="restartButton" type="button" class="control-button danger-button">🔄 Reiniciar</button>
         <button id="creditsButton" type="button" class="control-button">🎬 Créditos</button>
-       <button id="coopButton" type="button" class="control-button" title="Ativa o modo 2 jogadores para decisões conjuntas">
-    ⚔️ Coop: OFF
-</button>
+        <button id="coopButton" type="button" class="control-button" title="Ativa o modo 2 jogadores para decisões conjuntas">⚔️ Coop: OFF</button>
     </nav>
 
     <footer class="game-footer">
         <p>Hogwarts RPG</p>
         <span>Uma aventura de magia, escolhas e mistério.</span>
     </footer>
-
 </main>
-   <!-- ============================================================
-     MODAL DE DESEMPATE (D20 + Atributo)
-============================================================ -->
+
 <div id="tiebreakModal" class="tiebreak-modal" style="display: none;">
     <div class="tiebreak-overlay"></div>
     <div class="tiebreak-box">
-
         <div class="tiebreak-header">
             <span class="tiebreak-symbol">⚔️</span>
             <h2>Decisão Conjunta</h2>
             <p>Vocês escolheram coisas diferentes...</p>
         </div>
-
         <div class="tiebreak-choices">
             <div class="tiebreak-choice">
                 <div class="tiebreak-player">
@@ -417,16 +326,11 @@ h1, h2, .story-title {
                 <p id="tiebreakText2">—</p>
             </div>
         </div>
-
         <div class="tiebreak-attribute">
             <span>Atributo em disputa:</span>
             <strong id="tiebreakAttrName">Coragem</strong>
         </div>
-
-        <button id="rollDiceBtn" type="button" class="tiebreak-roll-btn">
-            🎲 Rolar os dados!
-        </button>
-
+        <button id="rollDiceBtn" type="button" class="tiebreak-roll-btn">🎲 Rolar os dados!</button>
         <div id="tiebreakResult" class="tiebreak-result" style="display: none;">
             <div class="tiebreak-rolls">
                 <div class="tiebreak-roll" id="tiebreakRoll1">
@@ -443,71 +347,28 @@ h1, h2, .story-title {
                 </div>
             </div>
             <p id="tiebreakWinner" class="tiebreak-winner">—</p>
-            <button id="tiebreakContinue" type="button" class="tiebreak-roll-btn">
-                Continuar →
-            </button>
+            <button id="tiebreakContinue" type="button" class="tiebreak-roll-btn">Continuar →</button>
         </div>
-
     </div>
 </div>
 
-<!-- MODAL DE CRÉDITOS -->
 <div id="creditsModal" class="credits-modal" style="display: none;">
     <div class="credits-overlay" id="creditsOverlay"></div>
     <div class="credits-box">
         <button id="creditsClose" class="credits-close" type="button" title="Fechar">✕</button>
-
         <div class="credits-header">
             <span class="credits-symbol">✦</span>
             <h2>Créditos</h2>
             <p>Hogwarts RPG — uma aventura mágica</p>
         </div>
-
         <div class="credits-list">
-            <div class="credits-item">
-                <span class="credits-emoji">🎨</span>
-                <div class="credits-info">
-                    <span class="credits-label">Idealizador</span>
-                    <span class="credits-value">Lucas Okami</span>
-                </div>
-            </div>
-            <div class="credits-item">
-                <span class="credits-emoji">💻</span>
-                <div class="credits-info">
-                    <span class="credits-label">Desenvolvedora</span>
-                    <span class="credits-value">Sahmara Carolina</span>
-                </div>
-            </div>
-            <div class="credits-item">
-                <span class="credits-emoji">🤖</span>
-                <div class="credits-info">
-                    <span class="credits-label">Suporte</span>
-                    <span class="credits-value">Deepseek</span>
-                </div>
-            </div>
-            <div class="credits-item">
-                <span class="credits-emoji">🐰</span>
-                <div class="credits-info">
-                    <span class="credits-label">Suporte Moral</span>
-                    <span class="credits-value">Kiwi Panda</span>
-                </div>
-            </div>
-            <div class="credits-item">
-                <span class="credits-emoji">🌐</span>
-                <div class="credits-info">
-                    <span class="credits-label">Desenvolvido em</span>
-                    <span class="credits-value">GitHub</span>
-                </div>
-            </div>
-            <div class="credits-item">
-                <span class="credits-emoji">⚙️</span>
-                <div class="credits-info">
-                    <span class="credits-label">Linguagens</span>
-                    <span class="credits-value">JavaScript, HTML e CSS</span>
-                </div>
-            </div>
+            <div class="credits-item"><span class="credits-emoji">🎨</span><div class="credits-info"><span class="credits-label">Idealizador</span><span class="credits-value">Lucas Okami</span></div></div>
+            <div class="credits-item"><span class="credits-emoji">💻</span><div class="credits-info"><span class="credits-label">Desenvolvedora</span><span class="credits-value">Sahmara Carolina</span></div></div>
+            <div class="credits-item"><span class="credits-emoji">🤖</span><div class="credits-info"><span class="credits-label">Suporte</span><span class="credits-value">Deepseek</span></div></div>
+            <div class="credits-item"><span class="credits-emoji">🐰</span><div class="credits-info"><span class="credits-label">Suporte Moral</span><span class="credits-value">Kiwi Panda</span></div></div>
+            <div class="credits-item"><span class="credits-emoji">🌐</span><div class="credits-info"><span class="credits-label">Desenvolvido em</span><span class="credits-value">GitHub</span></div></div>
+            <div class="credits-item"><span class="credits-emoji">⚙️</span><div class="credits-info"><span class="credits-label">Linguagens</span><span class="credits-value">JavaScript, HTML e CSS</span></div></div>
         </div>
-
         <div class="credits-footer">
             <p>Inspirado na obra de <strong>Harry Potter</strong>, de <em>J. K. Rowling</em>.</p>
             <p class="credits-disclaimer">Projeto de fã, sem fins comerciais.</p>
@@ -524,6 +385,9 @@ h1, h2, .story-title {
     var AVATAR_FEMININO = "https://i.imgur.com/Duuchxo.png";
     var AVATAR_MASCULINO = "https://i.imgur.com/MFjpE6J.png";
 
+    // ============================================================
+    // QUIZ
+    // ============================================================
     var houseQuiz = [
         { question: "Você encontra um colega em perigo. O que faz?", answers: [
             { text: "Enfrento o perigo imediatamente.", house: "Grifinória", attribute: "bravery" },
@@ -566,11 +430,12 @@ h1, h2, .story-title {
     var quizIndex = 0;
     var quizAnswers = { sasah: [], lucas: [] };
 
+    // ============================================================
+    // CENAS DE PRÓLOGO
+    // ============================================================
     var cenasPreStory = {
         pre_story_1: {
-            chapter: "PRÓLOGO",
-            location: "Casa de {P1} — noite",
-            title: "A carta que mudou tudo",
+            chapter: "PRÓLOGO", location: "Casa de {P1} — noite", title: "A carta que mudou tudo",
             text: "A noite estava silenciosa demais.\n\n{P1} tentava dormir, mas alguma coisa no ar parecia diferente. Um cheiro leve de madeira queimada, talvez. Ou talvez fosse apenas imaginação.\n\nEntão veio o som.\n\nTrês batidas secas no vidro da janela.\n\nQuando {P1} olhou, não havia ninguém. Apenas a rua vazia e as estrelas piscando atrás das nuvens.\n\nMas sobre a escrivaninha — que estava vazia minutos antes — havia um envelope.\n\nPapel grosso, cor de pergaminho, selado com cera vermelha.\n\nNo centro do selo, um brasão: um leão, uma águia, um texugo e uma serpente entrelaçados ao redor de uma letra 'H'.\n\nHogwarts.\n\n{P1} sentiu o coração bater mais forte.",
             choices: [
                 { text: "Abrir a carta imediatamente.", effects: { sasah: { bravery: 1, xp: 10 }, relationship: { affinity: 1 } }, next: "pre_story_2" },
@@ -579,9 +444,7 @@ h1, h2, .story-title {
             ]
         },
         pre_story_2: {
-            chapter: "PRÓLOGO",
-            location: "Estação King's Cross — manhã seguinte",
-            title: "O bilhete para Hogwarts",
+            chapter: "PRÓLOGO", location: "Estação King's Cross — manhã seguinte", title: "O bilhete para Hogwarts",
             text: "Dentro do envelope, uma única folha.\n\nA caligrafia era elegante, quase antiga:\n\n\"Prezado(a) {P1},\n\nTemos o prazer de informar que você foi aceito(a) na Escola de Magia e Bruxaria de Hogwarts. O Expresso de Hogwarts partirá da Plataforma 9¾, na Estação King's Cross, no dia 1º de setembro, às 11h.\n\nA passagem segue anexa.\n\nAtenciosamente,\nMinerva McGonagall\nDiretora Adjunta\"\n\nNo dia seguinte, {P1} estava na estação.\n\nGente correndo. Malas. Anúncios metálicos ecoando pelo teto.\n\nMas nenhuma placa dizia \"Plataforma 9¾\".\n\n{P1} olhou ao redor, perdido(a).\n\nFoi quando viu, alguns metros à frente, outra pessoa da mesma idade — também com um envelope na mão, também com o mesmo olhar confuso.",
             choices: [
                 { text: "Aproximar-se e perguntar se a pessoa também está perdida.", effects: { sasah: { empathy: 1, xp: 15 }, relationship: { friendship: 2, trust: 1 } }, next: "pre_story_3" },
@@ -590,9 +453,7 @@ h1, h2, .story-title {
             ]
         },
         pre_story_3: {
-            chapter: "PRÓLOGO",
-            location: "Plataforma 9¾",
-            title: "Dois estranhos, um destino",
+            chapter: "PRÓLOGO", location: "Plataforma 9¾", title: "Dois estranhos, um destino",
             text: "Os dois se entreolharam.\n\nFoi {P2} quem falou primeiro:\n\n\"Você também está procurando a plataforma 9¾?\"\n\n{P1} assentiu.\n\n\"Eu vi uma família atravessando aquela parede\", continuou {P2}, apontando para a coluna entre as plataformas 9 e 10. \"Achei que fosse coisa da minha cabeça, mas...\"\n\nOs dois ficaram em silêncio por um momento.\n\nEntão, sem combinar, caminharam juntos até a parede.\n\nFecharam os olhos.\n\nE atravessaram.\n\nDo outro lado, o mundo havia mudado.\n\nUm trem vermelho e fumegante esperava na plataforma. Famílias se despediam. Corujas piavam em gaiolas. Crianças corriam.\n\nO Expresso de Hogwarts.\n\n{P1} e {P2} se olharam.\n\nAlguma coisa naquele momento — talvez o cheiro de carvão, talvez o som do apito — fez os dois sentirem que aquela não seria uma viagem comum.",
             choices: [
                 { text: "Sugerir que embarquem juntos.", effects: { sasah: { loyalty: 1, empathy: 1, xp: 20 }, lucas: { loyalty: 1, empathy: 1, xp: 20 }, relationship: { friendship: 3, trust: 2 } }, next: "pre_story_4" },
@@ -601,9 +462,7 @@ h1, h2, .story-title {
             ]
         },
         pre_story_4: {
-            chapter: "PRÓLOGO",
-            location: "Expresso de Hogwarts — compartimento",
-            title: "A primeira conversa",
+            chapter: "PRÓLOGO", location: "Expresso de Hogwarts — compartimento", title: "A primeira conversa",
             text: "O trem começou a andar.\n\nPela janela, Londres desaparecia aos poucos, dando lugar a campos verdes e céu aberto.\n\n{P1} e {P2} sentaram-se frente a frente no mesmo compartimento. Por alguns minutos, nenhum dos dois falou.\n\nEntão {P2} quebrou o silêncio:\n\n\"Você acha que a gente vai mesmo virar bruxo(a)?\"\n\n{P1} riu, sem saber direito o que responder.\n\n\"Acho que sim\", disse. \"Ou então essa carta é a maior pegadinha da história.\"\n\nOs dois riram.\n\nFoi o primeiro riso compartilhado. Pequeno, mas real.\n\nFoi também quando {P1} percebeu: pela primeira vez, não estava sozinho(a) diante do desconhecido.",
             choices: [
                 { text: "Perguntar sobre a família e a vida antes de Hogwarts.", effects: { sasah: { empathy: 1, xp: 25 }, lucas: { empathy: 1, xp: 25 }, relationship: { friendship: 3, trust: 2, affinity: 1 } }, next: "__INICIAR_QUIZ__" },
@@ -613,6 +472,9 @@ h1, h2, .story-title {
         }
     };
 
+    // ============================================================
+    // UTILITÁRIOS
+    // ============================================================
     function ensureGame() {
         if (!window.game || typeof window.game !== "object") window.game = {};
         if (!window.game.sasah) window.game.sasah = { name: "Sasah", house: "Indefinida", hp: 100, maxHp: 100, mana: 100, maxMana: 100, xp: 0, level: 1, bravery: 0, loyalty: 0, intelligence: 0, ambition: 0, empathy: 0, magic: 0, gender: "feminino" };
@@ -716,7 +578,7 @@ h1, h2, .story-title {
     function mostrarKiwi() {
         var kiwiCard = document.getElementById("kiwiCard");
         if (!kiwiCard || !window.game || !window.game.kiwi) return;
-        var cenasComKiwi = ["train_1","train_2","train_3","arrival_2","arrival_3","arrival_4","arrival_5","arrival_6","arrival_7","arrival_8","kiwi_1","kiwi_2","kiwi_3","forest_1","forest_2","forest_3","lake_1","lake_2","lake_3","mirror_1","mirror_2","mirror_3","catacombs_1","catacombs_2","catacombs_3","society_1","society_2","society_3","invasion_1","invasion_2","invasion_3","ancient_1","ancient_2","final_war_1","final_war_2","final_war_3","ancient_chamber_1","ancient_chamber_2","ancient_chamber_3","final_battle_1","final_battle_2","final_choice_shared","final_choice_single","final_choice_destroy","ending_shared","ending_sacrifice","ending_sacrifice_search","ending_destroy","credits"];
+        var cenasComKiwi = ["train_1","train_2","train_3","arrival_2","arrival_3","arrival_4","arrival_5","arrival_6","arrival_7","arrival_8","kiwi_1","kiwi_2","kiwi_3","forest_1","forest_2","forest_3","lake_1","lake_2","lake_3","mirror_1","mirror_2","mirror_3","catacombs_1","catacombs_2","catacombs_3","society_1","society_2","society_3","invasion_1","invasion_2","invasion_3","ancient_1","ancient_2","potions_class_1","potions_class_2","potions_class_3","quidditch_1","quidditch_2","quidditch_3","final_war_1","final_war_2","final_war_3","ancient_chamber_1","ancient_chamber_2","ancient_chamber_3","final_battle_1","final_battle_2","final_choice_shared","final_choice_single","final_choice_destroy","ending_shared","ending_sacrifice","ending_sacrifice_search","ending_destroy","credits"];
         var cenaAtual = (window.game.currentSceneId || window.game.currentScene || "");
         var kiwiEncontrada = window.game.kiwi.met === true || window.game.kiwi.discovered === true || (window.game.flags && window.game.flags.metKiwi === true) || (window.game.flags && window.game.flags.kiwiSecret === true) || (cenaAtual && cenasComKiwi.indexOf(cenaAtual) !== -1);
         if (kiwiEncontrada) {
@@ -1031,7 +893,6 @@ h1, h2, .story-title {
         choicesEl.innerHTML = "";
         var box = document.createElement("div");
         box.className = "name-selection";
-
         var g1 = document.createElement("div");
         g1.className = "name-group";
         var l1 = document.createElement("label");
@@ -1053,7 +914,6 @@ h1, h2, .story-title {
         g1.appendChild(l1b);
         g1.appendChild(sel1);
         box.appendChild(g1);
-
         var g2 = document.createElement("div");
         g2.className = "name-group";
         var l2 = document.createElement("label");
@@ -1075,16 +935,13 @@ h1, h2, .story-title {
         g2.appendChild(l2b);
         g2.appendChild(sel2);
         box.appendChild(g2);
-
         choicesEl.appendChild(box);
-
         var btn = document.createElement("button");
         btn.type = "button";
         btn.id = "startGameButton";
         btn.className = "choice-button continue-button";
         btn.textContent = "Começar aventura";
         btn.style.marginTop = "20px";
-
         btn.addEventListener("click", function () {
             var n1 = (document.getElementById("nameInput1").value || "").trim() || "Sasah";
             var n2 = (document.getElementById("nameInput2").value || "").trim() || "Lucas";
@@ -1104,7 +961,6 @@ h1, h2, .story-title {
             renderPreStory("pre_story_1");
         });
         choicesEl.appendChild(btn);
-
         renderCardsCorrigidos();
         renderLog();
         console.log("✅ Tela de nomes pronta.");
@@ -1136,6 +992,8 @@ h1, h2, .story-title {
             window.addLogEntry = function (text) {
                 var fase = window.game && window.game.phase;
                 if (fase === "names" || fase === "prologue" || fase === "quiz_sasah" || fase === "quiz_lucas" || fase === "sorting") return;
+                // Bloqueia log durante votação coop
+                if (coopMode && votosAtuais && !votosAtuais.vencedor) return;
                 return orig3.apply(this, arguments);
             };
             window.addLogEntry.__patch = true;
@@ -1167,20 +1025,17 @@ h1, h2, .story-title {
         var slider = document.getElementById("musicVolume");
         var label = document.getElementById("musicVolumeLabel");
         if (!player || !audio || !btnMute || !slider || !label) { console.warn("Player de música não encontrado."); return; }
-
         var volumeSalvo = localStorage.getItem(MUSIC_STORAGE_KEY);
         var mutadoSalvo = localStorage.getItem(MUSIC_MUTED_KEY);
         var volumeInicial = volumeSalvo !== null ? parseInt(volumeSalvo, 10) : 30;
         if (isNaN(volumeInicial)) volumeInicial = 30;
         volumeInicial = Math.max(0, Math.min(100, volumeInicial));
         var mutado = mutadoSalvo === "true";
-
         slider.value = volumeInicial;
         label.textContent = volumeInicial + "%";
         audio.volume = 0;
         player.style.display = "flex";
         player.classList.add("visible");
-
         var playPromise = audio.play();
         if (playPromise !== undefined) {
             playPromise.then(function () {
@@ -1192,7 +1047,6 @@ h1, h2, .story-title {
                 player.title = "Clique no botão para ativar a música";
             });
         }
-
         function aplicarVolume() {
             if (mutado) {
                 audio.volume = 0;
@@ -1204,7 +1058,6 @@ h1, h2, .story-title {
                 btnMute.classList.remove("muted");
             }
         }
-
         function fazerFadeIn() {
             if (mutado) return;
             var alvo = volumeInicial / 100;
@@ -1219,14 +1072,12 @@ h1, h2, .story-title {
                 audio.volume = atual;
             }, 100);
         }
-
         btnMute.addEventListener("click", function () {
             mutado = !mutado;
             localStorage.setItem(MUSIC_MUTED_KEY, mutado ? "true" : "false");
             aplicarVolume();
             if (!mutado && audio.paused) audio.play().catch(function () {});
         });
-
         slider.addEventListener("input", function () {
             var v = parseInt(slider.value, 10);
             volumeInicial = v;
@@ -1246,15 +1097,8 @@ h1, h2, .story-title {
         var closeBtn = document.getElementById("creditsClose");
         var overlay = document.getElementById("creditsOverlay");
         if (!modal || !btn) return;
-
-        function abrir() {
-            modal.style.display = "flex";
-            document.body.style.overflow = "hidden";
-        }
-        function fechar() {
-            modal.style.display = "none";
-            document.body.style.overflow = "";
-        }
+        function abrir() { modal.style.display = "flex"; document.body.style.overflow = "hidden"; }
+        function fechar() { modal.style.display = "none"; document.body.style.overflow = ""; }
         btn.addEventListener("click", abrir);
         if (closeBtn) closeBtn.addEventListener("click", fechar);
         if (overlay) overlay.addEventListener("click", fechar);
@@ -1263,16 +1107,14 @@ h1, h2, .story-title {
         });
     }
 
-       // ============================================================
+    // ============================================================
     // SISTEMA DE DESEMPATE (D20 + Atributo)
-    // Modo Coop: ativa com botão, vota Sasah → Lucas, desempata com dado
     // ============================================================
     var coopMode = false;
     var votosAtuais = null;
     var cenaVotacaoId = null;
     var atributoAtual = "bravery";
 
-    // Mapeia cena → atributo em disputa
     function atributoDaCena(sceneId) {
         if (!sceneId) return "bravery";
         if (sceneId.indexOf("forest") !== -1) return "bravery";
@@ -1281,6 +1123,8 @@ h1, h2, .story-title {
         if (sceneId.indexOf("catacombs") !== -1) return "loyalty";
         if (sceneId.indexOf("society") !== -1) return "ambition";
         if (sceneId.indexOf("kiwi") !== -1) return "empathy";
+        if (sceneId.indexOf("potions") !== -1) return "intelligence";
+        if (sceneId.indexOf("quidditch") !== -1) return "bravery";
         if (sceneId.indexOf("invasion") !== -1) return "bravery";
         if (sceneId.indexOf("battle") !== -1) return "bravery";
         if (sceneId.indexOf("ancient") !== -1) return "magic";
@@ -1296,13 +1140,11 @@ h1, h2, .story-title {
         return nomes[attr] || "Coragem";
     }
 
-    // Verifica se a cena atual é de decisão conjunta
     function isCenaConjunta() {
         if (!window.game) return false;
         return window.game.turnMode === "both";
     }
 
-    // Inicializa o botão Coop
     function iniciarCoop() {
         var btn = document.getElementById("coopButton");
         if (!btn) return;
@@ -1322,50 +1164,43 @@ h1, h2, .story-title {
                 cenaVotacaoId = null;
             }
         });
-
         var rollBtn = document.getElementById("rollDiceBtn");
         var continueBtn = document.getElementById("tiebreakContinue");
         if (rollBtn) rollBtn.addEventListener("click", rolarDados);
         if (continueBtn) continueBtn.addEventListener("click", aplicarEscolhaVencedora);
     }
 
-    // Indicador visual de vez
+    function mostrarIndicadorTurno(jogador) {
+        var el = document.getElementById("turnIndicator");
+        if (!el) {
+            el = document.createElement("div");
+            el.id = "turnIndicator";
+            el.className = "turn-indicator";
+            document.body.appendChild(el);
+        }
+        var cenaAtual = window.game && window.game.currentSceneId;
+        var cenaData = (window.scenes && window.scenes[cenaAtual]) || null;
+        var temCoop = cenaData && (cenaData.coop === true || cenaData.mode === "both");
+        var nome;
+        if (temCoop) {
+            nome = jogador === "sasah" ? window.game.sasah.name : window.game.lucas.name;
+            el.innerHTML = '⚔️ Decisão Conjunta — Vez de <span class="turn-player">' + nome + '</span>';
+            el.classList.add("coop-active");
+        } else {
+            if (cenaData && cenaData.mode === "sasah") nome = window.game.sasah.name;
+            else if (cenaData && cenaData.mode === "lucas") nome = window.game.lucas.name;
+            else nome = jogador === "sasah" ? window.game.sasah.name : window.game.lucas.name;
+            el.innerHTML = '🎯 Vez de <span class="turn-player">' + nome + '</span>';
+            el.classList.remove("coop-active");
+        }
+        el.classList.add("visible");
+    }
 
-       function mostrarIndicadorTurno(jogador) {
-    if (!coopMode) return;
-    var el = document.getElementById("turnIndicator");
-    if (!el) {
-        el = document.createElement("div");
-        el.id = "turnIndicator";
-        el.className = "turn-indicator";
-        document.body.appendChild(el);
-    }
-    
-    // Verifica se a cena atual tem coop ativo
-    var cenaAtual = window.game && window.game.currentSceneId;
-    var cenaData = (window.scenes && window.scenes[cenaAtual]) || null;
-    var temCoop = cenaData && cenaData.coop === true;
-    
-    var nome = jogador === "sasah" ? window.game.sasah.name : window.game.lucas.name;
-    
-    if (temCoop) {
-        el.innerHTML = '⚔️ Decisão Conjunta — Vez de <span class="turn-player">' + nome + '</span>';
-        el.classList.add("coop-active");
-    } else {
-        el.innerHTML = '🎯 Vez de <span class="turn-player">' + nome + '</span>';
-        el.classList.remove("coop-active");
-    }
-    
-    el.classList.add("visible");
-}
-   
-        
     function esconderIndicadorTurno() {
         var el = document.getElementById("turnIndicator");
         if (el) el.classList.remove("visible");
     }
 
-    // Mostra overlay "aguardando o outro"
     function mostrarWaiting(nomeOutro) {
         var overlay = document.getElementById("waitingOverlay");
         if (!overlay) {
@@ -1385,23 +1220,16 @@ h1, h2, .story-title {
         if (overlay) overlay.style.display = "none";
     }
 
-    // Registra voto de um jogador
     function registrarVoto(jogador, choice) {
         if (!votosAtuais || cenaVotacaoId !== window.game.currentSceneId) {
             votosAtuais = { sasah: null, lucas: null, choiceSasah: null, choiceLucas: null, vencedor: null };
             cenaVotacaoId = window.game.currentSceneId;
         }
-
-        // Verifica de quem é a vez
         if (jogador === "sasah" && votosAtuais.sasah !== null) return false;
         if (jogador === "lucas" && votosAtuais.lucas !== null) return false;
-
         votosAtuais[jogador] = choice.text;
         votosAtuais["choice" + (jogador === "sasah" ? "Sasah" : "Lucas")] = choice;
-
         console.log("📝 Voto de " + jogador + ":", choice.text);
-
-        // Verifica se os dois já votaram
         if (votosAtuais.sasah !== null && votosAtuais.lucas !== null) {
             esconderIndicadorTurno();
             if (votosAtuais.sasah === votosAtuais.lucas) {
@@ -1412,7 +1240,6 @@ h1, h2, .story-title {
                 abrirDesempate(votosAtuais);
             }
         } else {
-            // Aguardando o outro
             var outro = jogador === "sasah" ? "lucas" : "sasah";
             var nomeOutro = outro === "sasah" ? window.game.sasah.name : window.game.lucas.name;
             mostrarWaiting(nomeOutro);
@@ -1421,19 +1248,15 @@ h1, h2, .story-title {
                 mostrarIndicadorTurno(outro);
             }, 1200);
         }
-
         return true;
     }
 
-    // Aplica a escolha quando concordam
     function aplicarEscolhaDireta(choice) {
         votosAtuais = null;
         cenaVotacaoId = null;
-
         if (choice.effects && typeof window.applyFinalEffects === "function") {
             try { window.applyFinalEffects(choice.effects); } catch (e) { console.warn(e); }
         }
-
         if (choice.next && typeof window.showScene === "function") {
             setTimeout(function () {
                 window.showScene(choice.next);
@@ -1446,13 +1269,10 @@ h1, h2, .story-title {
         }
     }
 
-    // Abre o modal de desempate
     function abrirDesempate(votos) {
         var modal = document.getElementById("tiebreakModal");
         if (!modal) return;
-
         atributoAtual = atributoDaCena(window.game.currentSceneId);
-
         document.getElementById("tiebreakName1").textContent = window.game.sasah.name;
         document.getElementById("tiebreakName2").textContent = window.game.lucas.name;
         document.getElementById("tiebreakText1").textContent = votos.sasah;
@@ -1460,24 +1280,20 @@ h1, h2, .story-title {
         document.getElementById("tiebreakAttrName").textContent = nomeDoAtributo(atributoAtual);
         document.getElementById("tiebreakRollName1").textContent = window.game.sasah.name;
         document.getElementById("tiebreakRollName2").textContent = window.game.lucas.name;
-
         var avatar1 = document.getElementById("tiebreakAvatar1");
         var avatar2 = document.getElementById("tiebreakAvatar2");
         avatar1.src = (window.game.sasah.gender === "feminino") ? AVATAR_FEMININO : AVATAR_MASCULINO;
         avatar2.src = (window.game.lucas.gender === "feminino") ? AVATAR_FEMININO : AVATAR_MASCULINO;
-
         document.getElementById("tiebreakResult").style.display = "none";
         document.getElementById("rollDiceBtn").style.display = "block";
         document.getElementById("rollDiceBtn").disabled = false;
         document.getElementById("rollDiceBtn").textContent = "🎲 Rolar os dados!";
         document.getElementById("tiebreakRoll1").classList.remove("winner");
         document.getElementById("tiebreakRoll2").classList.remove("winner");
-
         modal.style.display = "flex";
         document.body.style.overflow = "hidden";
     }
 
-    // Rola os dados
     function rolarDados() {
         var d1 = Math.floor(Math.random() * 20) + 1;
         var d2 = Math.floor(Math.random() * 20) + 1;
@@ -1485,11 +1301,9 @@ h1, h2, .story-title {
         var a2 = window.game.lucas[atributoAtual] || 0;
         var total1 = d1 + a1;
         var total2 = d2 + a2;
-
         var rollBtn = document.getElementById("rollDiceBtn");
         rollBtn.disabled = true;
         rollBtn.textContent = "🎲 Rolando...";
-
         var contador = 0;
         var animacao = setInterval(function () {
             document.getElementById("tiebreakDice1").textContent = Math.floor(Math.random() * 20) + 1;
@@ -1509,7 +1323,6 @@ h1, h2, .story-title {
         document.getElementById("tiebreakAttr2").textContent = "+" + a2;
         document.getElementById("tiebreakTotal1").textContent = "= " + total1;
         document.getElementById("tiebreakTotal2").textContent = "= " + total2;
-
         var vencedor, empate = false;
         if (total1 > total2) vencedor = "sasah";
         else if (total2 > total1) vencedor = "lucas";
@@ -1517,17 +1330,12 @@ h1, h2, .story-title {
             empate = true;
             vencedor = Math.random() < 0.5 ? "sasah" : "lucas";
         }
-
         document.getElementById("tiebreakRoll1").classList.toggle("winner", vencedor === "sasah");
         document.getElementById("tiebreakRoll2").classList.toggle("winner", vencedor === "lucas");
-
         var nomeVencedor = vencedor === "sasah" ? window.game.sasah.name : window.game.lucas.name;
-        document.getElementById("tiebreakWinner").textContent =
-            (empate ? "⚖️ Empate! A moeda decidiu: " : "🏆 ") + nomeVencedor + " venceu e decide!";
-
+        document.getElementById("tiebreakWinner").textContent = (empate ? "⚖️ Empate! A moeda decidiu: " : "🏆 ") + nomeVencedor + " venceu e decide!";
         document.getElementById("tiebreakResult").style.display = "block";
         document.getElementById("rollDiceBtn").style.display = "none";
-
         votosAtuais.vencedor = vencedor;
     }
 
@@ -1535,17 +1343,12 @@ h1, h2, .story-title {
         var modal = document.getElementById("tiebreakModal");
         modal.style.display = "none";
         document.body.style.overflow = "";
-
         if (!votosAtuais || !votosAtuais.vencedor) return;
-
         var escolha = votosAtuais.vencedor === "sasah" ? votosAtuais.choiceSasah : votosAtuais.choiceLucas;
         var vencedorNome = votosAtuais.vencedor === "sasah" ? window.game.sasah.name : window.game.lucas.name;
-
         votosAtuais = null;
         cenaVotacaoId = null;
-
         console.log("🏆 Vencedor:", vencedorNome);
-
         if (escolha) {
             if (escolha.effects && typeof window.applyFinalEffects === "function") {
                 try { window.applyFinalEffects(escolha.effects); } catch (e) {}
@@ -1569,30 +1372,23 @@ h1, h2, .story-title {
         if (!isCenaConjunta()) return;
         if (!e.target || !e.target.classList) return;
         if (!e.target.classList.contains("choice-button")) return;
-
-        // Descobre de quem é a vez
         if (!votosAtuais || cenaVotacaoId !== window.game.currentSceneId) {
             votosAtuais = { sasah: null, lucas: null, choiceSasah: null, choiceLucas: null, vencedor: null };
             cenaVotacaoId = window.game.currentSceneId;
         }
-
         var jogadorAtual = null;
         if (votosAtuais.sasah === null) jogadorAtual = "sasah";
         else if (votosAtuais.lucas === null) jogadorAtual = "lucas";
         else return;
-
-        // Encontra a choice correspondente ao texto do botão
         var btnText = (e.target.textContent || "").replace(/^\d+\.\s*/, "").trim();
         var sceneId = window.game.currentSceneId;
         if (!sceneId || !window.scenes || !window.scenes[sceneId]) return;
         var scene = window.scenes[sceneId];
         if (!scene.choices) return;
-
         var choice = null;
         for (var i = 0; i < scene.choices.length; i++) {
             var c = scene.choices[i];
             var cText = (c.text || "").trim();
-            // Compara com e sem numeração
             if (cText === btnText || (i + 1) + ". " + cText === (e.target.textContent || "").trim()) {
                 choice = c;
                 break;
@@ -1602,15 +1398,63 @@ h1, h2, .story-title {
             console.warn("Coop: não achei a choice correspondente.");
             return;
         }
-
-        // Impede o comportamento normal do jogo
         e.stopPropagation();
         e.stopImmediatePropagation();
         e.preventDefault();
-
         registrarVoto(jogadorAtual, choice);
     }, true);
-   
+
+    // ============================================================
+    // AUTO-ATIVAÇÃO DO COOP POR CENA
+    // ============================================================
+    function atualizarCoopParaCena() {
+        var sceneId = window.game && window.game.currentSceneId;
+        var scene = (window.scenes && window.scenes[sceneId]) || null;
+        if (!scene) return;
+        var btn = document.getElementById("coopButton");
+        var deveTerCoop = (scene.coop === true) || (scene.mode === "both");
+        if (deveTerCoop) {
+            coopMode = true;
+            if (btn) {
+                btn.classList.add("active");
+                btn.textContent = "⚔️ Coop: ON";
+                btn.style.display = "inline-block";
+            }
+        } else {
+            coopMode = false;
+            votosAtuais = null;
+            cenaVotacaoId = null;
+            if (btn) {
+                btn.classList.remove("active");
+                btn.textContent = "⚔️ Coop: OFF";
+                btn.style.display = "none";
+            }
+            esconderIndicadorTurno();
+        }
+    }
+
+    function interceptarRenderizacaoCoop() {
+        if (typeof window.updateFinalInterface === "function" && !window.updateFinalInterface.__coopPatch) {
+            var orig = window.updateFinalInterface;
+            window.updateFinalInterface = function () {
+                try { orig.apply(this, arguments); } catch (e) {}
+                setTimeout(function () {
+                    atualizarCoopParaCena();
+                    var cenaId = window.game && window.game.currentSceneId;
+                    var cena = (window.scenes && window.scenes[cenaId]) || null;
+                    if (cena && cena.mode === "sasah") {
+                        mostrarIndicadorTurno("sasah");
+                    } else if (cena && cena.mode === "lucas") {
+                        mostrarIndicadorTurno("lucas");
+                    } else if (cena && cena.mode === "both") {
+                        mostrarIndicadorTurno("sasah");
+                    }
+                }, 100);
+            };
+            window.updateFinalInterface.__coopPatch = true;
+        }
+    }
+
     // ============================================================
     // BOOT
     // ============================================================
@@ -1619,13 +1463,15 @@ h1, h2, .story-title {
         aplicarPatches();
         iniciarTelaDeNomes();
         iniciarCreditos();
-            iniciarCoop();  // ← ADICIONE ESTA LINHA
+        iniciarCoop();
+        interceptarRenderizacaoCoop();
         setTimeout(aplicarPatches, 200);
         setTimeout(renderCardsCorrigidos, 400);
     }
 
     if (document.readyState === "complete") setTimeout(boot, 300);
     else window.addEventListener("load", function () { setTimeout(boot, 300); });
+
 })();
 </script>
 
