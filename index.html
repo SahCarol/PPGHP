@@ -195,6 +195,12 @@ h1, h2, .story-title {
 .turn-indicator { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); padding: 10px 20px; background: linear-gradient(145deg, rgba(45, 35, 25, 0.98), rgba(20, 19, 20, 0.98)); border: 2px solid rgba(201, 154, 62, 0.6); border-radius: 30px; color: #e7d6b3; font-size: 0.9rem; font-weight: bold; z-index: 1200; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: none; font-family: "Cinzel", Georgia, serif; letter-spacing: 0.5px; }
 .turn-indicator.visible { display: block; animation: fadeIn 0.3s ease; }
 .turn-indicator .turn-player { color: #c99a3e; }
+
+   .turn-indicator.coop-active {
+    border-color: #c99a3e;
+    box-shadow: 0 0 20px rgba(201, 154, 62, 0.5);
+    background: linear-gradient(145deg, rgba(75, 59, 39, 0.98), rgba(52, 42, 30, 0.98));
+}
    
 </style>
 </head>
@@ -1324,7 +1330,34 @@ h1, h2, .story-title {
     }
 
     // Indicador visual de vez
-    function mostrarIndicadorTurno(jogador) {
+
+       function mostrarIndicadorTurno(jogador) {
+    if (!coopMode) return;
+    var el = document.getElementById("turnIndicator");
+    if (!el) {
+        el = document.createElement("div");
+        el.id = "turnIndicator";
+        el.className = "turn-indicator";
+        document.body.appendChild(el);
+    }
+    
+    // Verifica se a cena atual tem coop ativo
+    var cenaAtual = window.game && window.game.currentSceneId;
+    var cenaData = (window.scenes && window.scenes[cenaAtual]) || null;
+    var temCoop = cenaData && cenaData.coop === true;
+    
+    var nome = jogador === "sasah" ? window.game.sasah.name : window.game.lucas.name;
+    
+    if (temCoop) {
+        el.innerHTML = '⚔️ Decisão Conjunta — Vez de <span class="turn-player">' + nome + '</span>';
+        el.classList.add("coop-active");
+    } else {
+        el.innerHTML = '🎯 Vez de <span class="turn-player">' + nome + '</span>';
+        el.classList.remove("coop-active");
+    }
+    
+    el.classList.add("visible");
+}
         if (!coopMode) return;
         var el = document.getElementById("turnIndicator");
         if (!el) {
