@@ -130,6 +130,36 @@ h1, h2, .story-title { font-weight: 600; letter-spacing: 0.5px; }
 .turn-indicator.visible { display: block; animation: fadeIn 0.3s ease; }
 .turn-indicator .turn-player { color: #c99a3e; }
 .turn-indicator.coop-active { border-color: #c99a3e; box-shadow: 0 0 20px rgba(201, 154, 62, 0.5); background: linear-gradient(145deg, rgba(75, 59, 39, 0.98), rgba(52, 42, 30, 0.98)); }
+
+/* =========================================================
+   MODAL DE RESULTADO DO TESTE RPG
+========================================================= */
+.rpg-result-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2400; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.25s ease; }
+.rpg-result-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(6px); }
+.rpg-result-box { position: relative; width: min(440px, 92%); max-height: 90vh; overflow-y: auto; padding: 26px 24px; background: linear-gradient(145deg, rgba(38, 33, 27, 0.99), rgba(20, 19, 20, 0.99)); border: 2px solid rgba(201, 154, 62, 0.5); border-radius: 16px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8); animation: creditsSlideIn 0.35s ease; }
+.rpg-result-box.critical { border-color: #e5c98b; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(229, 201, 139, 0.6); }
+.rpg-result-box.success { border-color: #6ba76b; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 0 0 30px rgba(107, 167, 107, 0.3); }
+.rpg-result-box.fail { border-color: #a04a4a; }
+.rpg-result-header { text-align: center; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid rgba(190, 158, 96, 0.2); }
+.rpg-result-symbol { display: block; font-size: 2.5rem; margin-bottom: 6px; }
+.rpg-result-header h2 { color: #e7d6b3; font-size: 1.25rem; margin: 0 0 4px 0; letter-spacing: 1px; font-family: "Cinzel", Georgia, serif; }
+.rpg-result-header p { color: #a89b7e; font-size: 0.8rem; font-style: italic; margin: 0; }
+.rpg-result-roll { padding: 12px 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(190, 158, 96, 0.15); border-radius: 10px; margin-bottom: 14px; }
+.rpg-result-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 0.88rem; }
+.rpg-result-row .rpg-result-label { color: #969087; }
+.rpg-result-row .rpg-result-value { color: #e7d6b3; font-weight: bold; font-family: "Cinzel", Georgia, serif; }
+.rpg-result-row.total { padding-top: 8px; margin-top: 4px; font-size: 1rem; }
+.rpg-result-row.total .rpg-result-value { color: #c99a3e; font-size: 1.4rem; }
+.rpg-result-row.small { font-size: 0.78rem; }
+.rpg-result-divider { border-top: 1px solid rgba(190, 158, 96, 0.2); margin: 4px 0; }
+.rpg-result-outcome { text-align: center; padding: 14px; background: rgba(201, 154, 62, 0.08); border-radius: 10px; margin-bottom: 16px; border-left: 4px solid #c99a3e; }
+.rpg-result-outcome.critical { background: rgba(229, 201, 139, 0.15); border-left-color: #e5c98b; }
+.rpg-result-outcome.success { background: rgba(107, 167, 107, 0.15); border-left-color: #6ba76b; }
+.rpg-result-outcome.fail { background: rgba(160, 74, 74, 0.15); border-left-color: #a04a4a; }
+.rpg-result-outcome h3 { color: #e7d6b3; font-size: 1.1rem; margin: 0 0 6px 0; letter-spacing: 1px; font-family: "Cinzel", Georgia, serif; }
+.rpg-result-outcome p { color: #c4bcae; font-size: 0.85rem; line-height: 1.5; margin: 0; }
+.rpg-result-btn { display: block; width: 100%; padding: 14px 20px; background: linear-gradient(180deg, #4b3b27, #342a1e); border: 1px solid #a08352; border-radius: 10px; color: #f0dfb9; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.2s ease; font-family: "Cinzel", Georgia, serif; letter-spacing: 1px; }
+.rpg-result-btn:hover { background: linear-gradient(180deg, #5a472e, #3d3021); border-color: #c4a76d; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201, 154, 62, 0.3); }
 </style>
 </head>
 <body>
@@ -373,6 +403,47 @@ h1, h2, .story-title { font-weight: 600; letter-spacing: 0.5px; }
             <p>Inspirado na obra de <strong>Harry Potter</strong>, de <em>J. K. Rowling</em>.</p>
             <p class="credits-disclaimer">Projeto de fã, sem fins comerciais.</p>
         </div>
+    </div>
+</div>
+
+    <!-- ============================================================
+     MODAL DE RESULTADO DO TESTE RPG
+============================================================ -->
+<div id="rpgResultModal" class="rpg-result-modal" style="display: none;">
+    <div class="rpg-result-overlay"></div>
+    <div class="rpg-result-box">
+        <div class="rpg-result-header">
+            <span class="rpg-result-symbol" id="rpgResultSymbol">🎲</span>
+            <h2 id="rpgResultTitle">Resultado</h2>
+            <p id="rpgResultSubtitle">Teste de atributo</p>
+        </div>
+
+        <div class="rpg-result-roll">
+            <div class="rpg-result-row">
+                <span class="rpg-result-label">🎲 Dado (D20)</span>
+                <span class="rpg-result-value" id="rpgResultDice">—</span>
+            </div>
+            <div class="rpg-result-row">
+                <span class="rpg-result-label" id="rpgResultAttrLabel">🦁 Coragem</span>
+                <span class="rpg-result-value" id="rpgResultAttr">+0</span>
+            </div>
+            <div class="rpg-result-divider"></div>
+            <div class="rpg-result-row total">
+                <span class="rpg-result-label">Total</span>
+                <span class="rpg-result-value" id="rpgResultTotal">0</span>
+            </div>
+            <div class="rpg-result-row small">
+                <span class="rpg-result-label">Dificuldade</span>
+                <span class="rpg-result-value" id="rpgResultDifficulty">10</span>
+            </div>
+        </div>
+
+        <div class="rpg-result-outcome" id="rpgResultOutcome">
+            <h3 id="rpgResultOutcomeTitle">Sucesso!</h3>
+            <p id="rpgResultOutcomeText">Você conseguiu.</p>
+        </div>
+
+        <button id="rpgResultContinue" type="button" class="rpg-result-btn">Continuar →</button>
     </div>
 </div>
 
@@ -1474,6 +1545,191 @@ h1, h2, .story-title { font-weight: 600; letter-spacing: 0.5px; }
         }
     }
 
+
+    // ============================================================
+    // SISTEMA DE TESTE RPG (D20 + Atributo)
+    // ============================================================
+    var rpgTesteCallback = null;
+
+    function dificuldadeDaCena(sceneId) {
+        var chapter = (window.game && window.game.chapter) || 1;
+        var base = 10 + Math.floor(chapter * 1.2);
+        if (sceneId) {
+            if (sceneId.indexOf("final") !== -1) base += 5;
+            if (sceneId.indexOf("battle") !== -1) base += 5;
+            if (sceneId.indexOf("ancient") !== -1) base += 3;
+        }
+        return base;
+    }
+
+    function rolarTesteRPG(choice, playerKey) {
+        var sceneId = window.game && window.game.currentSceneId;
+        var attr = (choice && choice.check) || atributoDaCena(sceneId) || "bravery";
+        var dificuldade = (choice && choice.difficulty) || dificuldadeDaCena(sceneId);
+        var p = window.game[playerKey] || window.game.sasah;
+        var attrValor = p[attr] || 0;
+        var d20 = Math.floor(Math.random() * 20) + 1;
+        var total = d20 + attrValor;
+
+        var resultado;
+        if (d20 === 20) resultado = "critical";
+        else if (d20 === 1) resultado = "critical_fail";
+        else if (total >= dificuldade) resultado = "success";
+        else if (total >= dificuldade - 5) resultado = "partial";
+        else resultado = "fail";
+
+        return {
+            dice: d20,
+            attr: attr,
+            attrNome: nomeDoAtributo(attr),
+            attrValor: attrValor,
+            dificuldade: dificuldade,
+            total: total,
+            resultado: resultado,
+            playerKey: playerKey,
+            playerName: p.name
+        };
+    }
+
+    function mostrarResultadoTeste(result, callback) {
+        var modal = document.getElementById("rpgResultModal");
+        if (!modal) { callback(); return; }
+
+        document.getElementById("rpgResultDice").textContent = result.dice;
+        document.getElementById("rpgResultAttrLabel").textContent = "🔮 " + result.attrNome;
+        document.getElementById("rpgResultAttr").textContent = "+" + result.attrValor;
+        document.getElementById("rpgResultTotal").textContent = result.total;
+        document.getElementById("rpgResultDifficulty").textContent = result.dificuldade;
+
+        var box = modal.querySelector(".rpg-result-box");
+        var outcome = document.getElementById("rpgResultOutcome");
+        var title = document.getElementById("rpgResultOutcomeTitle");
+        var text = document.getElementById("rpgResultOutcomeText");
+        var symbol = document.getElementById("rpgResultSymbol");
+
+        box.className = "rpg-result-box";
+        outcome.className = "rpg-result-outcome";
+
+        var nome = result.playerName;
+
+        if (result.resultado === "critical") {
+            box.classList.add("critical");
+            outcome.classList.add("critical");
+            symbol.textContent = "🌟";
+            title.textContent = "SUCESSO CRÍTICO!";
+            text.textContent = nome + " foi além do esperado. O destino sorriu! (+20 XP bônus)";
+            if (typeof window.awardXp === "function") { try { window.awardXp(result.playerKey, 20, "sucesso crítico"); } catch(e) {} }
+        } else if (result.resultado === "success") {
+            box.classList.add("success");
+            outcome.classList.add("success");
+            symbol.textContent = "✅";
+            title.textContent = "SUCESSO!";
+            text.textContent = nome + " conseguiu realizar a ação com maestria. (+10 XP)";
+            if (typeof window.awardXp === "function") { try { window.awardXp(result.playerKey, 10, "sucesso"); } catch(e) {} }
+        } else if (result.resultado === "partial") {
+            symbol.textContent = "⚖️";
+            title.textContent = "SUCESSO PARCIAL";
+            text.textContent = nome + " conseguiu, mas com esforço. Algo pode ter sido deixado para trás. (+5 XP)";
+            if (typeof window.awardXp === "function") { try { window.awardXp(result.playerKey, 5, "sucesso parcial"); } catch(e) {} }
+        } else if (result.resultado === "critical_fail") {
+            box.classList.add("fail");
+            outcome.classList.add("fail");
+            symbol.textContent = "💀";
+            title.textContent = "FALHA CRÍTICA!";
+            text.textContent = nome + " tropeçou feio. Consequências podem vir à tona...";
+        } else {
+            box.classList.add("fail");
+            outcome.classList.add("fail");
+            symbol.textContent = "❌";
+            title.textContent = "FALHA";
+            text.textContent = nome + " não conseguiu. O caminho será mais difícil.";
+        }
+
+        rpgTesteCallback = callback;
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+
+    function fecharResultadoTeste() {
+        var modal = document.getElementById("rpgResultModal");
+        if (modal) modal.style.display = "none";
+        document.body.style.overflow = "";
+        if (rpgTesteCallback) {
+            var cb = rpgTesteCallback;
+            rpgTesteCallback = null;
+            cb();
+        }
+    }
+
+    function determinarJogadorDaCena(choice) {
+        if (choice && choice.character) return choice.character;
+        var sceneId = window.game && window.game.currentSceneId;
+        var scene = (window.scenes && window.scenes[sceneId]) || null;
+        if (scene && scene.mode === "lucas") return "lucas";
+        if (scene && scene.mode === "sasah") return "sasah";
+        // both ou indefinido → alterna
+        return "sasah";
+    }
+
+    function processarEscolhaComTeste(choice) {
+        if (!choice) return;
+
+        // Aplica efeitos primeiro
+        if (choice.effects && typeof window.applyFinalEffects === "function") {
+            try { window.applyFinalEffects(choice.effects); } catch(e) {}
+        }
+
+        // Log
+        if (typeof window.addFinalLog === "function" && choice.text) {
+            try { window.addFinalLog("Escolha: " + choice.text); } catch(e) {}
+        }
+
+        // Consequências
+        if (typeof window.evaluateConsequences === "function") {
+            try { window.evaluateConsequences(); } catch(e) {}
+        }
+
+        // Determina jogador
+        var playerKey = determinarJogadorDaCena(choice);
+
+        // Rola teste
+        var resultado = rolarTesteRPG(choice, playerKey);
+
+        // Atualiza UI antes
+        if (typeof window.updateFinalInterface === "function") {
+            try { window.updateFinalInterface(); } catch(e) {}
+        }
+
+        // Mostra modal
+        mostrarResultadoTeste(resultado, function () {
+            // Callback após "Continuar"
+            if (choice.next && typeof window.showScene === "function") {
+                setTimeout(function () { window.showScene(choice.next); }, 100);
+            } else if (choice.ending && typeof window.showFinalEnding === "function") {
+                window.showFinalEnding(choice.ending);
+            }
+        });
+    }
+
+    function iniciarTesteRPG() {
+        var btn = document.getElementById("rpgResultContinue");
+        if (btn) btn.addEventListener("click", fecharResultadoTeste);
+
+        // Override handleFinalChoice
+        if (typeof window.handleFinalChoice === "function" && !window.handleFinalChoice.__rpgPatch) {
+            window.handleFinalChoice = function (choice, index) {
+                processarEscolhaComTeste(choice);
+            };
+            window.handleFinalChoice.__rpgPatch = true;
+        }
+
+        // Override aplicarEscolhaDireta (coop - concordaram)
+        if (typeof window.aplicarEscolhaDireta === "function" && !window.aplicarEscolhaDireta.__rpgPatch) {
+            // Não sobrescreve - já herda do handleFinalChoice se o coop usar ele
+        }
+    }
+
+    
     // ============================================================
     // BOOT
     // ============================================================
@@ -1486,6 +1742,7 @@ h1, h2, .story-title { font-weight: 600; letter-spacing: 0.5px; }
         interceptarRenderizacaoCoop();
         setTimeout(aplicarPatches, 200);
         setTimeout(renderCardsCorrigidos, 400);
+        setTimeout(iniciarTesteRPG, 500);  
     }
 
     if (document.readyState === "complete") setTimeout(boot, 300);
